@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="IMPACTA 2026 — archivo vivo de resultados, historias y emprendimientos de la Universidad Ean.">
+  <title>IMPACTA 2026 · Archivo vivo</title>
+  <link rel="icon" href="assets/material/robot_sticker.webp">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data/public-data.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Saltar al contenido</a>
+  <header class="topbar" aria-label="Navegación principal">
+    <a class="brand" href="#inicio" aria-label="Impacta 2026, inicio"><img src="assets/material/logo_ean_impacta_negro.png" alt="Universidad Ean e Impacta"><span>ARCHIVO 2026</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menú</button>
+    <nav id="main-nav">
+      <a href="#panorama">Panorama</a><a href="#timeline">Cronología</a><a href="#programas">Rutas</a><a href="#portafolio">Emprendimientos</a><a href="#equipo">Equipo</a>
+    </nav>
+    <button class="motion-replay" type="button" aria-label="Reproducir animaciones">▶ <span>Reproducir motion</span></button>
+    <button class="theme-toggle" type="button" aria-label="Cambiar modo de color"><span aria-hidden="true">◐</span><span class="theme-label">Oscuro</span></button>
+  </header>
+
+  <main id="main">
+    <section class="hero chapter" id="inicio" data-chapter="00">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">INFORME INSTITUCIONAL · 2026</p>
+        <h1><span>Un año de</span><strong>impacto</strong><span>que deja huella.</span></h1>
+        <p class="lede">Un archivo vivo para recorrer resultados confirmados, programas e historias de emprendimiento de Ean Impacta.</p>
+        <div class="actions"><a class="button primary" href="#panorama">Abrir el archivo <span>↓</span></a><a class="button ghost" href="#portafolio">Explorar emprendimientos</a></div>
+      </div>
+      <div class="hero-file material-stage">
+        <img class="layer chroma-folder chroma-green" src="assets/folders/carpeta_verde_composicion_original.png" alt="">
+        <img class="layer chroma-folder chroma-purple" src="assets/folders/carpeta_morada_composicion_original.png" alt="">
+        <img class="layer chroma-folder chroma-yellow" src="assets/folders/carpeta_amarilla_composicion_original.png" alt="">
+        <img class="layer lined" src="assets/material/papel_rayado.webp" alt="">
+        <img class="layer folder" src="assets/material/carpeta_naranja_base.webp" alt="">
+        <img class="layer sheet" src="assets/material/hoja_perforada.webp" alt="">
+        <div class="paper-note layer"><span>EXPEDIENTE</span><b>IMPACTA</b><em>2026</em><small>Resultados · personas · futuro</small></div>
+        <img class="layer stamp" src="assets/material/sello_archivo_2026.webp" alt="">
+        <img class="layer robot" src="assets/material/robot_sticker.webp" alt="">
+        <button class="folder-trigger" type="button" aria-pressed="false"><span>Abrir expediente</span><b>↗</b></button>
+      </div>
+      <div class="chapter-index">00 / APERTURA</div>
+    </section>
+
+    <section class="panorama chapter" id="panorama" data-chapter="01">
+      <div class="mineral-scene" aria-hidden="true"><div class="mineral-grid"></div><div class="mineral-object"><img src="assets/folders/carpeta_verde_composicion_original.png" alt=""></div><span>S.01 · RESULTADOS</span></div>
+      <div class="section-heading reveal"><p class="eyebrow">PANORAMA CONFIRMADO</p><h2>El tamaño del archivo</h2><p>Indicadores agregados del portafolio, con corte declarado en la fuente a enero de 2026.</p></div>
+      <div class="metric-wall" id="metrics"></div>
+      <div class="source-strip"><b>Estado de datos:</b> cifras agregadas confirmadas en la fuente preparada. Los hitos narrativos del año continúan en validación editorial.</div>
+    </section>
+
+    <section class="timeline chapter" id="timeline" data-chapter="02">
+      <div class="section-heading reveal"><p class="eyebrow">ENERO — DICIEMBRE</p><h2>Doce separadores.<br>Un mismo expediente.</h2><p>La estructura cronológica está lista para recibir los hitos validados de 2026. No se publican hechos o eventos todavía no confirmados.</p></div>
+      <div class="timeline-scrolly" id="timeline-scrolly">
+        <aside class="timeline-spine" aria-label="Progreso cronológico">
+          <p><span id="active-month-number">01</span> / 12</p><strong id="active-month-name">ENERO</strong>
+          <div class="timeline-line"><i id="timeline-progress"></i></div>
+          <nav id="month-tabs" aria-label="Navegación rápida por meses"></nav>
+        </aside>
+        <div class="month-stream" id="month-stream"></div>
+      </div>
+    </section>
+
+    <section class="routes chapter" id="programas" data-chapter="03">
+      <div class="section-heading reveal"><p class="eyebrow">RECORRIDO TEMÁTICO</p><h2>Cuatro puertas de entrada</h2><p>Una arquitectura preparada para conectar programas, proyectos, eventos y desarrollos con los mismos expedientes.</p></div>
+      <div class="route-grid">
+        <button class="route-card green reveal" data-route="phase" data-value="Descubre"><img class="route-folder-art" src="assets/folders/carpeta_verde_composicion_original.png" alt=""><span>01</span><h3>Programas</h3><p>Descubre, Construye y Crece como fases verificadas del universo Impacta.</p><b>Ver Descubre →</b></button>
+        <button class="route-card purple reveal" data-route="status"><img class="route-folder-art" src="assets/folders/carpeta_morada_composicion_original.png" alt=""><span>02</span><h3>Proyectos</h3><p>Estructura preparada para historias y proyectos institucionales.</p><b>Ver estado →</b></button>
+        <button class="route-card orange reveal" data-route="status"><img class="route-folder-art" src="assets/folders/carpeta_naranja_composicion_original.png" alt=""><span>03</span><h3>Eventos</h3><p>Calendario narrativo listo; hitos pendientes de validación editorial.</p><b>Ver estado →</b></button>
+        <button class="route-card yellow reveal" data-route="status"><img class="route-folder-art" src="assets/folders/carpeta_amarilla_composicion_original.png" alt=""><span>04</span><h3>Desarrollos</h3><p>Espacio para productos, alianzas y capacidades verificadas.</p><b>Ver estado →</b></button>
+      </div>
+      <div class="folder-lab" id="folder-lab">
+        <div class="folder-lab-copy"><p class="eyebrow">MESA TÁCTIL · ENSAMBLAJE</p><h3>Abre una carpeta por partes</h3><p>Arrastra la carpeta o usa el control. Base, documentos, pestaña y tapa conservan profundidad independiente.</p><button id="assemble-folder" class="button primary" type="button" aria-pressed="false">Ensamblar y abrir</button></div>
+        <div class="folder-object" tabindex="0" role="button" aria-label="Carpeta turquesa interactiva">
+          <img class="folder-part folder-base" src="assets/folders/folder_teal_base_tab.png" alt="">
+          <span class="folder-part folder-paper paper-a">PROGRAMAS</span><span class="folder-part folder-paper paper-b">PROYECTOS</span><span class="folder-part folder-paper paper-c">RESULTADOS</span>
+          <img class="folder-part folder-cover" src="assets/folders/folder_teal_cover_front.png" alt="">
+          <i class="folder-shadow"></i>
+        </div>
+      </div>
+      <p class="validation-note" id="route-status" role="status">Selecciona una ruta para consultar su estado.</p>
+    </section>
+
+    <section class="portfolio chapter" id="portafolio" data-chapter="04">
+      <div class="portfolio-head reveal"><div><p class="eyebrow">ARCHIVO DE EMPRENDIMIENTOS</p><h2>116 fichas editoriales</h2><p>Datos del portafolio curado. Las correspondencias pendientes con el directorio analítico no se fusionan automáticamente.</p></div><div class="file-count"><b id="result-count">116</b><span>expedientes visibles</span></div></div>
+      <div class="filters" aria-label="Filtros del portafolio">
+        <label class="search"><span>Buscar</span><input id="search" type="search" placeholder="Nombre, sector o descripción"></label>
+        <label><span>División</span><select id="division-filter"><option value="">Todas las divisiones</option></select></label>
+        <label><span>Fase</span><select id="phase-filter"><option value="">Todas las fases</option></select></label>
+        <button id="clear-filters" class="filter-clear" type="button">Limpiar</button>
+      </div>
+      <div class="spatial-browser" aria-label="Selección espacial de emprendimientos destacados">
+        <div class="spatial-copy"><span>MESA DE EXPEDIENTES</span><b>Arrastra o desliza</b><small>La lista completa permanece disponible debajo.</small></div>
+        <div class="spatial-window"><div class="spatial-track" id="spatial-track"></div></div>
+        <div class="spatial-controls"><button id="spatial-prev" type="button" aria-label="Expediente anterior">←</button><span id="spatial-pos">1 / 9</span><button id="spatial-next" type="button" aria-label="Expediente siguiente">→</button></div>
+      </div>
+      <div class="venture-grid" id="venture-grid"></div>
+      <button class="button load-more" id="load-more" type="button">Cargar más expedientes</button>
+    </section>
+
+    <section class="team chapter" id="equipo" data-chapter="05">
+      <div class="team-intro reveal"><p class="eyebrow">EL EQUIPO HUMANO</p><h2>El impacto también tiene manos.</h2><p>La sección queda estructurada por contribuciones, no como una cuadrícula de retratos. Los nombres y fotografías se incorporarán únicamente después de validación y autorización.</p></div>
+      <div class="team-dossiers">
+        <article class="dossier reveal"><span>COORDINACIÓN</span><h3>Dirección y propósito</h3><p>Espacio reservado para responsabilidades verificadas y contribuciones concretas.</p></article>
+        <article class="dossier reveal"><span>PROGRAMAS</span><h3>Acompañamiento</h3><p>Relación futura con expedientes, cohortes y procesos del año.</p></article>
+        <article class="dossier reveal"><span>ECOSISTEMA</span><h3>Alianzas y conexiones</h3><p>Registro preparado para organizaciones y personas con autorización de publicación.</p></article>
+      </div>
+    </section>
+
+    <section class="closing chapter" id="cierre" data-chapter="06">
+      <div class="closing-stack" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="closing-copy reveal"><p class="eyebrow">EL ARCHIVO CONTINÚA</p><h2>Lo construido en 2026 abre el próximo capítulo.</h2><p>Esta primera versión reúne el sistema visual, la arquitectura narrativa y el portafolio público preparado para la presentación institucional.</p><a class="button primary" href="#inicio">Volver al inicio ↑</a></div>
+    </section>
+  </main>
+
+  <dialog id="venture-dialog" class="venture-dialog">
+    <button class="dialog-close" type="button" aria-label="Cerrar expediente">×</button>
+    <div id="venture-detail"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="chapter-cover" aria-hidden="true"><span></span></div>
+  <div class="chapter-camera" aria-hidden="true"><div class="camera-grid"></div><div class="camera-folder"></div><p>CAMBIO DE CAPÍTULO</p></div>
+  <div class="chapter-marker" aria-hidden="true"><i></i><b>00</b></div>
+  <footer><span>IMPACTA 2026 · Universidad Ean</span><span>Primera versión demostrable · datos públicos minimizados</span></footer>
+</body>
+</html>
+
