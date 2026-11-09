@@ -1,0 +1,673 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "gsap_timeline_set_initial_hide",
+        "severity": "warning",
+        "message": "Initial hidden state for \"#s2, #s3\" is set via tl.set(...) at position 0 inside the paused timeline. A zero-duration set at 0 does not render while the playhead sits exactly at 0, so frame 0 shows the un-hidden state.",
+        "selector": "#s2, #s3",
+        "dataAttributes": {},
+        "sourceFile": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Use gsap.set(...) (immediate, outside the timeline) for initial states, or author the hidden state directly in CSS/attributes."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 1,
+    "findings": [
+      {
+        "code": "panel_out_of_canvas",
+        "severity": "info",
+        "time": 3.333,
+        "selector": "i.layer.green",
+        "message": "Painted panel extends outside the composition canvas.",
+        "rect": {
+          "left": 1380,
+          "top": 196,
+          "right": 1960,
+          "bottom": 684,
+          "width": 580,
+          "height": 488
+        },
+        "containerSelector": "#root",
+        "text": "",
+        "fixHint": "Move the panel inward, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 40
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1380,
+          "y": 196,
+          "width": 580,
+          "height": 488
+        },
+        "firstSeen": 3.333,
+        "lastSeen": 3.333,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          3.333
+        ]
+      }
+    ],
+    "duration": 12,
+    "samples": [
+      0.667,
+      2,
+      3.333,
+      4.667,
+      6,
+      7.333,
+      8.667,
+      10,
+      11.333
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 1,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": false,
+    "errorCount": 3,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.59:1; WCAG AA requires 3:1.",
+        "text": "Impacta",
+        "fg": "rgb(239,111,46)",
+        "bg": "rgb(243,238,223)",
+        "ratio": 2.59,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(220,102,42)",
+        "large": true,
+        "selector": "div > section:nth-of-type(1) > h1 > em",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 120,
+          "y": 266.45037841796875,
+          "width": 545.4375,
+          "height": 179
+        },
+        "time": 0.667,
+        "times": [
+          0.667,
+          3.333
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.87:1; WCAG AA requires 3:1.",
+        "text": "9",
+        "fg": "rgb(239,111,46)",
+        "bg": "rgb(254,249,239)",
+        "ratio": 2.87,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(233,108,45)",
+        "large": true,
+        "selector": "div > section:nth-of-type(3) > article > b:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1247.9449462890625,
+          "y": 533.90576171875,
+          "width": 24.327880859375,
+          "height": 53.11297607421875
+        },
+        "time": 8.667,
+        "times": [
+          8.667,
+          11.333
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.87:1; WCAG AA requires 3:1.",
+        "text": "$157 M",
+        "fg": "rgb(239,111,46)",
+        "bg": "rgb(254,249,239)",
+        "ratio": 2.87,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(233,108,45)",
+        "large": true,
+        "selector": "div > section:nth-of-type(3) > article > b:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1247.2139892578125,
+          "y": 688.904052734375,
+          "width": 130.12353515625,
+          "height": 53.61187744140625
+        },
+        "time": 8.667,
+        "times": [
+          8.667,
+          11.333
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.59:1; WCAG AA requires 3:1.",
+        "text": "ARCHIVO2026",
+        "fg": "rgb(239,111,46)",
+        "bg": "rgb(243,238,223)",
+        "ratio": 2.59,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(220,102,42)",
+        "large": true,
+        "selector": "div > section:nth-of-type(3) > div",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1613.2547607421875,
+          "y": 813.2547607421875,
+          "width": 213.490478515625,
+          "height": 213.490478515625
+        },
+        "time": 11.333,
+        "times": [
+          11.333
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      0.667,
+      3.333,
+      6,
+      8.667,
+      11.333
+    ],
+    "checked": 25,
+    "passed": 18
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 6,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "first_frame_empty",
+        "severity": "warning",
+        "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Un expediente que se abre para convertir resultados, ruta...\" (15 words) is on screen 3.16 s (±0.01 s), under its 3.75 s floor: hold it about 0.5 s + 0.3 s a word (5.00 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Un expediente que se abre para convertir resultados, rutas y emprendimientos en una experiencia consultable.",
+        "selector": "#s1 > p:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 120,
+          "y": 456.35,
+          "width": 849.73,
+          "height": 85.49000000000001
+        },
+        "time": 0.539,
+        "words": 15,
+        "seconds": 3.164,
+        "floorSeconds": 3.75,
+        "measured": [
+          {
+            "time": 0.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.375,
+            "opacity": 0.12,
+            "heightPx": 85
+          },
+          {
+            "time": 0.5,
+            "opacity": 0.49,
+            "heightPx": 86
+          },
+          {
+            "time": 0.625,
+            "opacity": 0.7,
+            "heightPx": 85
+          },
+          {
+            "time": 0.75,
+            "opacity": 0.89,
+            "heightPx": 86
+          },
+          {
+            "time": 0.875,
+            "opacity": 0.99,
+            "heightPx": 86
+          },
+          {
+            "time": 1,
+            "opacity": 1,
+            "heightPx": 86
+          },
+          {
+            "time": 3.25,
+            "opacity": 1,
+            "heightPx": 86
+          },
+          {
+            "time": 3.375,
+            "opacity": 1,
+            "heightPx": 86
+          },
+          {
+            "time": 3.5,
+            "opacity": 1,
+            "heightPx": 86
+          },
+          {
+            "time": 3.625,
+            "opacity": 0.79,
+            "heightPx": 86
+          },
+          {
+            "time": 3.75,
+            "opacity": 0.35,
+            "heightPx": 86
+          },
+          {
+            "time": 3.875,
+            "opacity": 0.09,
+            "heightPx": 86
+          },
+          {
+            "time": 4,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"EXPEDIENTES PARA EXPLORAR\" (3 words) is on screen 0.13 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "EXPEDIENTES PARA EXPLORAR",
+        "selector": "#s2 > h2:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 120,
+          "y": 436,
+          "width": 1005.3800000000001,
+          "height": 295.44000000000005
+        },
+        "time": 3.938,
+        "words": 3,
+        "seconds": 0.133,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 3.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.875,
+            "opacity": 0.34,
+            "heightPx": 295
+          },
+          {
+            "time": 4,
+            "opacity": 0.82,
+            "heightPx": 295
+          },
+          {
+            "time": 4.125,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.375,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"El panorama muestra el universo institucional. El Portafo...\" (14 words) is on screen 0.26 s (±0.01 s), under its 3.53 s floor: hold it about 0.5 s + 0.3 s a word (4.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "El panorama muestra el universo institucional. El Portafolio recalcula sus cifras con cada filtro.",
+        "selector": "#s2 > p:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 120,
+          "y": 733.88,
+          "width": 723.53,
+          "height": 85.5
+        },
+        "time": 3.938,
+        "words": 14,
+        "seconds": 0.258,
+        "floorSeconds": 3.525,
+        "measured": [
+          {
+            "time": 3.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.875,
+            "opacity": 0.34,
+            "heightPx": 86
+          },
+          {
+            "time": 4,
+            "opacity": 0.82,
+            "heightPx": 86
+          },
+          {
+            "time": 4.125,
+            "opacity": 0.98,
+            "heightPx": 86
+          },
+          {
+            "time": 4.25,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.5,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"SALA 01 · RESULTADOS VERIFICADOS 116 EXPEDIENTES PARA EXP...\" (22 words) is on screen 3.73 s (±0.01 s), under its 5.32 s floor: hold it about 0.5 s + 0.3 s a word (7.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "SALA 01 · RESULTADOS VERIFICADOS 116 EXPEDIENTES PARA EXPLORAR El panorama muestra el universo institucional. El Portafolio recalcula sus cifras con cada filtro.",
+        "selector": "#s2",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 120,
+          "y": 136,
+          "width": 326.7,
+          "height": 378
+        },
+        "time": 4.039,
+        "words": 22,
+        "seconds": 3.734,
+        "floorSeconds": 5.325,
+        "measured": [
+          {
+            "time": 3.75,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.875,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4,
+            "opacity": 0.4,
+            "heightPx": 378
+          },
+          {
+            "time": 4.125,
+            "opacity": 0.75,
+            "heightPx": 378
+          },
+          {
+            "time": 4.25,
+            "opacity": 0.93,
+            "heightPx": 378
+          },
+          {
+            "time": 4.375,
+            "opacity": 0.99,
+            "heightPx": 378
+          },
+          {
+            "time": 4.5,
+            "opacity": 1,
+            "heightPx": 378
+          },
+          {
+            "time": 7.375,
+            "opacity": 1,
+            "heightPx": 378
+          },
+          {
+            "time": 7.5,
+            "opacity": 1,
+            "heightPx": 378
+          },
+          {
+            "time": 7.625,
+            "opacity": 1,
+            "heightPx": 378
+          },
+          {
+            "time": 7.75,
+            "opacity": 0.5,
+            "heightPx": 378
+          },
+          {
+            "time": 7.875,
+            "opacity": 0.17,
+            "heightPx": 378
+          },
+          {
+            "time": 8,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.125,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 7 text elements stay under it for 0.5 s or more, the smallest \"Empleos reportados\" at 16 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Empleos reportados",
+        "selector": "article.card > p:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1299.24,
+          "y": 495.16,
+          "width": 143.76,
+          "height": 22.37
+        },
+        "time": 8.5,
+        "times": [
+          0.5,
+          4,
+          8,
+          8.5,
+          8.5,
+          8.5,
+          9.5
+        ],
+        "fontPx": 16,
+        "floorPx": 28,
+        "seconds": 3.5,
+        "elements": [
+          {
+            "selector": "article.card > p:nth-of-type(1)",
+            "text": "Empleos reportados",
+            "fontPx": 16,
+            "time": 8.5,
+            "seconds": 3.5
+          },
+          {
+            "selector": "article.card > p:nth-of-type(2)",
+            "text": "Ventas 2024",
+            "fontPx": 16,
+            "time": 8.5,
+            "seconds": 3.5
+          },
+          {
+            "selector": "article.card > small:nth-of-type(1)",
+            "text": "EXPEDIENTE · ASTROLAB",
+            "fontPx": 18,
+            "time": 8.5,
+            "seconds": 3.5
+          },
+          {
+            "selector": "#s1 > p:nth-of-type(1)",
+            "text": "EXPOSICIÓN DIGITAL · 2026",
+            "fontPx": 22,
+            "time": 0.5,
+            "seconds": 3.25
+          },
+          {
+            "selector": "#s2 > p:nth-of-type(1)",
+            "text": "SALA 01 · RESULTADOS VERIFICADOS",
+            "fontPx": 22,
+            "time": 4,
+            "seconds": 3.875
+          },
+          {
+            "selector": "#s3 > p:nth-of-type(1)",
+            "text": "MESA DE CONSULTA · PORTAFOLIO",
+            "fontPx": 22,
+            "time": 8,
+            "seconds": 4
+          },
+          {
+            "selector": "div.stamp",
+            "text": "ARCHIVO2026",
+            "fontPx": 23,
+            "time": 9.5,
+            "seconds": 2.5
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 96
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 1,
+    "findings": [
+      {
+        "code": "audio_none",
+        "severity": "info",
+        "message": "The film has no sound: no clip in it plays audio.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      }
+    ]
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

@@ -7,8 +7,11 @@
   <title>IMPACTA 2026 · Archivo vivo</title>
   <link rel="icon" href="assets/material/robot_sticker.webp">
   <link rel="stylesheet" href="styles.css">
-  <script src="data/public-data.js"></script>
+  <script defer src="data/public-data.js"></script>
   <script type="module" src="app.js"></script>
+  <script type="module" src="pilot.js"></script>
+  <script src="claude-expediente-cutaway.js"></script>
+  <script type="module" src="claude-portada.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Saltar al contenido</a>
@@ -23,37 +26,32 @@
   </header>
 
   <main id="main">
-    <section class="hero chapter" id="inicio" data-chapter="00">
-      <div class="hero-copy reveal">
+    <section class="hero claude-archive-hero chapter" id="inicio" data-chapter="00">
+      <div class="claude-hero-copy reveal">
         <p class="eyebrow">INFORME INSTITUCIONAL · 2026</p>
-        <h1><span>Un año de</span><strong>impacto</strong><span>que deja huella.</span></h1>
+        <h1><span>Un año de</span><strong>impacto</strong><span>que deja</span><span>huella.</span></h1>
         <p class="lede">Un archivo vivo para recorrer resultados confirmados, programas e historias de emprendimiento de Ean Impacta.</p>
-        <div class="actions"><a class="button primary" href="#panorama">Abrir el archivo <span>↓</span></a><a class="button ghost" href="#portafolio">Explorar emprendimientos</a></div>
+        <div class="actions"><button class="button primary claude-archive-launch" type="button" aria-controls="claude-cutaway" aria-expanded="false">Explorar el archivo <span>→</span></button><a class="button ghost" href="#panorama">Ver panorama</a></div>
+        <p class="claude-hero-foot" id="claude-archive-status" role="status">EXPEDIENTE IMPACTA 2026 · TRES ACCESOS</p>
       </div>
-      <div class="hero-file material-stage">
-        <img class="layer chroma-folder chroma-green" src="assets/folders/carpeta_verde_composicion_original.png" alt="">
-        <img class="layer chroma-folder chroma-purple" src="assets/folders/carpeta_morada_composicion_original.png" alt="">
-        <img class="layer chroma-folder chroma-yellow" src="assets/folders/carpeta_amarilla_composicion_original.png" alt="">
-        <img class="layer lined" src="assets/material/papel_rayado.webp" alt="">
-        <img class="layer folder" src="assets/material/carpeta_naranja_base.webp" alt="">
-        <img class="layer sheet" src="assets/material/hoja_perforada.webp" alt="">
-        <div class="paper-note layer"><span>EXPEDIENTE</span><b>IMPACTA</b><em>2026</em><small>Resultados · personas · futuro</small></div>
-        <img class="layer stamp" src="assets/material/sello_archivo_2026.webp" alt="">
-        <img class="layer robot" src="assets/material/robot_sticker.webp" alt="">
-        <button class="folder-trigger" type="button" aria-pressed="false"><span>Abrir expediente</span><b>↗</b></button>
+      <div class="claude-cutaway-stage" data-state="closed">
+        <img class="claude-cutaway-loading" src="assets/claude-portada/archivo/stack_turquesa.webp" alt="Expediente turquesa Impacta 2026">
+        <expediente-cutaway id="claude-cutaway" base="assets/claude-portada/" three="./vendor/claude-three/three.module.min.js"></expediente-cutaway>
       </div>
-      <div class="chapter-index">00 / APERTURA</div>
+      <div class="chapter-index">00 / ARCHIVO IMPACTA 2026</div>
     </section>
 
-    <section class="panorama chapter" id="panorama" data-chapter="01">
+    <section class="panorama exhibition-panorama chapter" id="panorama" data-chapter="01">
       <div class="mineral-scene" aria-hidden="true"><div class="mineral-grid"></div><div class="mineral-object"><img src="assets/folders/carpeta_verde_composicion_original.png" alt=""></div><span>S.01 · RESULTADOS</span></div>
-      <div class="section-heading reveal"><p class="eyebrow">PANORAMA CONFIRMADO</p><h2>El tamaño del archivo</h2><p>Indicadores agregados del portafolio, con corte declarado en la fuente a enero de 2026.</p></div>
+      <div class="section-heading reveal"><p class="eyebrow">SALA 01 · PANORAMA CONFIRMADO</p><h2>¿Qué universo podemos leer?</h2><p>Estas cifras describen el portafolio preparado para consulta pública. El conjunto filtrado se calcula aparte en la mesa de emprendimientos.</p></div>
+      <div class="universe-key"><span><i class="institutional"></i>Universo institucional preparado</span><span><i class="filtered"></i>Universo filtrado en Portafolio</span></div>
       <div class="metric-wall" id="metrics"></div>
       <div class="source-strip"><b>Estado de datos:</b> cifras agregadas confirmadas en la fuente preparada. Los hitos narrativos del año continúan en validación editorial.</div>
     </section>
 
-    <section class="timeline chapter" id="timeline" data-chapter="02">
-      <div class="section-heading reveal"><p class="eyebrow">ENERO — DICIEMBRE</p><h2>Doce separadores.<br>Un mismo expediente.</h2><p>La estructura cronológica está lista para recibir los hitos validados de 2026. No se publican hechos o eventos todavía no confirmados.</p></div>
+    <section class="timeline chapter editorial-index" id="timeline" data-chapter="02">
+      <div class="section-heading reveal"><p class="eyebrow">ÍNDICE CRONOLÓGICO · EN VALIDACIÓN</p><h2>Doce separadores.<br>Todavía sin hitos autorizados.</h2><p>El índice conserva enero–diciembre sin convertir datos pendientes en una narrativa falsa. Las composiciones de hito aparecerán cuando exista validación editorial.</p></div>
+      <div class="timeline-validation"><b>Estado editorial</b><span>12 meses preparados · 0 hitos publicados</span></div>
       <div class="timeline-scrolly" id="timeline-scrolly">
         <aside class="timeline-spine" aria-label="Progreso cronológico">
           <p><span id="active-month-number">01</span> / 12</p><strong id="active-month-name">ENERO</strong>
@@ -92,6 +90,18 @@
         <label><span>Fase</span><select id="phase-filter"><option value="">Todas las fases</option></select></label>
         <button id="clear-filters" class="filter-clear" type="button">Limpiar</button>
       </div>
+      <div class="active-filters" id="active-filters" aria-live="polite"><b>Consulta activa</b><span>Sin filtros · 116 expedientes</span></div>
+      <div class="portfolio-feedback">
+        <p id="portfolio-status" class="portfolio-status" role="status" aria-live="polite" data-state="loading">Cargando portafolio…</p>
+        <button id="portfolio-help" class="portfolio-help" type="button">¿Cómo explorar este archivo?</button>
+      </div>
+      <div class="portfolio-summary" id="portfolio-summary" aria-label="Indicadores del conjunto filtrado">
+        <button type="button" data-metric="total"><span>Expedientes</span><b id="filtered-total">—</b><small>Mismo conjunto de la cuadrícula</small></button>
+        <button type="button" data-metric="employees"><span>Empleos reportados</span><b id="filtered-employees">—</b><small id="employees-coverage">—</small></button>
+        <button type="button" data-metric="sales"><span>Ventas 2024</span><b id="filtered-sales">—</b><small id="sales-coverage">—</small></button>
+        <button type="button" data-metric="missing"><span>Registros incompletos</span><b id="filtered-missing">—</b><small>Empleos o ventas sin dato</small></button>
+      </div>
+      <p class="portfolio-source"><b>Fuente:</b> Portafolio editorial preparado · <b>Corte:</b> enero de 2026 · Las ventas corresponden a 2024. Selecciona una cifra para revisar sus registros.</p>
       <div class="spatial-browser" aria-label="Selección espacial de emprendimientos destacados">
         <div class="spatial-copy"><span>MESA DE EXPEDIENTES</span><b>Arrastra o desliza</b><small>La lista completa permanece disponible debajo.</small></div>
         <div class="spatial-window"><div class="spatial-track" id="spatial-track"></div></div>
@@ -116,9 +126,72 @@
     </section>
   </main>
 
+  <section class="pilot-shell" id="pilot-experience" hidden aria-label="Capítulo piloto Aceleratón Go-to-market">
+    <header class="pilot-bar">
+      <div><b>IMPACTA 2026</b><span>CAPÍTULO PILOTO · ACELERATÓN</span></div>
+      <div class="pilot-actions"><button id="pilot-replay" type="button">Reproducir</button><button id="pilot-close" type="button">Volver al dashboard</button></div>
+    </header>
+    <div class="pilot-scroll" id="pilot-scroll">
+      <div class="pilot-motion-track" id="pilot-motion-track">
+        <section class="pilot-stage" id="pilot-stage">
+          <p class="pilot-instruction">Selecciona una carpeta · desplázate para abrir</p>
+          <nav class="pilot-variants" aria-label="Seleccionar carpeta">
+            <button data-pilot-variant="turquesa" style="--c:#40c0c0" aria-label="Carpeta turquesa"></button>
+            <button data-pilot-variant="verde" style="--c:#6d964e" aria-label="Carpeta verde"></button>
+            <button data-pilot-variant="amarilla" style="--c:#f4cb34" aria-label="Carpeta amarilla"></button>
+            <button data-pilot-variant="morada" style="--c:#8f499c" aria-label="Carpeta morada"></button>
+            <button data-pilot-variant="naranja" class="active" style="--c:#f0782c" aria-label="Carpeta naranja, Aceleratón"></button>
+          </nav>
+          <div class="pilot-camera"><div class="pilot-world" id="pilot-world">
+            <div class="pilot-intro"><p>ARCHIVO VIVO · 04</p><h2>El expediente<br>se convierte<br>en capítulo.</h2></div>
+            <figure class="pilot-satellite pilot-sat-green"><img src="assets/motion/sistema/verde/papers_sh.webp" alt=""><img src="assets/motion/sistema/verde/folder_sh.webp" alt=""><img src="assets/motion/sistema/verde/sheet_sh.webp" alt=""><img src="assets/motion/sistema/verde/cover_sh.webp" alt=""></figure>
+            <figure class="pilot-satellite pilot-sat-yellow"><img src="assets/motion/sistema/amarilla/papers_sh.webp" alt=""><img src="assets/motion/sistema/amarilla/folder_sh.webp" alt=""><img src="assets/motion/sistema/amarilla/sheet_sh.webp" alt=""><img src="assets/motion/sistema/amarilla/cover_sh.webp" alt=""></figure>
+            <figure class="pilot-satellite pilot-sat-teal"><img src="assets/motion/sistema/turquesa/papers_sh.webp" alt=""><img src="assets/motion/sistema/turquesa/folder_sh.webp" alt=""><img src="assets/motion/sistema/turquesa/sheet_sh.webp" alt=""><img src="assets/motion/sistema/turquesa/cover_sh.webp" alt=""></figure>
+            <figure class="pilot-satellite pilot-sat-purple"><img src="assets/motion/sistema/morada/papers_sh.webp" alt=""><img src="assets/motion/sistema/morada/folder_sh.webp" alt=""><img src="assets/motion/sistema/morada/sheet_sh.webp" alt=""><img src="assets/motion/sistema/morada/cover_sh.webp" alt=""></figure>
+            <article class="pilot-folder" id="pilot-folder" data-variant="naranja">
+              <img class="pilot-layer pilot-papers" id="pilot-papers" src="assets/motion/sistema/naranja/papers_sh.webp" alt="">
+              <img class="pilot-layer pilot-base" id="pilot-base" src="assets/motion/sistema/naranja/folder_sh.webp" alt="">
+              <img class="pilot-layer pilot-tab" id="pilot-tab" src="assets/motion/sistema/naranja/tab.webp" alt="">
+              <div class="pilot-physical-sheet" id="pilot-sheet"><img id="pilot-sheet-image" src="assets/motion/sistema/naranja/sheet_sh.webp" alt=""><div class="pilot-sheet-label"><small>EXPEDIENTE 04</small><strong>ACELERATÓN<br>GO-TO-MARKET</strong></div></div>
+              <i class="pilot-hinge-shadow" id="pilot-hinge-shadow"></i><i class="pilot-cover-shadow" id="pilot-cover-shadow"></i>
+              <div class="pilot-cover" id="pilot-cover"><img class="pilot-cover-front" id="pilot-cover-front" src="assets/motion/sistema/naranja/cover_sh.webp" alt=""><img class="pilot-cover-back" id="pilot-cover-back" src="assets/motion/sistema/naranja/cover_inner.webp" alt=""><i class="pilot-cover-edge"></i></div>
+              <img class="pilot-robot" src="assets/motion/sistema/comun/robot_sh.webp" alt="Personaje Impacta">
+            </article>
+          </div></div>
+          <article class="pilot-bridge" id="pilot-bridge" aria-labelledby="pilot-title">
+            <div class="pilot-bridge-copy"><p>EXPEDIENTE 04 · IMPACTA 2026</p><h1 id="pilot-title"><span>Aceleratón</span>Go-to-market</h1><p>Dos días para convertir un proyecto en una estrategia comercial, con IA como aliada y mentorías con expertos.</p><a href="#pilot-content">Continuar el capítulo <span>↓</span></a></div>
+            <div class="pilot-bridge-index">04 / ACELERACIÓN</div>
+          </article>
+          <div class="pilot-progress" aria-hidden="true"><i></i></div>
+        </section>
+      </div>
+      <article class="pilot-content" id="pilot-content">
+        <header class="pilot-content-head"><p>CAPÍTULO PILOTO · CONTENIDO EDITORIAL</p><h2>De la propuesta<br>a la conversación comercial.</h2><p>Una experiencia intensiva para convertir aprendizajes en decisiones, validar el relato de valor y preparar los siguientes pasos de una estrategia go-to-market.</p></header>
+        <figure class="pilot-media"><img src="assets/material/referencia_carrusel_1.png" alt="Pieza institucional de convocatorias Ean Impacta"><figcaption>Área editorial preparada para fotografía o material institucional autorizado.</figcaption></figure>
+        <section class="pilot-story"><div><span>01</span><h3>El punto de partida</h3></div><p>El capítulo organiza la experiencia desde el reto comercial: entender a quién se dirige la propuesta, qué problema resuelve y cómo demostrar su valor. Este piloto utiliza únicamente la descripción ya presente en los materiales de Impacta.</p></section>
+        <section class="pilot-story"><div><span>02</span><h3>Trabajo concentrado</h3></div><p>La estructura está preparada para incorporar fotografías, testimonios y resultados verificados cuando estén disponibles. El layout admite lectura extensa sin depender de la escala de la escena 3D.</p></section>
+        <section class="pilot-next"><p>FIN DEL CAPÍTULO PILOTO</p><h3>El archivo continúa.</h3><button id="pilot-return" type="button">Regresar al dashboard</button></section>
+      </article>
+    </div>
+  </section>
+
   <dialog id="venture-dialog" class="venture-dialog">
     <button class="dialog-close" type="button" aria-label="Cerrar expediente">×</button>
     <div id="venture-detail"></div>
+  </dialog>
+  <dialog id="metric-dialog" class="metric-dialog">
+    <button class="metric-dialog-close" type="button" aria-label="Cerrar detalle del indicador">×</button>
+    <div id="metric-detail"></div>
+  </dialog>
+  <dialog id="portfolio-help-dialog" class="help-dialog">
+    <button class="help-dialog-close" type="button" aria-label="Cerrar ayuda">×</button>
+    <div class="help-copy"><p class="eyebrow">AYUDA CONTEXTUAL</p><h2>Explora el portafolio en tres pasos</h2><ol><li><b>Filtra.</b> Usa Buscar, División o Fase.</li><li><b>Comprueba.</b> Los cuatro indicadores usan el mismo conjunto visible.</li><li><b>Abre.</b> Selecciona una cifra para revisar los registros o una ficha para leer el expediente.</li></ol><p>Un valor registrado como cero aparece como <b>0</b>. Cuando la fuente no contiene un valor, aparece <b>Sin dato</b>.</p></div>
+    <video controls preload="metadata" aria-label="Demostración de filtros y detalle del portafolio"><source src="assets/help/portfolio-guide.webm" type="video/webm"><track default kind="captions" srclang="es" label="Español" src="assets/help/portfolio-guide-es.vtt">Tu navegador no puede reproducir esta ayuda en video.</video>
+  </dialog>
+  <dialog id="exhibition-film" class="exhibition-film">
+    <button class="exhibition-film-close" type="button" aria-label="Cerrar apertura audiovisual">×</button>
+    <div><p class="eyebrow">APERTURA EDITORIAL · 12 SEGUNDOS</p><h2>Cómo recorrer el archivo</h2></div>
+    <video controls preload="metadata" poster="assets/video/archivo-impacta-poster.png" aria-label="Apertura audiovisual de Archivo Impacta 2026"><source src="assets/video/archivo-impacta.webm" type="video/webm"><track kind="captions" srclang="es" label="Español" src="assets/video/archivo-impacta-es.vtt" default>Tu navegador no puede reproducir esta pieza.</video>
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="chapter-cover" aria-hidden="true"><span></span></div>
