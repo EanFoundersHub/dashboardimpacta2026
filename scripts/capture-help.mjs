@@ -1,0 +1,6 @@
+import { chromium } from '../../impacta-2026-motion-lab-01/node_modules/playwright/index.mjs';
+import fs from 'node:fs/promises';import path from 'node:path';
+const raw=path.resolve('evidence/help-raw');await fs.mkdir(raw,{recursive:true});await fs.mkdir('assets/help',{recursive:true});
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'}),ctx=await browser.newContext({viewport:{width:1280,height:720},reducedMotion:'no-preference',recordVideo:{dir:raw,size:{width:1280,height:720}}}),page=await ctx.newPage(),wait=ms=>new Promise(r=>setTimeout(r,ms));
+await page.goto('http://127.0.0.1:4182/#portafolio',{waitUntil:'networkidle'});await page.locator('#portafolio').scrollIntoViewIfNeeded();await wait(1000);await page.locator('#search').fill('Astrolab');await wait(1800);await page.locator('[data-metric="employees"]').click();await wait(2200);await page.locator('.metric-records [data-id]').click();await wait(2600);await page.locator('.dialog-close').click();await wait(800);
+const video=page.video();await page.close();const src=await video.path();await ctx.close();await fs.copyFile(src,'assets/help/portfolio-guide.webm');await browser.close();
