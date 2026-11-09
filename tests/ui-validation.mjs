@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 await fs.mkdir('evidence/after',{recursive:true});
 const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+const baseUrl=process.env.IMPACTA_URL||'http://127.0.0.1:4182/';
 const results=[];
 for(const spec of [{name:'desktop',viewport:{width:1440,height:900}},{name:'mobile',viewport:{width:390,height:844}}]){
   const page=await browser.newPage({viewport:spec.viewport,reducedMotion:'no-preference'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4182/#portafolio',{waitUntil:'networkidle'});await page.locator('#portafolio').scrollIntoViewIfNeeded();
+  await page.goto(`${baseUrl}#portafolio`,{waitUntil:'networkidle'});await page.locator('#portafolio').scrollIntoViewIfNeeded();
   const initial=await page.evaluate(()=>({count:document.querySelector('#filtered-total').textContent,employees:document.querySelector('#filtered-employees').textContent,status:document.querySelector('#portfolio-status').dataset.state,months:document.querySelectorAll('.month-scene').length}));
   await page.screenshot({path:`evidence/after/${spec.name}-portfolio.png`});
   await page.locator('#search').fill('Astrolab');await page.waitForTimeout(220);
