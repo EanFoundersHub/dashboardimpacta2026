@@ -94,10 +94,10 @@ function openProgram(id, source) {
   const metricValue = (k,v) => k === 'ventasDeclaradasCop' ? '$' + new Intl.NumberFormat('es-CO', {maximumFractionDigits:2}).format(v / 1e12) + ' billones COP' : new Intl.NumberFormat('es-CO').format(v);
   const href = k => p.directorio + (PROGRAM_METRIC_FILTERS[k] ? '&programMetric=' + PROGRAM_METRIC_FILTERS[k] : ''); const modal = $('#program-modal');
   modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.descripcion ? `<p>${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(([k,v]) => `<a href="${href(k)}"><b>${metricValue(k,v)}</b><span>${esc(PROGRAM_METRIC_LABELS[k] || k)}</span><small>Ver iniciativas →</small></a>`).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
-  modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus(), 30);
+  modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus({ preventScroll:true }), 30);
 }
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
-function viewHome() {
+function viewHome(q = new URLSearchParams()) {
   const enriched = enrichedPrograms();
   const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   const participation2026 = Object.values(DATA.programs2026).filter(x => x?.anio === 2026).reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
@@ -115,7 +115,8 @@ function viewHome() {
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>
     <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b></div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<button type="button" data-focus-jump="${f.id}">${esc(f.nombre)}</button>`).join('')}</nav></div>
     <div class="pp-focus-sections">${PROGRAM_FOCUSES.map((f, i) => { const items = enriched.filter(p => p.enfoque === f.id); return `<section class="pp-focus-section" id="enfoque-${f.id}" aria-labelledby="enfoque-title-${f.id}"><div class="pp-focus-section__head"><span>${String(i + 1).padStart(2,'0')} · Enfoque</span><h3 id="enfoque-title-${f.id}">${esc(f.nombre)}</h3><p>${esc(f.subtitulo)}</p></div><ul class="pp__grid">${items.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section>`; }).join('')}</div>
-  </section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
+  </section></div><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div>
+  <div class="pp-portfolio" id="portafolio-completo">${viewDirectory(q)}</div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -295,10 +296,12 @@ function render(focus = true) {
   const { parts, q } = parseHash(); const r = parts[0] || '';
   const prevKey = state.route; if (prevKey) state.scrollByRoute[prevKey] = scrollY;
   const main = $('#main');
+  document.body.querySelector(':scope > #program-modal')?.remove();
   const isPortfolio = r === 'portafolio' || r === 'directorio';
-  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : isPortfolio ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : viewHome();
+  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : isPortfolio ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : viewHome(q);
   document.body.dataset.route = r || 'inicio';
   main.innerHTML = `<div class="ir-view">${html}</div>`;
+  const programModal = $('#program-modal'); if (programModal) document.body.appendChild(programModal);
   if (isPortfolio) state.lastDirQuery = q.toString();
   $$('[data-nav]').forEach(a => a.toggleAttribute('aria-current', false)); const cur = $(`[data-nav="${r === 'e' || isPortfolio ? 'portafolio' : r}"]`); cur && cur.setAttribute('aria-current', 'page');
   closeMenu();
@@ -315,7 +318,7 @@ function observeReveals() { const els = $$('.ir-reveal'); if (reduced() || !('In
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15 }); els.forEach(e => io.observe(e)); }
 function bindView(r, q) {
   if (r === 'insights') $$('[data-insight]').forEach(b => b.addEventListener('click', () => openDrawer(b.dataset.insight)));
-  if (r !== 'portafolio' && r !== 'directorio') return;
+  if (r !== 'portafolio' && r !== 'directorio' && r !== '') return;
   const upd = fn => { const nq = parseHash().q; fn(nq); nq.delete('n'); history.replaceState(null, '', '#/portafolio' + (nq.toString() ? '?' + nq : '')); state.lastQ = nq; render(false); };
   $$('[data-year]').forEach(b => b.addEventListener('click', () => upd(nq => { nq.delete('anio'); if (b.dataset.year) nq.append('anio', b.dataset.year); })));
   let t; const inp = $('[data-search]'); inp?.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { const pos = inp.selectionStart; upd(nq => inp.value.trim() ? nq.set('q', inp.value) : nq.delete('q')); const ni = $('[data-search]'); ni.focus(); ni.setSelectionRange(pos, pos); }, 220); });
