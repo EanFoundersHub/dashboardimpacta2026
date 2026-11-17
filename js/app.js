@@ -103,8 +103,6 @@ function openProgram(id, source) {
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
 function viewHome(q = new URLSearchParams()) {
   const enriched = enrichedPrograms();
-  const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
-  const participation2026 = Object.values(DATA.programs2026).filter(x => x?.anio === 2026).reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
   <section class="pp-cover" aria-labelledby="hero-title">
     <div class="pp-cover__kraft" aria-hidden="true"></div>
@@ -112,8 +110,8 @@ function viewHome(q = new URLSearchParams()) {
       <div class="pp-cover__intro"><p>El archivo vivo de las iniciativas acompañadas en 2026: los programas que las impulsan, sus soluciones y las capacidades que están construyendo.</p><a class="pp__btn" href="#/panorama">Abrir el informe <span aria-hidden="true">→</span></a></div>
     </div>
     <div class="pp-cover__archive" aria-hidden="true"><img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt=""><img class="pp-cover__folder pp-cover__folder--orange" src="${PROGRAM_ASSET}carpetas/carpeta-naranja.webp" alt=""><img class="pp-cover__folder pp-cover__folder--teal" src="${PROGRAM_ASSET}carpetas/carpeta-turquesa.webp" alt=""></div>
-    <div class="pp-cover__note pp-cover__note--main"><b>${total2026}</b><span>emprendimientos únicos con participación en 2026</span></div>
-    <div class="pp-cover__note pp-cover__note--secondary"><b>${participation2026}</b><span>participaciones en programas con datos consolidados</span></div>
+    <div class="pp-cover__note pp-cover__note--main"><img src="assets/brand/ean-impacta-negro.png" alt=""></div>
+    <div class="pp-cover__note pp-cover__note--secondary"><img src="assets/brand/ean-impacta-negro.png" alt=""></div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>

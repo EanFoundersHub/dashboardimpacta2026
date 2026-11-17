@@ -93,13 +93,13 @@ for p in prototypes:
         item["descripcion"] = p["description"].strip()
     item["activo"] = True
     item["anios"] = sorted(set([str(x) for x in item.get("anios", [])] + ["2026"]))
-    phases = [x for x in item.get("fases", []) if x != "Impacta InHouse"]
+    phases = [x for x in item.get("fases", []) if x not in ("Impacta InHouse", "Articulación Academia")]
     line = (p.get("line") or "").lower()
     unit = (p.get("unit") or "").strip().lower()
     if "minor" in line:
         phase = "Minor"
     elif "articulaci" in line:
-        phase = "Articulación Academia"
+        phase = "Articulación Academia – Facultad de Ingeniería"
     elif unit == "sandbox":
         phase = "Sandbox"
     else:
@@ -107,7 +107,9 @@ for p in prototypes:
     item["fases"] = sorted(set(phases + [phase]))
     item["programas2026"] = sorted(set(item.get("programas2026", []) + ["Impacta InHouse"]))
     item["sector"] = item.get("sector") or p.get("classification")
-    item["vertical"] = item.get("vertical") or p.get("line")
+    # Las líneas operativas de InHouse se consultan como fases, no como verticales.
+    if norm(item.get("vertical") or "") == norm(p.get("line") or ""):
+        item.pop("vertical", None)
     item["impactaInHouse2026"] = {
         "ciclo": p.get("cycle"), "unidad": p.get("unit"), "linea": p.get("line"),
         "clasificacion": p.get("classification"), "prototipoConImagen": bool(p.get("has_proto_img"))
@@ -154,12 +156,13 @@ programs["pum"] = {
     "fuente":"PUM - Founders Hub convocatoria (1-33).xlsx", "nota":"33 respuestas consolidadas en 32 iniciativas únicas. No se publican datos personales."
 }
 
-# Ajuste validado de clasificación: Solar+Tech + Financing pertenece a Impacta InHouse como fase.
+# Ajuste validado de clasificación: Rocasol pertenece a Fondo Impacta y
+# Solar+Tech + Financing se conserva como su fase, no como vertical.
 rocasol = by_name.get(norm("Rocasol"))
 if rocasol:
     rocasol["anios"] = sorted(set([str(x) for x in rocasol.get("anios", [])] + ["2026"]))
-    rocasol["programas2026"] = sorted(set(rocasol.get("programas2026", []) + ["Impacta InHouse"]))
-    rocasol["fases"] = sorted(set([x for x in rocasol.get("fases", []) if x != "Fondo Impacta"] + ["Solar+Tech + Financing"]))
+    rocasol["programas2026"] = sorted(set([x for x in rocasol.get("programas2026", []) if x != "Impacta InHouse"] + ["Fondo Impacta"]))
+    rocasol["fases"] = sorted(set([x for x in rocasol.get("fases", []) if x not in ("Impacta InHouse", "Fondo Impacta")] + ["Solar+Tech + Financing"]))
     if (rocasol.get("vertical") or "").lower().startswith("solartech"):
         rocasol.pop("vertical", None)
 
