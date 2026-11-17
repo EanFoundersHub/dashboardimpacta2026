@@ -7,6 +7,7 @@ HTML = Path(r"C:\Users\afcaballero\Downloads\dashboard_prototipos_2026_actualiza
 PUM = Path(r"C:\Users\afcaballero\Downloads\PUM - Founders Hub convocatoria (1-33).xlsx")
 STARTUPS = ROOT / "data" / "startups.json"
 PROGRAMS = ROOT / "data" / "programs2026.json"
+INSIGHTS = ROOT / "data" / "insights.json"
 NS = {"m":"http://schemas.openxmlformats.org/spreadsheetml/2006/main","r":"http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
 
 def norm(value):
@@ -118,7 +119,7 @@ for p in prototypes:
 programs["impacta-inhouse"] = {
     "nombre":"Impacta InHouse", "descripcion":"Programa 2026 que articula mentorías y acompañamiento con unidades académicas para desarrollar iniciativas y prototipos.",
     "anio":2026,
-    "cifras":{"iniciativas":318,"digitales":128,"fisicos":127,"hibridos":36,"servicios":26},
+    "cifras":{"iniciativas":450,"digitales":128,"fisicos":127,"hibridos":36,"servicios":26},
     "ciclos":[{"ciclo":"Ciclo 1","iniciativas":57},{"ciclo":"Ciclo 2","iniciativas":136},{"ciclo":"Ciclo 3","iniciativas":125}],
     "alcanceAcademico":{"estudiantesReportados":1977,"docentesReportados":34,"mentoresYEspaciosReportados":91},
     "fuentes":["dashboard_prototipos_2026_actualizado 2 (1).html","Cuadro Maestro Descubre.xlsx"]
@@ -165,6 +166,26 @@ if rocasol:
     rocasol["fases"] = sorted(set([x for x in rocasol.get("fases", []) if x not in ("Impacta InHouse", "Fondo Impacta")] + ["Solar+Tech + Financing"]))
     if (rocasol.get("vertical") or "").lower().startswith("solartech"):
         rocasol.pop("vertical", None)
+
+# Duplicado validado: la respuesta de medición "Agroadviser SAS" y el perfil
+# editorial "Agroadvisers" corresponden al mismo emprendimiento.
+agroadviser = next((x for x in startups if x.get("id") == "agroadviser"), None)
+agroadvisers = next((x for x in startups if x.get("id") == "agroadvisers"), None)
+if agroadviser and agroadvisers:
+    for field in ("medido", "medicion", "cohorte"):
+        if agroadviser.get(field) is not None:
+            agroadvisers[field] = agroadviser[field]
+    agroadvisers["anios"] = sorted(set([str(x) for x in agroadvisers.get("anios", [])] + ["2024"]))
+    startups.remove(agroadviser)
+
+    insights = json.loads(INSIGHTS.read_text(encoding="utf-8"))
+    for chapter in insights.get("insights", []):
+        for figure in chapter.get("cifras", []):
+            members = figure.get("miembros")
+            if members:
+                replaced = ["agroadvisers" if x == "agroadviser" else x for x in members]
+                figure["miembros"] = list(dict.fromkeys(replaced))
+    INSIGHTS.write_text(json.dumps(insights, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 STARTUPS.write_text(json.dumps(startups, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 PROGRAMS.write_text(json.dumps(programs, ensure_ascii=False, indent=2), encoding="utf-8")

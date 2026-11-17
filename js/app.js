@@ -238,12 +238,16 @@ const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || 
 
 function viewDirectory(q) {
   const res = filterList(q), view = q.get('vista') === 'compacta' ? 'compact' : 'grid', limit = Math.max(PAGE, +q.get('n') || PAGE);
+  const selectedProgram = q.get('programa');
+  const programData = selectedProgram ? enrichedPrograms().find(p => p.programa === selectedProgram) : null;
+  const programTotal = programData?.cifras?.iniciativas;
+  const consolidationCount = selectedProgram === 'Impacta InHouse' && Number.isFinite(programTotal) ? Math.max(0, programTotal - res.length) : 0;
   const years = facetOptions(FACETS[0]).map(([y,n]) => [y,n]).sort((a,b) => Number(b[0]) - Number(a[0]));
   const chips = FACETS.flatMap(F => q.getAll(F.key).map(v => ({ k: F.key, v }))); if (q.get('q')) chips.push({ k: 'q', v: q.get('q') }); if (q.get('programMetric')) chips.push({ k:'programMetric', v:q.get('programMetric'), label:'Cifra seleccionada' });
   const nActive = chips.length;
   return `<section class="ir-section" aria-labelledby="dir-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag">Portafolio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Todas las iniciativas</h1>
-  <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p></div>
+  <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p>${consolidationCount ? `<p class="ir-program-status"><b>${res.length} iniciativas disponibles en el portafolio.</b> Las ${consolidationCount} iniciativas restantes se encuentran en consolidación para incorporarse al portafolio.</p>` : ''}</div>
   <nav class="ir-year-filter" aria-label="Filtrar portafolio por año"><button type="button" data-year="" aria-pressed="${!q.getAll('anio').length}">Todos los años</button>${years.map(([y,n]) => `<button type="button" data-year="${esc(y)}" aria-pressed="${q.getAll('anio').includes(y)}">${esc(y)} <span>${n}</span></button>`).join('')}</nav>
   <div class="ir-dir">
     <aside class="ir-filters" id="filters" data-open="false" data-component="FilterBar" aria-label="Filtros">
@@ -358,7 +362,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=inhouse-phase-20261117').then(r => r.json()), fetch('data/insights.json').then(r => r.json()), fetch('data/programs2026.json?v=inhouse-phase-20261117').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=dedupe-agroadvisers-20261117').then(r => r.json()), fetch('data/insights.json?v=dedupe-agroadvisers-20261117').then(r => r.json()), fetch('data/programs2026.json?v=inhouse-phase-20261117').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();

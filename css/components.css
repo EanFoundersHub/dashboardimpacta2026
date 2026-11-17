@@ -97,6 +97,7 @@ body[data-route="inicio"] .ir-header__link[aria-current="page"],body[data-route=
 .ir-universe[data-kind="unicos"] .ir-universe__figures .ir-metric:first-child .ir-metric__value{font-size:var(--fs-figure-xl);line-height:.82}
 
 /* InsightSection + InsightCard */
+.ir-program-status{max-width:760px;margin:var(--space-4) 0 0;padding:16px 18px;border-left:5px solid var(--color-teal);background:rgba(57,190,189,.12);font-size:15px;line-height:1.55}
 .ir-chapter{display:grid;grid-template-columns:280px minmax(0,1fr);gap:var(--space-7);padding:var(--space-8) 0;border-top:var(--border-ink)}
 .ir-chapter__head{position:sticky;top:96px;align-self:start;display:flex;flex-direction:column;gap:var(--space-3)}
 .ir-chapter__title{margin:0;font:var(--fw-black) var(--fs-h2)/1 var(--font-display);letter-spacing:-.03em}
