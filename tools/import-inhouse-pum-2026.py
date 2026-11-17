@@ -93,6 +93,18 @@ for p in prototypes:
         item["descripcion"] = p["description"].strip()
     item["activo"] = True
     item["anios"] = sorted(set([str(x) for x in item.get("anios", [])] + ["2026"]))
+    phases = [x for x in item.get("fases", []) if x != "Impacta InHouse"]
+    line = (p.get("line") or "").lower()
+    unit = (p.get("unit") or "").strip().lower()
+    if "minor" in line:
+        phase = "Minor"
+    elif "articulaci" in line:
+        phase = "Articulación Academia"
+    elif unit == "sandbox":
+        phase = "Sandbox"
+    else:
+        phase = "Sandbox Emprendedores"
+    item["fases"] = sorted(set(phases + [phase]))
     item["programas2026"] = sorted(set(item.get("programas2026", []) + ["Impacta InHouse"]))
     item["sector"] = item.get("sector") or p.get("classification")
     item["vertical"] = item.get("vertical") or p.get("line")
