@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pantallas · Ean Impacta Startup Report 2026</title>
+<link rel="stylesheet" href="css/tokens.css">
+<style>
+body{margin:0;background:#d9d4ca;font-family:var(--font-body);color:var(--color-ink)}
+.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:12px 24px;background:#1F2124;color:#F3EFE6;font:600 13px var(--font-body)}
+.bar button{min-height:36px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#E6E2D8;font:inherit;cursor:pointer}
+.bar button[aria-pressed="true"]{background:#40C0C0;color:#1F2124}
+.row{display:flex;gap:40px;padding:40px 24px;align-items:flex-start;overflow-x:auto}
+.dev{display:flex;flex-direction:column;gap:10px;flex:none}
+.dev span{font:600 13px var(--font-body);color:#4D5158}
+.dev iframe{border:0;background:#EFE9DC;box-shadow:0 20px 50px rgba(0,0,0,.2);transform-origin:0 0}
+.wrap{overflow:hidden}
+</style>
+</head>
+<body>
+<div class="bar" role="toolbar" aria-label="Pantalla">
+  <b style="color:#40C0C0;letter-spacing:.12em">PANTALLAS</b>
+  <div id="routes" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+</div>
+<div class="row" id="row"></div>
+<script>
+const R=[['Portada','#/'],['Panorama','#/panorama'],['Insights','#/insights'],['Insight abierto','#/insights?i=certificaciones:certificaciones'],['Directorio','#/directorio'],['Resultados filtrados','#/directorio?fase=Crece&atributo=Reconocimientos'],['Sin resultados','#/directorio?q=zzzz'],['Perfil','#/e/lahuertahotel'],['Historias','#/historias'],['Metodología','#/metodologia']];
+const D=[['Desktop 1440 × 1000',1440,1000,.5],['Laptop 1280 × 800',1280,800,.5],['Tablet 768 × 1024',768,1024,.5],['Mobile 390 × 844',390,844,.75]];
+const row=document.getElementById('row'),rb=document.getElementById('routes');
+row.innerHTML=D.map(([l,w,h,s])=>`<div class="dev"><span>${l}</span><div class="wrap" style="width:${w*s}px;height:${h*s}px"><iframe title="${l}" width="${w}" height="${h}" style="width:${w}px;height:${h}px;transform:scale(${s})"></iframe></div></div>`).join('');
+const go=i=>{[...rb.children].forEach((b,j)=>b.setAttribute('aria-pressed',i===j));row.querySelectorAll('iframe').forEach(f=>f.src='index.html'+R[i][1]);};
+R.forEach(([l],i)=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>go(i);rb.appendChild(b);});go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Componentes · Ean Impacta Startup Report 2026</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<style>
+.g-sec{padding:56px 0;border-top:1.5px solid var(--color-ink)}
+.g-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.g-cell{display:flex;flex-direction:column;gap:8px}
+.g-cap{font:600 12px var(--font-mono);color:var(--color-muted)}
+.is-hover.ir-card,.is-hover.ir-insight{transform:translateY(-4px);box-shadow:var(--shadow-lift)}
+.is-focus{box-shadow:var(--focus-ring)!important}
+.sw{width:150px;display:flex;flex-direction:column;background:var(--color-paper);border:1px solid #DDD6C8}
+.sw i{height:64px}
+.sw span{padding:8px 10px;font:500 11.5px/1.4 var(--font-mono)}
+</style>
+</head>
+<body>
+<main class="ir-container" style="padding-top:48px;padding-bottom:96px">
+<p class="ir-label">Ean Impacta Startup Report 2026</p>
+<h1 class="ir-section__title">Componentes y estados</h1>
+<p class="ir-section__lead" style="max-width:62ch">Cada bloque usa las mismas clases que <code>index.html</code>. Las variantes de hover y foco se muestran forzadas con <code>.is-hover</code> y <code>.is-focus</code>, solo para documentación.</p>
+
+<section class="g-sec"><h2 class="ir-chapter__title">Paleta</h2><div class="g-row" style="margin-top:20px" id="pal"></div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">Tipografía</h2>
+<div style="display:flex;flex-direction:column;gap:18px;margin-top:20px">
+<div class="g-cell"><span class="g-cap">--fs-display · 900 · lh .86 · −0,05em</span><span class="ir-hero__title">Startup Report</span></div>
+<div class="g-cell"><span class="g-cap">MetricFigure xl · --fs-figure-xl</span><div class="ir-metric ir-metric--xl"><span class="ir-metric__value">177</span></div></div>
+<div class="g-cell"><span class="g-cap">--fs-h1 · 900</span><span class="ir-section__title">Lo que construyeron</span></div>
+<div class="g-cell"><span class="g-cap">--fs-h3 · 800</span><span style="font:800 var(--fs-h3)/1.1 var(--font-display)">Propiedad intelectual</span></div>
+<div class="g-cell"><span class="g-cap">--fs-lead · Poppins 400 · lh 1.55 · máx 56ch</span><p class="ir-section__lead" style="max-width:56ch">El archivo vivo de los emprendimientos que acompañamos.</p></div>
+<div class="g-cell"><span class="g-cap">.ir-label · 600 · 12px · +0,14em</span><span class="ir-label">Cohorte 6 (2023)</span></div>
+</div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">Botones · normal / hover / foco / activo</h2><div class="g-row" style="margin-top:20px">
+<a class="ir-btn ir-btn--primary" href="#">Abrir el informe →</a><a class="ir-btn ir-btn--primary" style="background:var(--color-primary-deep);border-color:var(--color-primary-deep)" href="#">Hover</a><a class="ir-btn ir-btn--primary is-focus" href="#">Foco</a>
+<a class="ir-btn" href="#">Secundario</a><a class="ir-btn" style="background:var(--color-ink);color:var(--color-on-dark)" href="#">Hover</a><a class="ir-btn is-focus" href="#">Foco</a><a class="ir-btn ir-btn--small" href="#">Pequeño</a>
+</div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">MetricFigure</h2><div class="g-row" style="margin-top:20px">
+<div class="ir-metric"><span class="ir-metric__value">117</span><span class="ir-metric__text">participaciones en Construye</span></div>
+<div class="ir-metric ir-metric--l"><span class="ir-metric__value">54,8<small>%</small></span><span class="ir-metric__text">cobertura de la medición</span></div>
+<div class="ir-metric ir-metric--l ir-metric--on-dark" style="background:var(--color-primary-deep);padding:20px"><span class="ir-metric__value">97</span><span class="ir-metric__text">emprendimientos cubiertos por la medición</span></div>
+</div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">InsightCard · normal / destacada / hover / foco / abierta</h2><div class="g-row" style="margin-top:28px" id="ins"></div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">StartupCard · con logo / sin logo / descripción larga / varias etiquetas / hover / foco / carga</h2><div class="ir-grid" style="margin-top:20px" id="cards"></div>
+<h3 style="font:800 20px var(--font-display);margin:32px 0 12px">Vista compacta</h3><div class="ir-grid" data-view="compact" id="cards2"></div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">DirectorySearch · FilterBar · ActiveFilters</h2><div style="display:grid;grid-template-columns:280px minmax(0,1fr);gap:32px;margin-top:20px">
+<fieldset class="ir-facet"><legend class="ir-label">Capacidades</legend><label class="ir-facet__opt"><input type="checkbox" checked>Certificaciones<span class="ir-facet__count">41</span></label><label class="ir-facet__opt"><input type="checkbox">Propiedad intelectual<span class="ir-facet__count">36</span></label><label class="ir-facet__opt" style="background:var(--color-paper-2)"><input type="checkbox">Reconocimientos (hover)<span class="ir-facet__count">49</span></label></fieldset>
+<div style="display:flex;flex-direction:column;gap:14px"><label class="ir-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></svg><input placeholder="Buscar por nombre, sector o ciudad"></label>
+<label class="ir-search is-focus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></svg><input value="compost"></label>
+<div class="ir-active"><button class="ir-chip">Crece<i>×</i></button><button class="ir-chip">Certificaciones<i>×</i></button><button class="ir-chip">«compost»<i>×</i></button><button class="ir-btn ir-btn--small" style="border:0;text-decoration:underline">Limpiar filtros</button></div></div>
+</div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">Badges · Sdg · Certification · Technology · Recognition · Founder</h2><div class="g-row" style="margin-top:20px">
+<span class="ir-badge ir-badge--sdg" style="--sdg:var(--sdg-12);--sdg-ink:var(--sdg-12-ink)"><b>12</b>Producción y consumo responsables</span><span class="ir-badge ir-badge--cert">Sostenibilidad</span><span class="ir-badge ir-badge--tec">IA</span><span class="ir-badge ir-badge--rec">Reconocimientos</span><span class="ir-badge">Economía circular</span></div>
+<div class="g-row" style="margin-top:20px"><div class="ir-recognition" style="width:420px"><span class="ir-label">Reconocimientos</span><p style="margin:6px 0 0">Primer puesto en la categoría «Negocios Sostenibles» del Premio CorfiSostenible 2025</p></div>
+<div class="ir-founder" style="width:300px"><span class="ir-founder__avatar">MC</span><span><b style="display:block;font:700 15px var(--font-display)">Nombre del integrante</b><span class="ir-label" style="text-transform:none;letter-spacing:0">Rol · solo con autorización</span></span></div></div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">SdgBadge · 17 colores oficiales</h2><div class="g-row" style="margin-top:20px" id="sdg"></div></section>
+<section class="g-sec"><h2 class="ir-chapter__title">FounderCard · foto del equipo</h2><div class="ir-team" style="margin-top:20px;max-width:900px"><div class="ir-member"><div class="ir-member__photo"></div><b>Nombre del integrante</b><span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">CEO / Fundadora</span></div><div class="ir-member"><div class="ir-member__photo"></div><b>Nombre del integrante</b><span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">Cofundador</span></div><div class="ir-member"><div class="ir-member__photo"></div><b>Nombre del integrante</b></div></div><p class="g-cap" style="margin-top:12px">Foto 4:5 con máscara rasgada · espacio de foto de equipo 4:3 en la carpeta del perfil. Sin foto: papel kraft, sin texto.</p></section>
+<section class="g-sec"><h2 class="ir-chapter__title">PaperLayer · Stamp · Scribble</h2><div class="g-row" style="margin-top:20px;align-items:center">
+<img src="assets/textures/papel-kraft.webp" alt="" style="width:260px;transform:rotate(-4deg)"><img src="assets/textures/papel-cuadriculado.webp" alt="" style="width:200px;transform:rotate(5deg)"><img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="width:140px">
+<span style="font:900 64px var(--font-display);position:relative">94<img class="ir-scribble" src="assets/scribbles/circulo-rotulador.webp" alt="" style="left:-30%;top:-20%;width:160%;height:140%"></span>
+<span class="ir-highlight" style="font:800 40px var(--font-display);isolation:isolate">Startup</span></div></section>
+
+<section class="g-sec"><h2 class="ir-chapter__title">Iconos · 16 / 20 / 24 px</h2><div class="g-row" style="margin-top:20px" id="ico"></div></section>
+</main>
+<script>
+const P=[['ink','#1F2124'],['ivory','#EFE9DC'],['paper','#FBF9F4'],['primary','#40C0C0'],['primary-deep','#0B6B66'],['secondary','#F78D2D'],['accent-title','#F26F12'],['green','#3EAF49'],['yellow','#FFC62F'],['purple','#8F499C'],['muted','#4D5158'],['line','#D6D0C4']];
+document.getElementById('pal').innerHTML=P.map(([n,h])=>`<div class="sw"><i style="background:${h}"></i><span>--color-${n}<br>${h}</span></div>`).join('');
+const ins=(cls,ch,ink,v,p,t,cap)=>`<div class="g-cell"><span class="g-cap">${cap}</span><button class="ir-insight ir-reveal is-in ${cls}" style="--chapter:${ch};--chapter-ink:${ink};width:320px" aria-expanded="${cls.includes('open')}"><span class="ir-insight__tab">Capítulo</span><span style="display:flex;align-items:baseline;gap:14px"><span class="ir-insight__value">${v}</span>${p?`<span class="ir-insight__pct">${p}</span>`:''}</span><span class="ir-insight__text">${t}</span><span class="ir-insight__cta">Abrir el expediente de la cifra →</span></button></div>`;
+document.getElementById('ins').innerHTML=ins('','#3EAF49','#0E2E12',71,'58,7 %','desarrollaron un producto o servicio nuevo','normal')+ins('ir-insight--feature','#8F499C','#fff',94,'77,7 %','proyectan alcanzar mercados internacionales en los próximos cinco años','destacada · texto largo')+ins('is-hover','#FFC62F','#1F2124',12,'','declararon contar con patentes','hover · sin %')+ins('is-focus','#40C0C0','#0C3B3B',41,'33,9 %','reportaron certificaciones','foco')+ins('open','#F78D2D','#1F2124',21,'','declararon haber levantado inversión','abierta (aria-expanded)').replace('aria-expanded="true"','aria-expanded="true"');
+const card=(cls,ch,ink,logo,name,desc,tags,cap)=>`<div class="g-cell"><span class="g-cap">${cap}</span><a class="ir-card ${cls}" href="#" style="--chapter:${ch};--chapter-ink:${ink}"><span class="ir-card__bar"></span><span class="ir-card__body"><span class="ir-card__top"><span class="ir-card__logo">${logo}</span><span class="ir-label">Crece · 2020</span></span><h3 class="ir-card__name">${name}</h3>${desc?`<p class="ir-card__desc">${desc}</p>`:''}<span class="ir-card__meta">Bogotá, Colombia</span>${tags?`<span class="ir-card__tags">${tags}</span>`:''}<span class="ir-card__cta">Abrir expediente</span></span></a></div>`;
+const T1='<span class="ir-badge">Economía circular</span>',T3=T1+'<span class="ir-badge ir-badge--cert">Certificaciones</span><span class="ir-badge ir-badge--rec">Reconocimientos</span>';
+const long='MásCompost SAS BIC impulsa la economía circular mediante la recolección, transformación y aprovechamiento de residuos orgánicos provenientes de hogares y empresas, convirtiéndolos en abono y soluciones de suelo para la agricultura urbana y rural.';
+document.getElementById('cards').innerHTML=card('','#3EAF49','#0E2E12','<img src="assets/brand/ean-impacta-negro.png" alt="" style="object-fit:contain;padding:6px">','Con logo','Descripción corta del emprendimiento.',T1,'con logo')+card('','#40C0C0','#0C3B3B','LH','La Huerta Hotel','Modelo de negocio pionero en turismo regenerativo en Colombia.',T1,'sin logo · iniciales')+card('','#3EAF49','#0E2E12','MC','Más Compost',long,T3,'descripción larga · 3 etiquetas')+card('is-hover','#FFC62F','#1F2124','FW','Fire Work Wear','Prendas ignífugas y de protección contra arco eléctrico.',T1,'hover')+card('is-focus','#8F499C','#fff','EG','Nombre sin descripción','','', 'foco · sin descripción')+`<div class="g-cell"><span class="g-cap">carga</span><div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div></div>`;
+document.getElementById('cards2').innerHTML=card('','#40C0C0','#0C3B3B','LH','La Huerta Hotel','',T1,'compacta')+card('','#3EAF49','#0E2E12','MC','Más Compost','',T3,'compacta');
+document.getElementById('sdg').innerHTML=Array.from({length:17},(_,i)=>`<span class="ir-badge ir-badge--sdg" style="--sdg:var(--sdg-${i+1});--sdg-ink:var(--sdg-${i+1}-ink)"><b>${i+1}</b>ODS ${i+1}</span>`).join('');
+const I={buscar:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/>',cerrar:'<path d="M6 6l12 12M18 6L6 18"/>',flecha:'<path d="M4 12h15M13 6l6 6-6 6"/>',filtro:'<path d="M4 6h16M7 12h10M10 18h4"/>',check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',menu:'<path d="M4 7h16M4 12h16M4 17h10"/>',ubicacion:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',carpeta:'<path d="M3.5 7V18.5h17V8.5h-8.5l-2-2.5H3.5z"/>'};
+document.getElementById('ico').innerHTML=Object.entries(I).map(([n,d])=>`<div class="g-cell" style="align-items:center">${[16,20,24].map(s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`).join('')}<span class="g-cap">${n}</span></div>`).join('');
+</script>
+</body>
+</html>

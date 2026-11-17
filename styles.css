@@ -39,3 +39,47 @@ body.force-motion .chapter-camera{display:block}
 @media(max-width:650px){.panorama .metric-wall{grid-template-columns:1fr}.panorama .metric{min-height:155px}.panorama .metric b{font-size:clamp(2.6rem,15vw,4.8rem)}.panorama .mineral-scene{display:none}.timeline{padding-inline:.8rem}.timeline>.section-heading{padding-inline:.2rem}.timeline-scrolly{grid-template-columns:62px minmax(0,1fr);gap:.55rem}.timeline-spine{top:var(--header);padding:3vh 0 2vh}.timeline-spine>p{font-size:.58rem}.timeline-spine>strong{font-size:.72rem;writing-mode:vertical-rl;margin:.5rem auto}.timeline-line{margin-left:29px}.timeline-spine nav{display:none}.month-scene{min-height:92svh;padding:5vh 0}.month-stage{min-height:72svh}.month-folder{width:130%;left:-20%}.month-sheet{width:100%;min-height:560px;padding:2rem 1.35rem}.month-sheet h3{font-size:clamp(2.7rem,14vw,4.5rem)}.month-sheet .month-number{font-size:clamp(4.8rem,25vw,7rem)}.month-tab-label{right:-.2rem;top:5%;font-size:.5rem;padding:.7rem .45rem}}
 @media(prefers-reduced-motion:reduce){.timeline-line i{transform:none!important}.month-scene{min-height:auto;padding:2rem 0}.month-stage{min-height:auto;display:block}.month-folder{display:none}.month-sheet{width:100%;min-height:0;transform:none!important;opacity:1!important;clip-path:none}.timeline-spine{height:75svh}.month-tab-label{position:static;display:inline-block;writing-mode:initial;transform:none;margin-top:1rem}}
 
+/* Insights 2026 */
+.insights{padding:clamp(6rem,10vw,10rem) max(5vw,2rem);background:#f0eee8;color:#171713;position:relative;overflow:hidden}
+.insights:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 0 62%,rgba(10,119,116,.08) 62% 63%,transparent 63%),radial-gradient(circle at 88% 14%,rgba(244,119,36,.18),transparent 28%);pointer-events:none}
+.insight-feature{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:3rem 0;background:#171713;border:1px solid #171713;position:relative}
+.insight-feature>div{padding:1.6rem;background:#f8f6f0;min-height:190px;display:flex;flex-direction:column;justify-content:space-between}
+.insight-feature span{font:700 .72rem/1.2 var(--mono,monospace);letter-spacing:.12em}
+.insight-feature b{font-size:clamp(2.8rem,6vw,6rem);line-height:.9;color:#087b77}
+.insight-feature p{max-width:28ch;margin:0}
+.insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;position:relative}
+.insight-card{appearance:none;text-align:left;border:1px solid #171713;background:#fffdf7;color:inherit;padding:1.5rem;min-height:330px;display:grid;grid-template-rows:auto 1fr auto auto auto;cursor:pointer;position:relative;transition:transform .25s ease,box-shadow .25s ease}
+.insight-card:before{content:"";height:8px;background:var(--insight);position:absolute;inset:0 0 auto}
+.insight-card:hover,.insight-card:focus-visible{transform:translateY(-7px) rotate(-.25deg);box-shadow:12px 14px 0 #171713;outline:3px solid var(--insight);outline-offset:2px}
+.insight-card>span{font:700 .75rem var(--mono,monospace);margin-top:.35rem}
+.insight-card>b{font-size:clamp(4rem,7vw,7rem);line-height:.9;align-self:end;color:var(--insight);text-shadow:1px 1px 0 #171713}
+.insight-card h3{font-size:1.5rem;margin:.9rem 0 .4rem}
+.insight-card p{margin:.2rem 0 1rem;color:#4c4a45}
+.insight-card strong{font-size:1.35rem}
+.insight-card em{font-style:normal;font-weight:800;margin-top:1.5rem;border-top:1px solid;padding-top:1rem}
+.metric-wall .metric{appearance:none;font:inherit;text-align:left;color:inherit;cursor:default}
+.metric-wall .metric[data-metric-jump="women-leadership"]{cursor:pointer}
+.metric-wall .metric[data-metric-jump="women-leadership"]:focus-visible{outline:3px solid #e7c945;outline-offset:4px}
+.insight-dialog{width:min(1180px,94vw);max-height:92vh;padding:0;border:0;background:#f3f0e8;color:#171713;box-shadow:0 30px 90px #0008}
+.insight-dialog::backdrop{background:#111c;backdrop-filter:blur(7px)}
+.insight-dialog .dialog-close{position:sticky;float:right;top:1rem;margin:1rem;z-index:5;background:#171713;color:white;border:0;border-radius:50%;width:46px;height:46px;font-size:1.6rem;cursor:pointer}
+#insight-detail{padding:clamp(1.5rem,5vw,5rem)}
+.insight-dialog-head{max-width:780px;margin-bottom:2.4rem}
+.insight-dialog-head>div{display:flex;align-items:baseline;gap:1rem}
+.insight-dialog-head>div b{font-size:clamp(5rem,12vw,10rem);line-height:.85;color:#087b77}
+.insight-dialog-head>div span{font-size:1.6rem;font-weight:800}
+.insight-dialog-head h2{font-size:clamp(2.3rem,5vw,5.2rem);line-height:.95;margin:.8rem 0}
+.insight-dialog-head>p:last-child{font-size:1.2rem;max-width:65ch}
+.insight-tools{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:2fr 1fr auto;gap:1rem;align-items:end;background:#f3f0e8;padding:1rem 0;border-top:1px solid;border-bottom:1px solid}
+.insight-tools label{display:grid;gap:.4rem;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+.insight-tools input,.insight-tools select{width:100%;background:white;border:1px solid #171713;border-radius:0;padding:.85rem;font:inherit}
+.insight-tools>b{padding:.85rem 0;white-space:nowrap}
+.insight-records{display:grid;gap:1px;background:#171713;border:1px solid #171713;margin-top:1.5rem}
+.insight-record{display:grid;grid-template-columns:minmax(240px,1.1fr) 2fr;gap:2rem;background:#fffdf7;padding:1.35rem}
+.insight-record h3{margin:0 0 .55rem;font-size:1.25rem}
+.insight-record p{margin:0;color:#555;max-width:64ch}
+.insight-record dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem 1.4rem}
+.insight-record dt{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#6a6862}
+.insight-record dd{margin:.2rem 0 0;font-weight:650}
+@media (max-width:900px){.insight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.insight-feature{grid-template-columns:1fr}.insight-feature>div{min-height:150px}.insight-tools{grid-template-columns:1fr}.insight-record{grid-template-columns:1fr}.insight-dialog-head>div b{font-size:5rem}}
+@media (max-width:580px){.insights{padding-inline:1rem}.insight-grid{grid-template-columns:1fr}.insight-card{min-height:290px}.insight-record dl{grid-template-columns:1fr}.insight-dialog{width:100vw;max-height:100vh;margin:0}#insight-detail{padding:1rem}.insight-dialog-head{padding-top:3rem}}

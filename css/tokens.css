@@ -1,0 +1,113 @@
+/* Ean Impacta Startup Report 2026 · tokens */
+@import url('../fonts/fonts.css');
+
+:root {
+  /* Color · marca */
+  --color-ink: #1F2124;          /* rgb(31,33,36)   hsl(216 7% 13%)  texto, botones primarios */
+  --color-ivory: #EFE9DC;        /* rgb(239,233,220) hsl(41 37% 90%) fondo general */
+  --color-paper: #FBF9F4;        /* rgb(251,249,244) hsl(43 47% 97%) tarjetas */
+  --color-paper-2: #F6F2E9;      /* rgb(246,242,233) hsl(42 41% 94%) paneles */
+  --color-primary: #40C0C0;      /* rgb(64,192,192)  hsl(180 50% 50%) turquesa Impacta 2026 */
+  --color-primary-deep: #0B6B66; /* rgb(11,107,102)  hsl(177 81% 23%) fondos de sección, enlaces */
+  --color-primary-ink: #0C3B3B;  /* rgb(12,59,59)    hsl(180 66% 14%) texto sobre turquesa */
+  --color-secondary: #F78D2D;    /* rgb(247,141,45)  hsl(29 93% 57%)  naranja de marca (acento) */
+  --color-accent-title: #F26F12; /* rgb(242,111,18)  hsl(25 90% 51%)  naranja para titulares ≥ 40 px */
+  --color-green: #3EAF49;        /* rgb(62,175,73)   hsl(126 48% 46%) */
+  --color-yellow: #FFC62F;       /* rgb(255,198,47)  hsl(44 100% 59%) */
+  --color-purple: #8F499C;       /* rgb(143,73,156)  hsl(291 36% 45%) */
+  --color-muted: #4D5158;        /* rgb(77,81,88)    hsl(218 7% 32%)  metadatos (AA sobre marfil) */
+  --color-line: #D6D0C4;         /* rgb(214,208,196) hsl(40 18% 80%) */
+  --color-line-strong: #1F2124;
+  --color-on-dark: #F3EFE6;
+
+  /* Color por capítulo (pestaña / sello). Variantes gráficas, no asignaciones de programa. */
+  --chapter-panorama: var(--color-primary);
+  --chapter-innovacion: var(--color-green);
+  --chapter-pi: var(--color-yellow);
+  --chapter-certificaciones: var(--color-primary);
+  --chapter-internacional: var(--color-purple);
+  --chapter-inversion: var(--color-secondary);
+  --chapter-reconocimientos: var(--color-yellow);
+  --chapter-liderazgo: var(--color-purple);
+
+  /* ODS · colores oficiales de Naciones Unidas (texto según contraste AA) */
+  --sdg-1: #E5243B; --sdg-1-ink: #FFFFFF;
+  --sdg-2: #DDA63A; --sdg-2-ink: #1F2124;
+  --sdg-3: #4C9F38; --sdg-3-ink: #1F2124;
+  --sdg-4: #C5192D; --sdg-4-ink: #FFFFFF;
+  --sdg-5: #FF3A21; --sdg-5-ink: #1F2124;
+  --sdg-6: #26BDE2; --sdg-6-ink: #1F2124;
+  --sdg-7: #FCC30B; --sdg-7-ink: #1F2124;
+  --sdg-8: #A21942; --sdg-8-ink: #FFFFFF;
+  --sdg-9: #FD6925; --sdg-9-ink: #1F2124;
+  --sdg-10: #DD1367; --sdg-10-ink: #FFFFFF;
+  --sdg-11: #FD9D24; --sdg-11-ink: #1F2124;
+  --sdg-12: #BF8B2E; --sdg-12-ink: #1F2124;
+  --sdg-13: #3F7E44; --sdg-13-ink: #FFFFFF;
+  --sdg-14: #0A97D9; --sdg-14-ink: #1F2124;
+  --sdg-15: #56C02B; --sdg-15-ink: #1F2124;
+  --sdg-16: #00689D; --sdg-16-ink: #FFFFFF;
+  --sdg-17: #19486A; --sdg-17-ink: #FFFFFF;
+
+  /* Tipografía */
+  --font-display: 'Mikro', 'Outfit', 'Helvetica Neue', Arial, sans-serif; /* Mikro cuando haya licencia web */
+  --font-body: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-figure: 'Mikro', 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-extra: 800; --fw-black: 900;
+
+  --fs-display: clamp(52px, 7.6vw, 112px);   /* lh .86 · ls -0.05em · mayúsculas */
+  --fs-figure-xl: clamp(88px, 13vw, 200px);  /* lh .82 · ls -0.05em */
+  --fs-figure-l: clamp(64px, 7vw, 104px);    /* lh .85 */
+  --fs-figure-m: clamp(40px, 4vw, 56px);     /* lh .95 */
+  --fs-h1: clamp(40px, 5.6vw, 84px);         /* lh .92 */
+  --fs-h2: clamp(28px, 3vw, 44px);           /* lh 1.02 */
+  --fs-h3: clamp(20px, 1.8vw, 26px);         /* lh 1.12 */
+  --fs-lead: clamp(16px, 1.35vw, 19px);      /* lh 1.55 · máx 56ch */
+  --fs-body: 15px;                           /* lh 1.55 · máx 68ch */
+  --fs-small: 13px;                          /* lh 1.45 */
+  --fs-label: 12px;                          /* ls .14em · mayúsculas */
+  --lh-tight: .86; --lh-heading: 1.02; --lh-body: 1.55;
+  --ls-display: -.05em; --ls-heading: -.025em; --ls-label: .14em;
+
+  /* Espaciado · base 4 */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px;
+  --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
+  --gutter: clamp(18px, 5vw, 72px);
+
+  /* Radios y bordes */
+  --radius-0: 0; --radius-1: 2px; --radius-2: 4px; --radius-pill: 999px; --radius-sheet: 18px;
+  --border-hair: 1px solid var(--color-line);
+  --border-ink: 1.5px solid var(--color-line-strong);
+
+  /* Sombras de contacto (papel) */
+  --shadow-contact: 0 1px 1px rgba(50,35,20,.28), 0 4px 8px rgba(50,35,20,.10);
+  --shadow-lift: 0 2px 3px rgba(50,35,20,.22), 0 14px 26px rgba(50,35,20,.14);
+  --shadow-panel: -20px 0 48px rgba(31,33,36,.18);
+
+  /* Capas */
+  --z-base: 0; --z-paper: 1; --z-card: 2; --z-sticky: 20; --z-header: 30; --z-overlay: 40; --z-drawer: 50; --z-toast: 60;
+
+  /* Contenedores y breakpoints */
+  --container: 1296px; --container-text: 720px;
+  --bp-mobile: 390px; --bp-tablet: 768px; --bp-laptop: 1280px; --bp-desktop: 1440px;
+
+  /* Iconos */
+  --icon-s: 16px; --icon-m: 20px; --icon-l: 24px;
+
+  /* Movimiento */
+  --duration-instant: 120ms; --duration-fast: 200ms; --duration-base: 320ms;
+  --duration-slow: 600ms; --duration-folder: 900ms; --duration-hero: 1400ms;
+  --ease-editorial: cubic-bezier(.65, 0, .25, 1);   /* apertura de carpeta, cambios de vista */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);          /* entradas */
+  --ease-in: cubic-bezier(.7, 0, .84, 0);           /* salidas */
+  --stagger: 60ms;
+
+  /* Foco y opacidades */
+  --focus-ring: 0 0 0 3px var(--color-ivory), 0 0 0 6px var(--color-primary-deep);
+  --opacity-muted: .72; --opacity-disabled: .4; --opacity-overlay: .42;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-base: 1ms; --duration-slow: 1ms; --duration-folder: 1ms; --duration-hero: 1ms; --stagger: 0ms; }
+}
