@@ -117,5 +117,71 @@
     ],
     "fuente": "Texto pegado.txt",
     "notaPublicacion": "No se publican contactos, identificadores fiscales ni montos financieros."
+  },
+  "impacta-inhouse": {
+    "nombre": "Impacta InHouse",
+    "descripcion": "Programa 2026 que articula mentorías y acompañamiento con unidades académicas para desarrollar iniciativas y prototipos.",
+    "anio": 2026,
+    "cifras": {
+      "iniciativas": 318,
+      "digitales": 128,
+      "fisicos": 127,
+      "hibridos": 36,
+      "servicios": 26
+    },
+    "ciclos": [
+      {
+        "ciclo": "Ciclo 1",
+        "iniciativas": 57
+      },
+      {
+        "ciclo": "Ciclo 2",
+        "iniciativas": 136
+      },
+      {
+        "ciclo": "Ciclo 3",
+        "iniciativas": 125
+      }
+    ],
+    "alcanceAcademico": {
+      "estudiantesReportados": 1977,
+      "docentesReportados": 34,
+      "mentoresYEspaciosReportados": 91
+    },
+    "fuentes": [
+      "dashboard_prototipos_2026_actualizado 2 (1).html",
+      "Cuadro Maestro Descubre.xlsx"
+    ]
+  },
+  "pum": {
+    "nombre": "PUM",
+    "descripcion": "Mentorías internacionales para fortalecer retos comerciales, operativos y de crecimiento de iniciativas vinculadas a la comunidad Eanista.",
+    "anio": 2026,
+    "cifras": {
+      "iniciativas": 32,
+      "ventasDeclaradasCop": 1057147197772,
+      "facultades": 3,
+      "retos": 32
+    },
+    "facultades": [
+      {
+        "facultad": "Facultad de Administración, Finanzas y Ciencias Económicas",
+        "iniciativas": 19
+      },
+      {
+        "facultad": "Facultad de Ingeniería",
+        "iniciativas": 5
+      },
+      {
+        "facultad": "Facultad de Humanidades y Ciencias Sociales",
+        "iniciativas": 4
+      },
+      {
+        "facultad": "Programa no especificado",
+        "iniciativas": 4
+      }
+    ],
+    "fuente": "PUM - Founders Hub convocatoria (1-33).xlsx",
+    "nota": "33 respuestas consolidadas en 32 iniciativas únicas. No se publican datos personales."
   }
 }

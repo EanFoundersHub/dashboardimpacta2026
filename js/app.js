@@ -62,37 +62,38 @@ const PROGRAM_FOCUSES = [
 ];
 const PROGRAMS = [
   { id:'science2venture', nombre:'Science2Venture', enfoque:'cientifico', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
-  { id:'impacta-inhouse', nombre:'Impacta InHouse', enfoque:'aprendedor', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Acompañamiento de Ean Impacta para fortalecer el paso de aprendiz a emprendedor.' },
+  { id:'impacta-inhouse', nombre:'Impacta InHouse', enfoque:'aprendedor', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[2026], programa:'Impacta InHouse', descripcion:'Acompañamiento de Ean Impacta para fortalecer el paso de aprendiz a emprendedor.', href:'impacta-inhouse/' },
   { id:'foundershub', nombre:'FoundersHub', enfoque:'comunidad-eanista', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[2026], programa:'FoundersHub' },
   { id:'conecta', nombre:'Conecta', enfoque:'mentorias-internacionales', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[2026], programa:'Conecta - Bridge for Billions' },
-  { id:'pum', nombre:'PUM', enfoque:'mentorias-internacionales', carpeta:'naranja', tono:'claro', color:'#F78D2D', colorOn:'#1F2124', anios:[], descripcion:'Iniciativa de mentorías internacionales del ecosistema Ean Impacta.' },
-  { id:'tangara-ir', nombre:'Tángara Investment Readiness', enfoque:'alistamiento-inversion', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], descripcion:'Comunidad de preparación para inversión que conecta emprendimientos, capacidades y oportunidades de capital.', href:'https://tangara-ir.com/comunidad/' },
+  { id:'pum', nombre:'PUM', enfoque:'mentorias-internacionales', carpeta:'naranja', tono:'claro', color:'#F78D2D', colorOn:'#1F2124', anios:[2026], programa:'PUM', descripcion:'Iniciativa de mentorías internacionales del ecosistema Ean Impacta.' },
+  { id:'tangara-ir', nombre:'Tángara Investment Readiness', enfoque:'alistamiento-inversion', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[2026], descripcion:'Comunidad de preparación para inversión que conecta emprendimientos, capacidades y oportunidades de capital.', href:'https://tangara-ir.com/comunidad/' },
   { id:'swisscontact', nombre:'Swisscontact', enfoque:'alistamiento-inversion', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[2026], programa:'Swisscontact', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
-  { id:'feoracle', nombre:'Feoracle', enfoque:'incubacion-especializada', carpeta:'verde', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Iniciativa de incubación especializada del ecosistema Ean Impacta.' },
-  { id:'vision-circular', nombre:'Visión Circular', enfoque:'incubacion-especializada', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[], descripcion:'Iniciativa de incubación especializada con enfoque circular.' },
-  { id:'cavipetrol', nombre:'Cavipetrol', enfoque:'venture-building', carpeta:'petroleo', tono:'oscuro', color:'#0B4A46', colorOn:'#FFFFFF', anios:[], descripcion:'Iniciativa de Venture Building acompañada por Ean Impacta.' }
+  { id:'feoracle', nombre:'Feoracle', enfoque:'incubacion-especializada', carpeta:'verde', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[2026], descripcion:'Iniciativa de incubación especializada del ecosistema Ean Impacta.' },
+  { id:'vision-circular', nombre:'Visión Circular', enfoque:'incubacion-especializada', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], descripcion:'Iniciativa de incubación especializada con enfoque circular.' },
+  { id:'cavipetrol', nombre:'Cavipetrol', enfoque:'venture-building', carpeta:'petroleo', tono:'oscuro', color:'#0B4A46', colorOn:'#FFFFFF', anios:[2026], descripcion:'Iniciativa de Venture Building acompañada por Ean Impacta.' }
 ];
 const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
-const yearStamp = (year, tone) => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-${tone === 'oscuro' ? 'claro' : 'oscuro'}.png" alt="Participación ${year}" width="96" height="96">`;
+const yearStamp = year => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-oscuro.png" alt="Participación ${year}" width="96" height="96">`;
 const dossierYearStamps = years => {
   const valid = [...new Set((years || []).map(Number).filter(y => y >= 2020 && y <= 2026))];
   return valid.length ? `<div class="ir-dossier__year-stamps" aria-label="Años de acompañamiento">${valid.map(y => `<img src="${PROGRAM_ASSET}sellos/png/sello-${y}-oscuro.png" alt="Acompañamiento ${y}">`).join('')}</div>` : '';
 };
 function programFolder(p, extra = '') {
   const long = p.nombre.length > 22 ? 'exp--xlargo' : p.nombre.length > 12 ? 'exp--largo' : '';
-  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
+  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(yearStamp).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir programa')} <span aria-hidden="true">→</span></span></span>`;
   const cls = `exp ${long} is-sin-logo is-sin-foto exp--program ${extra}`;
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
-  return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir expediente">${inner}</button>`;
+  return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir programa">${inner}</button>`;
 }
-const PROGRAM_METRIC_LABELS = { iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
+const PROGRAM_METRIC_LABELS = { iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
 const PROGRAM_METRIC_FILTERS = { conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
-function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, directorio:(p.programa || d) ? '#/directorio?anio=2026&programa=' + encodeURIComponent(p.programa || 'Swisscontact') : null }; }); }
+function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, directorio:p.programa ? '#/portafolio?anio=2026&programa=' + encodeURIComponent(p.programa) : null }; }); }
 function openProgram(id, source) {
   const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, 4);
+  const metricValue = (k,v) => k === 'ventasDeclaradasCop' ? '$' + new Intl.NumberFormat('es-CO', {maximumFractionDigits:2}).format(v / 1e12) + ' billones COP' : new Intl.NumberFormat('es-CO').format(v);
   const href = k => p.directorio + (PROGRAM_METRIC_FILTERS[k] ? '&programMetric=' + PROGRAM_METRIC_FILTERS[k] : ''); const modal = $('#program-modal');
-  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Expediente de programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.descripcion ? `<p>${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(([k,v]) => `<a href="${href(k)}"><b>${v}</b><span>${esc(PROGRAM_METRIC_LABELS[k] || k)}</span><small>Ver iniciativas →</small></a>`).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver directorio del programa →</a>` : ''}${p.href?.startsWith('http') ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Ir al sitio del programa</a>` : ''}</div></div>`;
+  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.descripcion ? `<p>${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(([k,v]) => `<a href="${href(k)}"><b>${metricValue(k,v)}</b><span>${esc(PROGRAM_METRIC_LABELS[k] || k)}</span><small>Ver iniciativas →</small></a>`).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
   modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus(), 30);
 }
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
@@ -111,7 +112,7 @@ function viewHome() {
     <div class="pp-cover__note pp-cover__note--secondary"><b>${participation2026}</b><span>participaciones en programas con datos consolidados</span></div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
-  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de iniciativas</h2><span>${enriched.length} iniciativas</span></div>
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>
     <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b></div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<button type="button" data-focus-jump="${f.id}">${esc(f.nombre)}</button>`).join('')}</nav></div>
     <div class="pp-focus-sections">${PROGRAM_FOCUSES.map((f, i) => { const items = enriched.filter(p => p.enfoque === f.id); return `<section class="pp-focus-section" id="enfoque-${f.id}" aria-labelledby="enfoque-title-${f.id}"><div class="pp-focus-section__head"><span>${String(i + 1).padStart(2,'0')} · Enfoque</span><h3 id="enfoque-title-${f.id}">${esc(f.nombre)}</h3><p>${esc(f.subtitulo)}</p></div><ul class="pp__grid">${items.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section>`; }).join('')}</div>
   </section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
@@ -151,7 +152,7 @@ function viewInsights(q) {
       <span class="ir-insight__tab">${esc(ch.capitulo)}</span>
       <span style="display:flex;align-items:baseline;gap:14px"><span class="ir-insight__value">${c.valor}</span>${c.pct ? `<span class="ir-insight__pct">${esc(c.pct)}</span>` : ''}</span>
       <span class="ir-insight__text">${esc(c.texto)}</span>${c.nota ? `<span class="ir-label">${esc(c.nota)}</span>` : ''}
-      <span class="ir-insight__cta">${c.miembros ? 'Abrir el expediente de la cifra' : 'Ver en el directorio'} ${ICON('flecha')}</span></button>`).join('')}</div>
+      <span class="ir-insight__cta">${c.miembros ? 'Ver iniciativas de la cifra' : 'Ver en el portafolio'} ${ICON('flecha')}</span></button>`).join('')}</div>
   </div>`).join('')}
 </div></section>`;
 }
@@ -171,7 +172,7 @@ function insightDetail(s, c) {
 function openDrawer(key, push = true) {
   const [cid, fid] = key.split(':'); const ch = DATA.insights.insights.find(x => x.id === cid); const c = ch?.cifras.find(x => x.id === fid);
   if (!c) return;
-  if (!c.miembros) { location.hash = '#/directorio?atributo=' + encodeURIComponent('Liderazgo femenino'); return; }
+  if (!c.miembros) { location.hash = '#/portafolio?atributo=' + encodeURIComponent('Liderazgo femenino'); return; }
   const q = parseHash().q; if (push) { q.set('i', key); setQuery(q, false); }
   const dr = $('#insight-drawer'); dr.setAttribute('style', chVars(ch.color));
   const items = c.miembros.map(id => BYID.get(id)).filter(Boolean);
@@ -228,15 +229,17 @@ const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || 
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
-  ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Abrir expediente</span></span></a>`; };
+  ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
 
 function viewDirectory(q) {
   const res = filterList(q), view = q.get('vista') === 'compacta' ? 'compact' : 'grid', limit = Math.max(PAGE, +q.get('n') || PAGE);
+  const years = facetOptions(FACETS[0]).map(([y,n]) => [y,n]).sort((a,b) => Number(b[0]) - Number(a[0]));
   const chips = FACETS.flatMap(F => q.getAll(F.key).map(v => ({ k: F.key, v }))); if (q.get('q')) chips.push({ k: 'q', v: q.get('q') }); if (q.get('programMetric')) chips.push({ k:'programMetric', v:q.get('programMetric'), label:'Cifra seleccionada' });
   const nActive = chips.length;
   return `<section class="ir-section" aria-labelledby="dir-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag">Directorio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Emprendimientos</h1>
-  <p class="ir-section__lead">Busca por nombre, sector o ciudad y combina filtros. La dirección de la página guarda tu selección para compartirla.</p></div>
+  <div class="ir-section__head"><span class="ir-tag">Portafolio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Todas las iniciativas</h1>
+  <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p></div>
+  <nav class="ir-year-filter" aria-label="Filtrar portafolio por año"><button type="button" data-year="" aria-pressed="${!q.getAll('anio').length}">Todos los años</button>${years.map(([y,n]) => `<button type="button" data-year="${esc(y)}" aria-pressed="${q.getAll('anio').includes(y)}">${esc(y)} <span>${n}</span></button>`).join('')}</nav>
   <div class="ir-dir">
     <aside class="ir-filters" id="filters" data-open="false" data-component="FilterBar" aria-label="Filtros">
       <div class="ir-filters__mobile-head" style="justify-content:space-between;align-items:center"><b style="font:800 24px var(--font-display)">Filtros</b><button class="ir-drawer__close" style="position:static" type="button" data-action="close-filters" aria-label="Cerrar filtros">${ICON('cerrar')}</button></div>
@@ -250,13 +253,13 @@ function viewDirectory(q) {
         <div class="ir-view-toggle" role="group" aria-label="Vista"><button type="button" aria-pressed="${view === 'grid'}" data-view="grid" aria-label="Cuadrícula">${ICON('grid')}</button><button type="button" aria-pressed="${view === 'compact'}" data-view="compacta" aria-label="Lista compacta">${ICON('lista')}</button></div></div>
       ${chips.length ? `<div class="ir-active" data-component="ActiveFilters" aria-label="Filtros activos">${chips.map(c => `<button type="button" class="ir-chip" data-remove="${c.k}" data-value="${esc(c.v)}" aria-label="Quitar ${esc(c.label || c.v)}">${esc(c.label || (c.k === 'q' ? '«' + c.v + '»' : c.v))}<i>×</i></button>`).join('')}<button type="button" class="ir-btn ir-btn--small" style="border:0;text-decoration:underline" data-action="clear">Limpiar filtros</button></div>` : ''}
       ${res.length ? `<div class="ir-grid" data-view="${view}" data-component="StartupGrid">${res.slice(0, limit).map(card).join('')}</div>${res.length > limit ? `<div class="ir-more"><button class="ir-btn" type="button" data-action="more">Ver más · ${res.length - limit} restantes</button></div>` : ''}`
-      : `<div class="ir-empty"><img src="assets/folders/carpeta-morada.webp" alt="" style="transform:rotate(-5deg)"><div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font:800 28px/1.1 var(--font-display)">Ningún expediente coincide con esta combinación.</h2><p style="margin:0">Quita un filtro o prueba otra búsqueda.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="ir-btn ir-btn--primary" type="button" data-action="undo">Quitar el último filtro</button><button class="ir-btn" type="button" data-action="clear">Limpiar todo</button></div></div></div>`}
+      : `<div class="ir-empty"><img src="assets/folders/carpeta-morada.webp" alt="" style="transform:rotate(-5deg)"><div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font:800 28px/1.1 var(--font-display)">Ninguna iniciativa coincide con esta combinación.</h2><p style="margin:0">Quita un filtro o prueba otra búsqueda.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="ir-btn ir-btn--primary" type="button" data-action="undo">Quitar el último filtro</button><button class="ir-btn" type="button" data-action="clear">Limpiar todo</button></div></div></div>`}
     </div>
   </div></div></section>`;
 }
 
 function viewDossier(id) {
-  const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Expediente no encontrado</h1><p><a href="#/directorio">Volver al directorio</a></p></div></section>`;
+  const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Iniciativa no encontrada</h1><p><a href="#/portafolio">Volver al portafolio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
   const facts = [['Programa 2026', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
@@ -272,12 +275,12 @@ function viewDossier(id) {
   ].filter(Boolean);
   const related = DATA.startups.filter(x => x.id !== s.id && x.vertical && x.vertical === s.vertical).slice(0, 3);
   return `<article class="ir-dossier ir-paper-bg" data-component="StartupDossier" aria-labelledby="dos-title"><div class="ir-container">
-  <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/directorio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al directorio</a></div>
+  <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/portafolio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al portafolio</a></div>
   <div class="ir-dossier__grid">
     <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div>${tornPhoto(s.fotoEquipo || s.foto, `${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${s.nombre}`)}</div>
       ${dossierYearStamps(s.anios)}</div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
-      <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Expediente${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
+      <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Iniciativa${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
       <h1 class="ir-dossier__title" id="dos-title" tabindex="-1">${esc(s.nombre)}</h1>
       ${s.descripcion ? `<p class="ir-dossier__desc">${esc(s.descripcion)}</p>` : ''}
       ${facts.length ? `<div class="ir-facts">${facts.map(([k, v]) => `<div><span class="ir-label">${k}</span><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
@@ -287,35 +290,20 @@ function viewDossier(id) {
   </div></div></article>`;
 }
 
-function viewMethod() {
-  const D = [['Universo principal 2026', '257 emprendimientos únicos vinculados a Science2Venture, FoundersHub, Conecta o Swisscontact durante 2026. Las 267 participaciones no se suman como empresas distintas porque existen iniciativas vinculadas a más de un programa.'],
-    ['Contexto histórico', 'Los indicadores de Construye, Crece y la medición de impacto se conservan como contexto de la trayectoria de Ean Impacta. Están separados visualmente del universo exclusivo de 2026.'],
-    ['Universo del directorio histórico', 'Registros del Directorio Consolidado de Ean Impacta. El 79,8 % se encuentra activo. Una empresa puede aparecer en varias fases.'],
-    ['Participaciones', 'Cuentan inscripciones por fase: 117 en Construye y 63 relacionadas con Crece. Una empresa que pasó por ambas fases suma dos participaciones.'],
-    ['Emprendimientos únicos', '177 empresas distintas conforman el universo principal de Construye y Crece. Sobre este universo se calcula el liderazgo femenino (135 · 76,3 %).'],
-    ['Universo de la medición', 'La medición 2026 cubre 97 emprendimientos del portafolio principal (cobertura del 54,8 %). Los porcentajes de Insights se calculan sobre los 121 emprendimientos que respondieron.'],
-    ['Datos declarados', 'Las capacidades, logros y proyecciones fueron declarados por cada emprendimiento en la medición. No se publican montos de inversión ni de recursos no reembolsables, ni información personal.'],
-    ['Definiciones', 'Producto nuevo: desarrollado desde su participación. Tecnología emergente: IA, IoT, realidad aumentada, blockchain u otras declaradas. Internacionalización: exportó o dio alcance internacional a su producto o servicio.']];
-  return `<section class="ir-section ir-method" data-component="MethodologySection" aria-labelledby="met-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag">Metodología y fuentes</span><h1 class="ir-section__title" id="met-title" tabindex="-1">Cómo leer este informe</h1></div>
-  <dl>${D.map(([t, d]) => `<div><dt>${t}</dt><dd>${d}</dd></div>`).join('')}</dl>
-  <p style="margin-top:var(--space-6);font-size:14px;color:var(--color-muted)">Fuentes: Directorio Consolidado Ean Impacta · Actualización de emprendedores y medición de impactos 2026.</p>
-</div></section>`;
-}
-
 // ---------- Router ----------
 function render(focus = true) {
   const { parts, q } = parseHash(); const r = parts[0] || '';
   const prevKey = state.route; if (prevKey) state.scrollByRoute[prevKey] = scrollY;
   const main = $('#main');
-  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : r === 'directorio' ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : r === 'metodologia' ? viewMethod() : viewHome();
+  const isPortfolio = r === 'portafolio' || r === 'directorio';
+  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : isPortfolio ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : viewHome();
   document.body.dataset.route = r || 'inicio';
   main.innerHTML = `<div class="ir-view">${html}</div>`;
-  if (r === 'directorio') state.lastDirQuery = q.toString();
-  $$('[data-nav]').forEach(a => a.toggleAttribute('aria-current', false)); const cur = $(`[data-nav="${r === 'e' ? 'directorio' : r}"]`); cur && cur.setAttribute('aria-current', 'page');
+  if (isPortfolio) state.lastDirQuery = q.toString();
+  $$('[data-nav]').forEach(a => a.toggleAttribute('aria-current', false)); const cur = $(`[data-nav="${r === 'e' || isPortfolio ? 'portafolio' : r}"]`); cur && cur.setAttribute('aria-current', 'page');
   closeMenu();
   const key = r + (r === 'e' ? '/' + parts[1] : ''); state.route = key;
-  if (r === 'directorio' && state.scrollByRoute.directorio != null && state.fromDossier) window.scrollTo(0, state.scrollByRoute.directorio); else window.scrollTo(0, 0);
+  if (isPortfolio && state.scrollByRoute.portafolio != null && state.fromDossier) window.scrollTo(0, state.scrollByRoute.portafolio); else window.scrollTo(0, 0);
   state.fromDossier = r === 'e';
   if (focus) setTimeout(() => main.querySelector('h1[tabindex]')?.focus({ preventScroll: true }), 30);
   observeReveals();
@@ -327,8 +315,9 @@ function observeReveals() { const els = $$('.ir-reveal'); if (reduced() || !('In
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15 }); els.forEach(e => io.observe(e)); }
 function bindView(r, q) {
   if (r === 'insights') $$('[data-insight]').forEach(b => b.addEventListener('click', () => openDrawer(b.dataset.insight)));
-  if (r !== 'directorio') return;
-  const upd = fn => { const nq = parseHash().q; fn(nq); nq.delete('n'); history.replaceState(null, '', '#/directorio' + (nq.toString() ? '?' + nq : '')); state.lastQ = nq; render(false); };
+  if (r !== 'portafolio' && r !== 'directorio') return;
+  const upd = fn => { const nq = parseHash().q; fn(nq); nq.delete('n'); history.replaceState(null, '', '#/portafolio' + (nq.toString() ? '?' + nq : '')); state.lastQ = nq; render(false); };
+  $$('[data-year]').forEach(b => b.addEventListener('click', () => upd(nq => { nq.delete('anio'); if (b.dataset.year) nq.append('anio', b.dataset.year); })));
   let t; const inp = $('[data-search]'); inp?.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { const pos = inp.selectionStart; upd(nq => inp.value.trim() ? nq.set('q', inp.value) : nq.delete('q')); const ni = $('[data-search]'); ni.focus(); ni.setSelectionRange(pos, pos); }, 220); });
   $$('[data-facet]').forEach(cb => cb.addEventListener('change', () => { const k = cb.dataset.facet, v = cb.value; const open = $('#filters').dataset.open === 'true';
     upd(nq => { const cur = nq.getAll(k); nq.delete(k); (cb.checked ? [...cur, v] : cur.filter(x => x !== v)).forEach(x => nq.append(k, x)); state.order = [...(state.order || []).filter(o => o !== k + '=' + v), ...(cb.checked ? [k + '=' + v] : [])]; });
@@ -348,9 +337,9 @@ document.addEventListener('click', e => {
   if (act === 'close-drawer') closeDrawer();
   if (act === 'open-filters') { $('#filters').dataset.open = 'true'; a.setAttribute('aria-expanded', 'true'); $('#filters input')?.focus(); }
   if (act === 'close-filters') { $('#filters').dataset.open = 'false'; $('[data-action="open-filters"]')?.focus(); }
-  if (act === 'clear') { history.replaceState(null, '', '#/directorio'); state.order = []; render(false); }
-  if (act === 'undo') { const last = (state.order || []).pop(); const nq = parseHash().q; if (last) { const [k, v] = last.split('='); const cur = nq.getAll(k).filter(x => x !== v); nq.delete(k); cur.forEach(x => nq.append(k, x)); } else nq.delete('q'); history.replaceState(null, '', '#/directorio' + (nq.toString() ? '?' + nq : '')); render(false); }
-  if (act === 'more') { const nq = parseHash().q; nq.set('n', (+nq.get('n') || PAGE) + PAGE); history.replaceState(null, '', '#/directorio?' + nq); const y = scrollY; render(false); window.scrollTo(0, y); }
+  if (act === 'clear') { history.replaceState(null, '', '#/portafolio'); state.order = []; render(false); }
+  if (act === 'undo') { const last = (state.order || []).pop(); const nq = parseHash().q; if (last) { const [k, v] = last.split('='); const cur = nq.getAll(k).filter(x => x !== v); nq.delete(k); cur.forEach(x => nq.append(k, x)); } else nq.delete('q'); history.replaceState(null, '', '#/portafolio' + (nq.toString() ? '?' + nq : '')); render(false); }
+  if (act === 'more') { const nq = parseHash().q; nq.set('n', (+nq.get('n') || PAGE) + PAGE); history.replaceState(null, '', '#/portafolio?' + nq); const y = scrollY; render(false); window.scrollTo(0, y); }
 });
 function closeMenu() { const n = $('#mobile-nav'); if (n.dataset.open === 'true') { n.dataset.open = 'false'; const b = $('[data-action="menu"]'); b.setAttribute('aria-expanded', 'false'); b.textContent = 'Índice'; } }
 document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if ($('#program-modal') && !$('#program-modal').hidden) closeProgram(); else if ($('#insight-drawer').dataset.open === 'true') closeDrawer(); else if ($('#filters')?.dataset.open === 'true') { $('#filters').dataset.open = 'false'; } else closeMenu(); });

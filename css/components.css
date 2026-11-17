@@ -149,6 +149,10 @@ body[data-route="inicio"] .ir-header__link[aria-current="page"],body[data-route=
 .ir-view-toggle button[aria-pressed="true"]{background:var(--color-ink);color:var(--color-on-dark)}
 .ir-view-toggle svg{width:var(--icon-m);height:var(--icon-m)}
 .ir-filters-btn{display:none}
+.ir-year-filter{display:flex;gap:8px;overflow-x:auto;margin:0 0 var(--space-6);padding:2px 2px 10px;scrollbar-width:thin}
+.ir-year-filter button{flex:0 0 auto;min-height:44px;padding:0 16px;border:1.5px solid var(--color-ink);border-radius:999px;background:var(--color-paper-2);color:var(--color-ink);font:700 13px var(--font-body);cursor:pointer}
+.ir-year-filter button[aria-pressed="true"]{background:var(--color-ink);color:var(--color-paper-2)}
+.ir-year-filter button span{margin-left:6px;opacity:.68;font-variant-numeric:tabular-nums}
 
 /* StartupGrid + StartupCard */
 .ir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:var(--space-5)}

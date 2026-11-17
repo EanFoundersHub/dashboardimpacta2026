@@ -2,6 +2,8 @@
    Rutas relativas a /componentes. Requiere fonts/fonts.css (Outfit, Poppins). */
 .exp{--c:#40C0C0;--tinta-sello:#262A34;position:relative;display:block;container-type:inline-size;color:#1F2124;text-decoration:none;border-radius:4px;outline:none;transition:transform .45s cubic-bezier(.16,1,.3,1),filter .45s}
 button.exp{width:100%;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit}
+.exp--program{aspect-ratio:1/1.12;overflow:visible}
+.exp--program>.exp__carpeta{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .exp__carpeta{display:block;width:100%;height:auto;filter:drop-shadow(0 2px 2px rgba(40,25,10,.28)) drop-shadow(0 18px 28px rgba(40,30,20,.16));pointer-events:none}
 .exp__tab{position:absolute;left:9cqi;top:2.4cqi;font:800 4.6cqi/1 Outfit,Arial,sans-serif;letter-spacing:.04em;color:var(--tab-ink,#1F2124);opacity:.82}
 .exp__hoja{isolation:isolate;position:absolute;left:12%;right:11%;top:21%;bottom:23%;display:flex;flex-direction:column;gap:3.2cqi;transition:transform .45s cubic-bezier(.16,1,.3,1)}
