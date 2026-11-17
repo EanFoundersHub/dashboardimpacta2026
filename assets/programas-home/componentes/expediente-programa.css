@@ -22,6 +22,9 @@ button.exp{width:100%;padding:0;border:0;background:transparent;text-align:left;
 .exp.is-sin-foto .exp__hoja::after{content:"";position:absolute;right:-4cqi;bottom:-2cqi;width:46cqi;aspect-ratio:1;background:url(../assets/papeles/papel-cuadriculado.webp) center/contain no-repeat;transform:rotate(7deg);z-index:-1;opacity:.95}
 .exp.is-sin-foto .exp__marca{margin-top:6cqi}
 .exp--program.is-sin-foto .exp__marca{margin-top:22cqi}
+.exp--program .exp__nombre{font-size:clamp(26px,12.4cqi,68px)}
+.exp--program.exp--largo .exp__nombre{font-size:clamp(23px,9.4cqi,54px)}
+.exp--program.exp--xlargo .exp__nombre{font-size:clamp(20px,7.5cqi,44px)}
 .exp.is-sin-foto .exp__hoja::before{content:"";position:absolute;left:-2cqi;bottom:4cqi;width:40cqi;height:9cqi;background:url(../assets/papeles/tira-kraft.webp) center/100% 100%;transform:rotate(-4deg);z-index:-1}
 .exp.is-sin-foto.is-sin-logo .exp__nombre[style*='--fit']{font-size:clamp(20px,min(var(--fit),12.4cqi),68px)}
 .exp.is-sin-foto .exp__marca::after{content:"";position:absolute;left:4.4cqi;right:20%;bottom:.6cqi;height:1.4cqi;background:var(--c);mix-blend-mode:multiply;opacity:0;border-radius:2px;transform:rotate(-.8deg)}

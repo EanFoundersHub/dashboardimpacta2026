@@ -51,13 +51,26 @@ function setQuery(q, replace = true) {
 
 // ---------- Vistas ----------
 const PROGRAM_ASSET = 'assets/programas-home/assets/';
+const PROGRAM_FOCUSES = [
+  { id:'cientifico', nombre:'Emprendimiento científico' },
+  { id:'aprendedor', nombre:'De Aprendedor a emprendedor' },
+  { id:'comunidad-eanista', nombre:'Comunidad Eanista en consultorio' },
+  { id:'mentorias-internacionales', nombre:'Mentorías internacionales' },
+  { id:'alistamiento-inversion', nombre:'Alistamiento para la inversión' },
+  { id:'incubacion-especializada', nombre:'Incubación especializada' },
+  { id:'venture-building', nombre:'Venture Building' }
+];
 const PROGRAMS = [
-  { id:'science2venture', nombre:'Science2Venture', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
-  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[2026], programa:'Swisscontact', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
-  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Acompañamiento diseñado por Ean Impacta para fortalecer iniciativas y organizaciones desde sus propios retos.' },
-  { id:'foundershub', nombre:'FoundersHub', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[2026], programa:'FoundersHub' },
-  { id:'conecta', nombre:'Conecta', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[2026], programa:'Conecta - Bridge for Billions' },
-  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], descripcion:'Comunidad de preparación para inversión que conecta emprendimientos, capacidades y oportunidades de capital.', href:'https://tangara-ir.com/comunidad/' }
+  { id:'science2venture', nombre:'Science2Venture', enfoque:'cientifico', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
+  { id:'impacta-inhouse', nombre:'Impacta InHouse', enfoque:'aprendedor', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Acompañamiento de Ean Impacta para fortalecer el paso de aprendiz a emprendedor.' },
+  { id:'foundershub', nombre:'FoundersHub', enfoque:'comunidad-eanista', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[2026], programa:'FoundersHub' },
+  { id:'conecta', nombre:'Conecta', enfoque:'mentorias-internacionales', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[2026], programa:'Conecta - Bridge for Billions' },
+  { id:'pum', nombre:'PUM', enfoque:'mentorias-internacionales', carpeta:'naranja', tono:'claro', color:'#F78D2D', colorOn:'#1F2124', anios:[], descripcion:'Iniciativa de mentorías internacionales del ecosistema Ean Impacta.' },
+  { id:'tangara-ir', nombre:'Tángara Investment Readiness', enfoque:'alistamiento-inversion', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], descripcion:'Comunidad de preparación para inversión que conecta emprendimientos, capacidades y oportunidades de capital.', href:'https://tangara-ir.com/comunidad/' },
+  { id:'swisscontact', nombre:'Swisscontact', enfoque:'alistamiento-inversion', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[2026], programa:'Swisscontact', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
+  { id:'feoracle', nombre:'Feoracle', enfoque:'incubacion-especializada', carpeta:'verde', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Iniciativa de incubación especializada del ecosistema Ean Impacta.' },
+  { id:'vision-circular', nombre:'Visión Circular', enfoque:'incubacion-especializada', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[], descripcion:'Iniciativa de incubación especializada con enfoque circular.' },
+  { id:'cavipetrol', nombre:'Cavipetrol', enfoque:'venture-building', carpeta:'petroleo', tono:'oscuro', color:'#0B4A46', colorOn:'#FFFFFF', anios:[], descripcion:'Iniciativa de Venture Building acompañada por Ean Impacta.' }
 ];
 const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
@@ -85,6 +98,8 @@ function openProgram(id, source) {
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
 function viewHome() {
   const enriched = enrichedPrograms();
+  const activeFocus = parseHash().q.get('enfoque') || '';
+  const visiblePrograms = activeFocus ? enriched.filter(p => p.enfoque === activeFocus) : enriched;
   const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   const participation2026 = Object.values(DATA.programs2026).filter(x => x?.anio === 2026).reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
@@ -98,7 +113,9 @@ function viewHome() {
     <div class="pp-cover__note pp-cover__note--secondary"><b>${participation2026}</b><span>participaciones en programas con datos consolidados</span></div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
-  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${enriched.length} programas</span></div><ul class="pp__grid">${enriched.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de iniciativas</h2><span>${visiblePrograms.length} de ${enriched.length} iniciativas</span></div>
+    <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b>${activeFocus ? '<a href="#/">Ver todas</a>' : ''}</div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<a href="#/?enfoque=${encodeURIComponent(f.id)}" ${activeFocus === f.id ? 'aria-current="true"' : ''}>${esc(f.nombre)}</a>`).join('')}</nav></div>
+    <ul class="pp__grid">${visiblePrograms.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -304,6 +321,7 @@ function render(focus = true) {
   if (focus) setTimeout(() => main.querySelector('h1[tabindex]')?.focus({ preventScroll: true }), 30);
   observeReveals();
   if (r === 'home' || r === '') setTimeout(() => { const rc = $('.ir-route'); rc && (rc.dataset.state = 'open'); }, reduced() ? 0 : 500);
+  if (!r && q.get('enfoque')) setTimeout(() => $('#programas')?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }), 40);
   if (r === 'insights' && q.get('i')) openDrawer(q.get('i'), false); else closeDrawer(false);
   bindView(r, q);
 }
