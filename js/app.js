@@ -223,13 +223,21 @@ function filterList(q) {
 }
 function facetOptions(F) { const m = new Map(); DATA.startups.forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
   let arr = [...m.entries()]; arr.sort(F.key === 'cohorte' || F.key === 'ods' ? (a, b) => a[0].localeCompare(b[0], 'es', { numeric: true }) : (a, b) => b[1] - a[1]); return F.top ? arr.slice(0, F.top) : arr; }
-const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || {};
+const programMembership = (s, selected = []) => {
+  const programs = s.programas2026 || [];
+  if (!programs.length) return '';
+  const focused = selected.filter(program => programs.includes(program));
+  const others = programs.filter(program => !focused.includes(program));
+  if (!focused.length) return `<span class="ir-card__programs"><span><b>Programas:</b> ${esc(programs.join(' · '))}</span></span>`;
+  return `<span class="ir-card__programs"><span class="ir-card__program-focus"><b>${focused.length > 1 ? 'Programas filtrados' : 'Programa filtrado'}:</b> ${esc(focused.join(' · '))}</span>${others.length ? `<span><b>Otros programas:</b> ${esc(others.join(' · '))}</span>` : ''}</span>`;
+};
+const card = (s, selectedPrograms = []) => { const col = VERT_COLOR(s.vertical); const m = s.medicion || {};
   const tags = [s.vertical && `<span class="ir-badge">${esc(s.vertical)}</span>`, m.certificaciones && '<span class="ir-badge ir-badge--cert">Certificaciones</span>', m.tecnologias && '<span class="ir-badge ir-badge--tec">Tecnología emergente</span>', (s.reconocimientos || m.premios) && '<span class="ir-badge ir-badge--rec">Reconocimientos</span>', m.internacional && '<span class="ir-badge">Internacionalización</span>'].filter(Boolean).slice(0, 3).join('');
   const meta = [s.cohorte || (s.anios || []).join(', '), (s.fases || []).join(' · ')].filter(Boolean).join(' · ');
   return `<a class="ir-card" href="#/e/${s.id}" style="${chVars(col)}" data-component="StartupCard"><span class="ir-card__bar"></span><span class="ir-card__body">
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
-  ${(s.programas2026 || []).length ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Programas:</b> ${esc(s.programas2026.join(' · '))}</span>` : ''}
+  ${programMembership(s, selectedPrograms)}
   ${Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Financiación Science2Venture:</b> ${cop(s.science2venture2026.montoFinanciacionCop)}</span>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
   ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
@@ -239,13 +247,14 @@ function viewDirectory(q) {
   const selectedProgram = q.get('programa');
   const programData = selectedProgram ? enrichedPrograms().find(p => p.programa === selectedProgram) : null;
   const programTotal = programData?.cifras?.iniciativas;
-  const consolidationCount = selectedProgram === 'Impacta InHouse' && Number.isFinite(programTotal) ? Math.max(0, programTotal - res.length) : 0;
+  const programAvailable = selectedProgram ? DATA.startups.filter(s => (s.programas2026 || []).includes(selectedProgram)).length : 0;
+  const consolidationCount = selectedProgram === 'Impacta InHouse' && Number.isFinite(programTotal) ? Math.max(0, programTotal - programAvailable) : 0;
   const years = facetOptions(FACETS[0]).map(([y,n]) => [y,n]).sort((a,b) => Number(b[0]) - Number(a[0]));
   const chips = FACETS.flatMap(F => q.getAll(F.key).map(v => ({ k: F.key, v }))); if (q.get('q')) chips.push({ k: 'q', v: q.get('q') }); if (q.get('programMetric')) chips.push({ k:'programMetric', v:q.get('programMetric'), label:'Cifra seleccionada' });
   const nActive = chips.length;
   return `<section class="ir-section" aria-labelledby="dir-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag">Portafolio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Todas las iniciativas</h1>
-  <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p>${consolidationCount ? `<p class="ir-program-status"><b>${res.length} iniciativas disponibles en el portafolio.</b> Las ${consolidationCount} iniciativas restantes se encuentran en consolidación para incorporarse al portafolio.</p>` : ''}</div>
+  <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p>${consolidationCount ? `<p class="ir-program-status"><b>${programAvailable} iniciativas disponibles en el portafolio.</b> Las ${consolidationCount} iniciativas restantes se encuentran en consolidación para incorporarse al portafolio.</p>` : ''}</div>
   <nav class="ir-year-filter" aria-label="Filtrar portafolio por año"><button type="button" data-year="" aria-pressed="${!q.getAll('anio').length}">Todos los años</button>${years.map(([y,n]) => `<button type="button" data-year="${esc(y)}" aria-pressed="${q.getAll('anio').includes(y)}">${esc(y)} <span>${n}</span></button>`).join('')}</nav>
   <div class="ir-dir">
     <aside class="ir-filters" id="filters" data-open="false" data-component="FilterBar" aria-label="Filtros">
@@ -259,7 +268,7 @@ function viewDirectory(q) {
       <div class="ir-toolbar"><span class="ir-count" aria-live="polite">${res.length} emprendimientos</span>
         <div class="ir-view-toggle" role="group" aria-label="Vista"><button type="button" aria-pressed="${view === 'grid'}" data-view="grid" aria-label="Cuadrícula">${ICON('grid')}</button><button type="button" aria-pressed="${view === 'compact'}" data-view="compacta" aria-label="Lista compacta">${ICON('lista')}</button></div></div>
       ${chips.length ? `<div class="ir-active" data-component="ActiveFilters" aria-label="Filtros activos">${chips.map(c => `<button type="button" class="ir-chip" data-remove="${c.k}" data-value="${esc(c.v)}" aria-label="Quitar ${esc(c.label || c.v)}">${esc(c.label || (c.k === 'q' ? '«' + c.v + '»' : c.v))}<i>×</i></button>`).join('')}<button type="button" class="ir-btn ir-btn--small" style="border:0;text-decoration:underline" data-action="clear">Limpiar filtros</button></div>` : ''}
-      ${res.length ? `<div class="ir-grid" data-view="${view}" data-component="StartupGrid">${res.slice(0, limit).map(card).join('')}</div>${res.length > limit ? `<div class="ir-more"><button class="ir-btn" type="button" data-action="more">Ver más · ${res.length - limit} restantes</button></div>` : ''}`
+      ${res.length ? `<div class="ir-grid" data-view="${view}" data-component="StartupGrid">${res.slice(0, limit).map(s => card(s, q.getAll('programa'))).join('')}</div>${res.length > limit ? `<div class="ir-more"><button class="ir-btn" type="button" data-action="more">Ver más · ${res.length - limit} restantes</button></div>` : ''}`
       : `<div class="ir-empty"><img src="assets/folders/carpeta-morada.webp" alt="" style="transform:rotate(-5deg)"><div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font:800 28px/1.1 var(--font-display)">Ninguna iniciativa coincide con esta combinación.</h2><p style="margin:0">Quita un filtro o prueba otra búsqueda.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="ir-btn ir-btn--primary" type="button" data-action="undo">Quitar el último filtro</button><button class="ir-btn" type="button" data-action="clear">Limpiar todo</button></div></div></div>`}
     </div>
   </div></div></section>`;
