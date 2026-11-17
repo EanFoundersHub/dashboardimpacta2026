@@ -20,6 +20,8 @@ const state = { scrollByRoute: {} };
 // ---------- Filtros del directorio (solo positivos) ----------
 const city = s => (s || '').split(',')[0].trim();
 const FACETS = [
+  { key: 'anio', label: 'Año de acompañamiento', get: s => (s.anios || []).map(String) },
+  { key: 'programa', label: 'Programa', get: s => s.programas2026 || [] },
   { key: 'cohorte', label: 'Cohorte', get: s => s.cohorte ? [s.cohorte] : [] },
   { key: 'fase', label: 'Fase', get: s => s.fases || [] },
   { key: 'sector', label: 'Sector económico', get: s => s.sector ? [s.sector] : [], top: 14 },
@@ -50,11 +52,12 @@ function setQuery(q, replace = true) {
 // ---------- Vistas ----------
 const PROGRAM_ASSET = 'assets/programas-home/assets/';
 const PROGRAMS = [
-  { id:'science2venture', nombre:'Science2Venture', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[], href:'https://impacta.emprendimientosostenible.com.co/science2venture/' },
-  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[], href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
-  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[] },
-  { id:'foundershub', nombre:'FoundersHub', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[], href:'https://impacta.emprendimientosostenible.com.co/foundershub/' },
-  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], href:'https://tangara-ir.com/comunidad/' }
+  { id:'science2venture', nombre:'Science2Venture', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
+  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[], descripcion:'Diagnóstico y fortalecimiento empresarial desarrollado junto a Swisscontact.', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
+  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Acompañamiento diseñado por Ean Impacta para fortalecer iniciativas y organizaciones desde sus propios retos.' },
+  { id:'foundershub', nombre:'FoundersHub', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[2026], programa:'FoundersHub' },
+  { id:'conecta', nombre:'Conecta', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[2026], programa:'Conecta - Bridge for Billions' },
+  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], descripcion:'Comunidad de preparación para inversión que conecta emprendimientos, capacidades y oportunidades de capital.', href:'https://tangara-ir.com/comunidad/' }
 ];
 const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
@@ -65,7 +68,9 @@ const dossierYearStamps = years => {
 };
 function programFolder(p, extra = '') {
   const long = p.nombre.length > 22 ? 'exp--xlargo' : p.nombre.length > 12 ? 'exp--largo' : '';
-  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
+  const metrics = p.cifras ? Object.entries(p.cifras).filter(([,v]) => Number.isFinite(v)).slice(0, 3) : [];
+  const metricLabels = { iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' };
+  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span>${p.descripcion ? `<p class="exp__desc">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<span class="exp__metrics">${metrics.map(([k,v]) => `<span><b>${v}</b><small>${esc(metricLabels[k] || k)}</small></span>`).join('')}</span>` : ''}</span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
   const cls = `exp ${long} is-sin-logo is-sin-foto ${extra}`;
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
   if (!p.href) return `<article class="${cls}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)}">${inner}</article>`;
@@ -73,9 +78,11 @@ function programFolder(p, extra = '') {
   return `<a class="${cls}" href="${esc(p.href)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · ${esc(p.cta || 'Abrir expediente')}"${external}>${inner}</a>`;
 }
 function viewHome() {
+  const enriched = PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, href:p.programa ? '#/directorio?anio=2026&programa=' + encodeURIComponent(p.programa) : p.href }; });
+  const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
-  <section class="pp__intro" aria-labelledby="hero-title"><div class="pp__txt"><span class="pp__kicker">Ean Impacta · Archivo de programas</span><h1 class="pp__title" id="hero-title" tabindex="-1">Un archivo, <em>muchos</em> programas</h1><p class="pp__lead">Cada expediente reúne un programa del ecosistema Ean Impacta. Empieza por el resumen del año o abre el programa que buscas.</p><a class="pp__btn" href="#/panorama">Ver ReCap 2026 <span aria-hidden="true">→</span></a></div><div class="pp__recap">${programFolder(RECAP, 'exp--recap')}</div></section>
-  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${PROGRAMS.length} programas</span></div><ul class="pp__grid">${PROGRAMS.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section></div>`;
+  <section class="pp__intro" aria-labelledby="hero-title"><div class="pp__txt"><span class="pp__kicker">Ean Impacta · Archivo de programas</span><h1 class="pp__title" id="hero-title" tabindex="-1">Un archivo, <em>muchos</em> programas</h1><p class="pp__lead">Cada expediente reúne un programa del ecosistema Ean Impacta. El directorio integra <strong>${total2026} emprendimientos únicos con participación en 2026</strong>.</p><a class="pp__btn" href="#/panorama">Ver ReCap 2026 <span aria-hidden="true">→</span></a></div><div class="pp__recap">${programFolder(RECAP, 'exp--recap')}</div></section>
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${enriched.length} programas</span></div><ul class="pp__grid">${enriched.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -199,7 +206,7 @@ function viewDirectory(q) {
 function viewDossier(id) {
   const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Expediente no encontrado</h1><p><a href="#/directorio">Volver al directorio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
-  const facts = [['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+  const facts = [['Programa 2026', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
     m.productos && ['Productos o servicios', `<p style="margin:0">${esc(m.productos)}</p>`],
     m.productoNuevo && ['Producto o servicio nuevo', `<p style="margin:0">${esc(m.productoNuevo)}</p>`],
@@ -315,7 +322,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights] = await Promise.all([fetch('data/startups.json?v=photo-audit-20261117').then(r => r.json()), fetch('data/insights.json').then(r => r.json())]);
-    DATA = { startups, insights }; startups.forEach(s => BYID.set(s.id, s)); render(false);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=programs-20261117').then(r => r.json()), fetch('data/insights.json').then(r => r.json()), fetch('data/programs2026.json?v=programs-20261117').then(r => r.json())]);
+    DATA = { startups, insights, programs2026 }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();

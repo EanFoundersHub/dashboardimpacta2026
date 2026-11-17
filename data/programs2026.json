@@ -1,0 +1,90 @@
+{
+  "science2venture": {
+    "nombre": "Science2Venture",
+    "descripcion": "Science2Venture acompaña iniciativas de investigación aplicada y de base tecnológica con potencial de transferencia y creación de spin-offs. La Universidad Ean fortalece a los equipos para conectar sus desarrollos con el mercado, estructurar su modelo de negocio y valorizar el conocimiento generado.",
+    "anio": 2026,
+    "cifras": {
+      "iniciativas": 28,
+      "conPrototipo": 18,
+      "conFinanciacion": 12
+    },
+    "distribucion": [
+      {
+        "categoria": "AI / software",
+        "iniciativas": 9
+      },
+      {
+        "categoria": "ClimateTech",
+        "iniciativas": 6
+      },
+      {
+        "categoria": "AgTech",
+        "iniciativas": 4
+      },
+      {
+        "categoria": "HealthTech",
+        "iniciativas": 4
+      },
+      {
+        "categoria": "DeepTech",
+        "iniciativas": 2
+      },
+      {
+        "categoria": "EdTech",
+        "iniciativas": 2
+      },
+      {
+        "categoria": "Física aplicada y ciencia de materiales",
+        "iniciativas": 0
+      },
+      {
+        "categoria": "Diseño de producto e innovación social",
+        "iniciativas": 1
+      }
+    ],
+    "fuentes": {
+      "listado": "Corte operativo de Science2Venture de noviembre de 2026.",
+      "fichas": "Selection Hub y expedientes de Mentor View. Descripciones editadas para el Startup Report 2026.",
+      "programa": "Términos de referencia Science2Venture I.",
+      "ventas": "Datos reportados en la postulación o en el expediente de selección. No corresponden a una medición de ventas de noviembre.",
+      "valores_nulos": "Dato sin confirmación en los expedientes consultados.",
+      "financiacion": "Montos definidos en los expedientes de Mentor View. Incluye únicamente iniciativas con monto asignado en COP.",
+      "trl_validado_unit": "TRL validado por la UnIT según Selection Hub y Mentor View. Adaptium Labs (IMA) y Liminal tienen TRL declarado, pero no se encontró una validación de la UnIT.",
+      "prototipo_reportado": "Opción de evidencia seleccionada en la postulación para un prototipo físico o digital con fotos o videos de funcionamiento. Un valor nulo indica que este estado no se confirmó.",
+      "cliente_objetivo": "Síntesis del tipo de cliente y la propuesta de valor de la postulación.",
+      "objetivo_en_science2venture": "Síntesis del reto principal o del objetivo indicado por el equipo en su postulación."
+    }
+  },
+  "conecta": {
+    "nombre": "Conecta - Bridge for Billions",
+    "descripcion": "Reúne las iniciativas acompañadas durante 2026 por el Programa Conecta - Bridge for Billions.",
+    "anio": 2026,
+    "cifras": {
+      "iniciativas": 41
+    },
+    "fuente": "Iniciativas_Conecta_Descripciones_Editadas.xlsx"
+  },
+  "foundershub": {
+    "nombre": "FoundersHub",
+    "descripcion": "FoundersHub reúne las iniciativas que recibieron diagnóstico y acompañamiento de mentoría durante 2026.",
+    "anio": 2026,
+    "cifras": {
+      "iniciativas": 170,
+      "generanIngresos": 84,
+      "baseTecnologicaODigital": 77
+    },
+    "fuente": "Seguimiento_Asignación mentor (14) 1.xlsx"
+  },
+  "importacion": {
+    "creados": {
+      "Science2Venture": 0,
+      "Conecta": 0,
+      "FoundersHub": 157
+    },
+    "actualizados": {
+      "Science2Venture": 28,
+      "Conecta": 41,
+      "FoundersHub": 13
+    }
+  }
+}
