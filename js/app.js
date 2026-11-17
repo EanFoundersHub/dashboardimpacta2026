@@ -209,14 +209,14 @@ function viewDossier(id) {
     m.propiedadIntelectual && ['Propiedad intelectual', `<div class="ir-card__tags">${m.propiedadIntelectual.map(t => `<span class="ir-badge">${esc(t)}</span>`).join('')}</div>`],
     m.internacional && ['Internacionalización', `<p style="margin:0">Alcanzó mercados en ${esc(m.internacional.regiones.join(', '))}.</p>`],
     m.ods && ['Objetivos de Desarrollo Sostenible', `<div class="ir-card__tags">${m.ods.map(sdgBadge).join('')}</div>`],
-    s.equipo?.length && ['Equipo', `<div class="ir-team">${s.equipo.map(p => `<div class="ir-member" data-component="FounderCard"><div class="ir-member__photo">${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nombre)}">` : ''}</div><b>${esc(p.nombre)}</b>${p.rol ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(p.rol)}</span>` : ''}</div>`).join('')}</div>`],
+    s.equipo?.length && ['Equipo', `<div class="ir-team">${s.equipo.map(p => `<div class="ir-member" data-component="FounderCard"><div class="ir-member__photo ir-photo-crop">${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nombre)}">` : ''}</div><b>${esc(p.nombre)}</b>${p.rol ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(p.rol)}</span>` : ''}</div>`).join('')}</div>`],
     (s.reconocimientos || m.premios) && ['Premios y reconocimientos', `<div class="ir-recognition" data-component="RecognitionCard"><p style="margin:0;max-width:52ch">${esc(s.reconocimientos || m.premios)}</p></div>`]
   ].filter(Boolean);
   const related = DATA.startups.filter(x => x.id !== s.id && x.vertical && x.vertical === s.vertical).slice(0, 3);
   return `<article class="ir-dossier ir-paper-bg" data-component="StartupDossier" aria-labelledby="dos-title"><div class="ir-container">
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/directorio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al directorio</a></div>
   <div class="ir-dossier__grid">
-    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div><div class="ir-dossier__photo--team" data-slot="foto-equipo">${s.fotoEquipo || s.foto ? `<img src="${esc(s.fotoEquipo || s.foto)}" alt="${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${esc(s.nombre)}">` : ''}</div></div>
+    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div><div class="ir-dossier__photo--team ir-photo-crop" data-slot="foto-equipo">${s.fotoEquipo || s.foto ? `<img src="${esc(s.fotoEquipo || s.foto)}" alt="${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${esc(s.nombre)}">` : ''}</div></div>
       <img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="position:absolute;right:4%;bottom:12%;width:22%"></div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
       <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Expediente${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
