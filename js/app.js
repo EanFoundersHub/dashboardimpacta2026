@@ -52,13 +52,13 @@ function setQuery(q, replace = true) {
 // ---------- Vistas ----------
 const PROGRAM_ASSET = 'assets/programas-home/assets/';
 const PROGRAM_FOCUSES = [
-  { id:'cientifico', nombre:'Emprendimiento científico' },
-  { id:'aprendedor', nombre:'De Aprendedor a emprendedor' },
-  { id:'comunidad-eanista', nombre:'Comunidad Eanista en consultorio' },
-  { id:'mentorias-internacionales', nombre:'Mentorías internacionales' },
-  { id:'alistamiento-inversion', nombre:'Alistamiento para la inversión' },
-  { id:'incubacion-especializada', nombre:'Incubación especializada' },
-  { id:'venture-building', nombre:'Venture Building' }
+  { id:'cientifico', nombre:'Emprendimiento científico', subtitulo:'Investigación aplicada y soluciones de base científica que avanzan hacia el mercado.' },
+  { id:'aprendedor', nombre:'De Aprendedor a emprendedor', subtitulo:'Una ruta para convertir conocimientos, capacidades e ideas en iniciativas empresariales.' },
+  { id:'comunidad-eanista', nombre:'Comunidad Eanista en consultorio', subtitulo:'Orientación y acompañamiento para emprendimientos de la comunidad Eanista.' },
+  { id:'mentorias-internacionales', nombre:'Mentorías internacionales', subtitulo:'Conexiones con expertos internacionales para fortalecer decisiones, capacidades y crecimiento.' },
+  { id:'alistamiento-inversion', nombre:'Alistamiento para la inversión', subtitulo:'Preparación comercial y financiera para relacionarse con fuentes de capital.' },
+  { id:'incubacion-especializada', nombre:'Incubación especializada', subtitulo:'Acompañamiento concentrado en sectores, retos y modelos de negocio específicos.' },
+  { id:'venture-building', nombre:'Venture Building', subtitulo:'Diseño, construcción y validación de nuevas iniciativas junto a aliados organizacionales.' }
 ];
 const PROGRAMS = [
   { id:'science2venture', nombre:'Science2Venture', enfoque:'cientifico', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
@@ -98,8 +98,6 @@ function openProgram(id, source) {
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
 function viewHome() {
   const enriched = enrichedPrograms();
-  const activeFocus = parseHash().q.get('enfoque') || '';
-  const visiblePrograms = activeFocus ? enriched.filter(p => p.enfoque === activeFocus) : enriched;
   const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   const participation2026 = Object.values(DATA.programs2026).filter(x => x?.anio === 2026).reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
@@ -113,9 +111,10 @@ function viewHome() {
     <div class="pp-cover__note pp-cover__note--secondary"><b>${participation2026}</b><span>participaciones en programas con datos consolidados</span></div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
-  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de iniciativas</h2><span>${visiblePrograms.length} de ${enriched.length} iniciativas</span></div>
-    <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b>${activeFocus ? '<a href="#/">Ver todas</a>' : ''}</div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<a href="#/?enfoque=${encodeURIComponent(f.id)}" ${activeFocus === f.id ? 'aria-current="true"' : ''}>${esc(f.nombre)}</a>`).join('')}</nav></div>
-    <ul class="pp__grid">${visiblePrograms.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de iniciativas</h2><span>${enriched.length} iniciativas</span></div>
+    <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b></div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<button type="button" data-focus-jump="${f.id}">${esc(f.nombre)}</button>`).join('')}</nav></div>
+    <div class="pp-focus-sections">${PROGRAM_FOCUSES.map((f, i) => { const items = enriched.filter(p => p.enfoque === f.id); return `<section class="pp-focus-section" id="enfoque-${f.id}" aria-labelledby="enfoque-title-${f.id}"><div class="pp-focus-section__head"><span>${String(i + 1).padStart(2,'0')} · Enfoque</span><h3 id="enfoque-title-${f.id}">${esc(f.nombre)}</h3><p>${esc(f.subtitulo)}</p></div><ul class="pp__grid">${items.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section>`; }).join('')}</div>
+  </section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -321,7 +320,6 @@ function render(focus = true) {
   if (focus) setTimeout(() => main.querySelector('h1[tabindex]')?.focus({ preventScroll: true }), 30);
   observeReveals();
   if (r === 'home' || r === '') setTimeout(() => { const rc = $('.ir-route'); rc && (rc.dataset.state = 'open'); }, reduced() ? 0 : 500);
-  if (!r && q.get('enfoque')) setTimeout(() => $('#programas')?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }), 40);
   if (r === 'insights' && q.get('i')) openDrawer(q.get('i'), false); else closeDrawer(false);
   bindView(r, q);
 }
@@ -340,6 +338,7 @@ function bindView(r, q) {
 }
 
 document.addEventListener('click', e => {
+  const focusJump = e.target.closest('[data-focus-jump]'); if (focusJump) { $(`#enfoque-${focusJump.dataset.focusJump}`)?.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block:'start' }); return; }
   const programOpen = e.target.closest('[data-program-open]'); if (programOpen) { openProgram(programOpen.dataset.programOpen, programOpen); return; }
   if (e.target.closest('[data-program-close]') || e.target.id === 'program-modal') { closeProgram(); return; }
   if (e.target.closest('#program-modal a')) document.body.style.overflow = '';
