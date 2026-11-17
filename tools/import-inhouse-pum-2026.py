@@ -154,6 +154,15 @@ programs["pum"] = {
     "fuente":"PUM - Founders Hub convocatoria (1-33).xlsx", "nota":"33 respuestas consolidadas en 32 iniciativas únicas. No se publican datos personales."
 }
 
+# Ajuste validado de clasificación: Solar+Tech + Financing pertenece a Impacta InHouse como fase.
+rocasol = by_name.get(norm("Rocasol"))
+if rocasol:
+    rocasol["anios"] = sorted(set([str(x) for x in rocasol.get("anios", [])] + ["2026"]))
+    rocasol["programas2026"] = sorted(set(rocasol.get("programas2026", []) + ["Impacta InHouse"]))
+    rocasol["fases"] = sorted(set([x for x in rocasol.get("fases", []) if x != "Fondo Impacta"] + ["Solar+Tech + Financing"]))
+    if (rocasol.get("vertical") or "").lower().startswith("solartech"):
+        rocasol.pop("vertical", None)
+
 STARTUPS.write_text(json.dumps(startups, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 PROGRAMS.write_text(json.dumps(programs, ensure_ascii=False, indent=2), encoding="utf-8")
 print(json.dumps({"impactaInHouse":len(prototypes),"pum":len(unique),"ventasPum2025Cop":sales_total,"startupsTotal":len(startups)}, ensure_ascii=False))

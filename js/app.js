@@ -18,11 +18,15 @@ let DATA = null, BYID = new Map();
 const state = { scrollByRoute: {} };
 
 // ---------- Filtros del directorio (solo positivos) ----------
-const city = s => (s || '').split(',')[0].trim();
+const city = s => {
+  const raw = (s || '').split(',')[0].trim();
+  const key = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return key.startsWith('bogota') ? 'Bogotá D.C.' : raw;
+};
 const FACETS = [
   { key: 'anio', label: 'Año de acompañamiento', get: s => (s.anios || []).map(String) },
   { key: 'programa', label: 'Programa', get: s => s.programas2026 || [] },
-  { key: 'cohorte', label: 'Cohorte', get: s => s.cohorte ? [s.cohorte] : [] },
+  { key: 'cohorte', label: 'Cohorte', get: s => [...new Set([s.cohorte, (s.anios || []).map(String).includes('2026') && 'Cohorte 9 (2026)'].filter(Boolean))] },
   { key: 'fase', label: 'Fase', get: s => s.fases || [] },
   { key: 'sector', label: 'Sector económico', get: s => s.sector ? [s.sector] : [], top: 14 },
   { key: 'vertical', label: 'Vertical de sostenibilidad', get: s => s.vertical ? [s.vertical] : [] },
