@@ -71,7 +71,7 @@ function programFolder(p, extra = '') {
   const metrics = p.cifras ? Object.entries(p.cifras).filter(([,v]) => Number.isFinite(v)).slice(0, 3) : [];
   const metricLabels = { iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' };
   const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span>${p.descripcion ? `<p class="exp__desc">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<span class="exp__metrics">${metrics.map(([k,v]) => `<span><b>${v}</b><small>${esc(metricLabels[k] || k)}</small></span>`).join('')}</span>` : ''}</span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
-  const cls = `exp ${long} is-sin-logo is-sin-foto ${extra}`;
+  const cls = `exp ${long} is-sin-logo is-sin-foto ${(p.descripcion || metrics.length) ? 'has-datos' : ''} ${extra}`;
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
   if (!p.href) return `<article class="${cls}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)}">${inner}</article>`;
   const external = p.href.startsWith('http') ? ' target="_blank" rel="noopener"' : '';
