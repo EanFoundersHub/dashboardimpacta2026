@@ -235,24 +235,6 @@ function viewDossier(id) {
   </div></div></article>`;
 }
 
-function viewStories() {
-  const picks = DATA.startups.filter(s => s.reconocimientos && s.descripcion && s.descripcion.length > 120).slice(0, 4);
-  const s = picks[0]; const col = VERT_COLOR(s.vertical);
-  return `<section class="ir-section ir-paper-bg" aria-labelledby="his-title" data-component="StoryGallery"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag">Historias destacadas</span><h1 class="ir-section__title" id="his-title" tabindex="-1">Expedientes abiertos</h1></div>
-  <div class="ir-story" style="${chVars(col)}">
-    <div class="ir-story__media"><img src="assets/textures/papel-kraft.webp" alt="" class="ir-paper" style="left:-6%;top:-4%;width:70%;transform:rotate(-5deg)"><img src="assets/folders/carpeta-${col}.webp" alt="" style="position:absolute;left:14%;top:4%;width:72%;transform:rotate(3deg)"><img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="position:absolute;right:6%;bottom:6%;width:20%"></div>
-    <div style="display:flex;flex-direction:column;gap:var(--space-4)"><span class="ir-label">${esc([s.cohorte || (s.anios || []).join(', '), (s.fases || []).join(' · '), s.ubicacion].filter(Boolean).join(' · '))}</span>
-      <h2 style="margin:0;font:900 var(--fs-h1)/.9 var(--font-display);letter-spacing:-.04em">${esc(s.nombre)}</h2>
-      <p class="ir-story__quote">${esc(s.descripcion)}</p>
-      <div class="ir-recognition"><span class="ir-label">Reconocimientos</span><p style="margin:6px 0 0;max-width:46ch">${esc(s.reconocimientos)}</p></div>
-      <a class="ir-btn ir-btn--primary" style="align-self:flex-start" href="#/e/${s.id}">Abrir expediente ${ICON('flecha')}</a></div>
-  </div>
-  <h2 style="margin:var(--space-8) 0 var(--space-4);font:800 var(--fs-h3) var(--font-display)">Más historias</h2>
-  <div class="ir-story__strip" role="list">${picks.slice(1).map(x => `<div role="listitem">${card(x)}</div>`).join('')}</div>
-</div></section>`;
-}
-
 function viewMethod() {
   const D = [['Universo del directorio', 'Registros del Directorio Consolidado de Ean Impacta. El 79,8 % se encuentra activo. Una empresa puede aparecer en varias fases.'],
     ['Participaciones', 'Cuentan inscripciones por fase: 117 en Construye y 63 relacionadas con Crece. Una empresa que pasó por ambas fases suma dos participaciones.'],
@@ -272,7 +254,7 @@ function render(focus = true) {
   const { parts, q } = parseHash(); const r = parts[0] || '';
   const prevKey = state.route; if (prevKey) state.scrollByRoute[prevKey] = scrollY;
   const main = $('#main');
-  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : r === 'directorio' ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : r === 'historias' ? viewStories() : r === 'metodologia' ? viewMethod() : viewHome();
+  const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : r === 'directorio' ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : r === 'metodologia' ? viewMethod() : viewHome();
   document.body.dataset.route = r || 'inicio';
   main.innerHTML = `<div class="ir-view">${html}</div>`;
   if (r === 'directorio') state.lastDirQuery = q.toString();

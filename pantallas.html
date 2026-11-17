@@ -24,7 +24,7 @@ body{margin:0;background:#d9d4ca;font-family:var(--font-body);color:var(--color-
 </div>
 <div class="row" id="row"></div>
 <script>
-const R=[['Portada','#/'],['Panorama','#/panorama'],['Insights','#/insights'],['Insight abierto','#/insights?i=certificaciones:certificaciones'],['Directorio','#/directorio'],['Resultados filtrados','#/directorio?fase=Crece&atributo=Reconocimientos'],['Sin resultados','#/directorio?q=zzzz'],['Perfil','#/e/lahuertahotel'],['Historias','#/historias'],['Metodología','#/metodologia']];
+const R=[['Portada','#/'],['Panorama','#/panorama'],['Insights','#/insights'],['Insight abierto','#/insights?i=certificaciones:certificaciones'],['Directorio','#/directorio'],['Resultados filtrados','#/directorio?fase=Crece&atributo=Reconocimientos'],['Sin resultados','#/directorio?q=zzzz'],['Perfil','#/e/lahuertahotel'],['Metodología','#/metodologia']];
 const D=[['Desktop 1440 × 1000',1440,1000,.5],['Laptop 1280 × 800',1280,800,.5],['Tablet 768 × 1024',768,1024,.5],['Mobile 390 × 844',390,844,.75]];
 const row=document.getElementById('row'),rb=document.getElementById('routes');
 row.innerHTML=D.map(([l,w,h,s])=>`<div class="dev"><span>${l}</span><div class="wrap" style="width:${w*s}px;height:${h*s}px"><iframe title="${l}" width="${w}" height="${h}" style="width:${w}px;height:${h}px;transform:scale(${s})"></iframe></div></div>`).join('');
