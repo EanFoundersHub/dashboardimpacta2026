@@ -11,6 +11,7 @@ const CH = { verde: ['#3EAF49', '#0E2E12'], amarilla: ['#FFC62F', '#1F2124'], tu
 const VERT_COLOR = v => { const n = (v || '').toLowerCase(); return n.includes('circular') ? 'verde' : n.includes('alimentaria') || n.includes('agro') ? 'amarilla' : n.includes('inclus') || n.includes('educa') ? 'morada' : n.includes('turismo') || n.includes('naturaleza') || n.includes('bioecon') ? 'naranja' : 'turquesa'; };
 const chVars = c => `--chapter:${CH[c][0]};--chapter-ink:${CH[c][1]}`;
 const initials = n => n.replace(/[^\p{L}\p{N} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+const cop = n => '$' + new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n) + ' COP';
 const TORN = 'polygon(2% 4%,12% 2%,24% 4.5%,37% 1.5%,50% 4%,63% 2%,76% 4.5%,88% 1.8%,98% 4%,97% 18%,98.5% 34%,97% 50%,98.6% 66%,97.2% 82%,98% 96%,86% 97.8%,73% 95.6%,60% 98%,47% 95.8%,34% 98.2%,21% 95.7%,9% 97.8%,2% 96%,3% 80%,1.4% 64%,3.2% 48%,1.5% 32%,3% 16%)';
 document.documentElement.style.setProperty('--torn-clip', TORN);
 
@@ -90,7 +91,7 @@ function programFolder(p, extra = '') {
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
   return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir programa">${inner}</button>`;
 }
-const PROGRAM_METRIC_LABELS = { iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
+const PROGRAM_METRIC_LABELS = { iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
 const PROGRAM_METRIC_FILTERS = { conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
 function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, directorio:p.programa ? '#/portafolio?anio=2026&programa=' + encodeURIComponent(p.programa) : null }; }); }
 function openProgram(id, source) {
@@ -126,16 +127,12 @@ const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div cl
 function viewPanorama() {
   const U = DATA.insights.panorama.universos;
   const p = DATA.programs2026;
-  const unique2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact].filter(Boolean);
-  const participation2026 = programs.reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">ReCap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
   <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta y Swisscontact durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
-  <div class="ir-universe ir-reveal" style="--i:0" data-kind="unicos"><div class="ir-universe__name"><span class="ir-label">Corte 2026</span><b>Universo del año</b></div>
-  <div class="ir-universe__figures">${metric(unique2026, 'emprendimientos únicos con participación en 2026', 'ir-metric--l ir-metric--on-dark')}${metric(participation2026, 'participaciones registradas en los tres programas con datos consolidados', 'ir-metric--l ir-metric--on-dark')}${metric(programs.length, 'programas 2026 con directorio incorporado', 'ir-metric--l ir-metric--on-dark')}</div></div>
   ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
-  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, ({ iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' })[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
+  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, ({ iniciativas:'iniciativas', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' })[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
   <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Contexto histórico</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
   ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
@@ -233,6 +230,7 @@ const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || 
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
   ${(s.programas2026 || []).length ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Programas:</b> ${esc(s.programas2026.join(' · '))}</span>` : ''}
+  ${Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Financiación Science2Venture:</b> ${cop(s.science2venture2026.montoFinanciacionCop)}</span>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
   ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
 
@@ -270,7 +268,7 @@ function viewDirectory(q) {
 function viewDossier(id) {
   const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Iniciativa no encontrada</h1><p><a href="#/portafolio">Volver al portafolio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
-  const facts = [['Programas', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+  const facts = [['Programas', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
     m.productos && ['Productos o servicios', `<p style="margin:0">${esc(m.productos)}</p>`],
     m.productoNuevo && ['Producto o servicio nuevo', `<p style="margin:0">${esc(m.productoNuevo)}</p>`],
@@ -362,7 +360,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=dedupe-agroadvisers-20261117').then(r => r.json()), fetch('data/insights.json?v=dedupe-agroadvisers-20261117').then(r => r.json()), fetch('data/programs2026.json?v=inhouse-phase-20261117').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=science-financing-20261117').then(r => r.json()), fetch('data/insights.json?v=dedupe-agroadvisers-20261117').then(r => r.json()), fetch('data/programs2026.json?v=science-financing-20261117').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();

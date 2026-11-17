@@ -12,7 +12,7 @@ import openpyxl
 
 REPO = Path(__file__).resolve().parents[1]
 DOWNLOADS = Path(r"C:\Users\afcaballero\Downloads")
-S2V_PATH = DOWNLOADS / "Science2Venture_2026_28_iniciativas_descripciones_editadas (1).json"
+S2V_PATH = DOWNLOADS / "Science2Venture_2026_28_iniciativas (1).json"
 CONNECT_PATH = DOWNLOADS / "Iniciativas_Conecta_Descripciones_Editadas.xlsx"
 FOUNDERS_PATH = DOWNLOADS / "Seguimiento_Asignación mentor (14) 1.xlsx"
 
@@ -43,6 +43,8 @@ def main() -> None:
 
     science = json.loads(S2V_PATH.read_text(encoding="utf-8"))
     for item in science["iniciativas"]:
+        if norm(item["nombre"]) == "soma":
+            continue
         key = norm(item["nombre"])
         record = by_name.get(key)
         if record is None:
@@ -69,6 +71,8 @@ def main() -> None:
             "trlValidado": item.get("trl_validado_unit"),
             "ventasReportadas": item.get("ventas_reportadas"),
             "financiacionAsignada": item.get("financiacion_asignada"),
+            "montoFinanciacionCop": item.get("monto_financiacion_cop"),
+            "financiacionTexto": item.get("financiacion_texto") if item.get("monto_financiacion_cop") else None,
             "prototipoReportado": item.get("prototipo_reportado") == "Sí",
             "clienteObjetivo": item.get("cliente_objetivo"),
             "objetivoPrograma": item.get("objetivo_en_science2venture"),

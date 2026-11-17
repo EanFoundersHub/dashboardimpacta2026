@@ -8,10 +8,89 @@
       "conPrototipo": 18,
       "conFinanciacion": 12
     },
+    "financiacion": {
+      "iniciativas_con_financiacion": 12,
+      "total_asignado_cop": 243000000,
+      "total_asignado_texto": "$243.000.000 COP",
+      "asignaciones": [
+        {
+          "id": "S2V-2026-02",
+          "nombre": "Click Agents",
+          "monto_asignado_cop": 35000000,
+          "monto_asignado_texto": "$35.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-05",
+          "nombre": "FLUXEO Energy",
+          "monto_asignado_cop": 35000000,
+          "monto_asignado_texto": "$35.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-19",
+          "nombre": "ODEM",
+          "monto_asignado_cop": 35000000,
+          "monto_asignado_texto": "$35.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-11",
+          "nombre": "Animal&Human Foods",
+          "monto_asignado_cop": 20000000,
+          "monto_asignado_texto": "$20.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-27",
+          "nombre": "Prevent Link",
+          "monto_asignado_cop": 20000000,
+          "monto_asignado_texto": "$20.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-20",
+          "nombre": "BIO MENTOR AI",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-33",
+          "nombre": "BRISTOL",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-16",
+          "nombre": "Bioecoscan",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-14",
+          "nombre": "CardioBio",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-34",
+          "nombre": "Liminal",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-17",
+          "nombre": "NIUFEX",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        },
+        {
+          "id": "S2V-2026-15",
+          "nombre": "Re-Evolución Biomecánica",
+          "monto_asignado_cop": 14000000,
+          "monto_asignado_texto": "$14.000.000 COP"
+        }
+      ]
+    },
     "distribucion": [
       {
         "categoria": "AI / software",
-        "iniciativas": 9
+        "iniciativas": 8
       },
       {
         "categoria": "ClimateTech",
@@ -80,13 +159,13 @@
       "Science2Venture": 0,
       "Conecta": 0,
       "FoundersHub": 157,
-      "Swisscontact": 26
+      "Swisscontact": 0
     },
     "actualizados": {
       "Science2Venture": 28,
       "Conecta": 41,
       "FoundersHub": 13,
-      "Swisscontact": 2
+      "Swisscontact": 28
     }
   },
   "swisscontact": {
