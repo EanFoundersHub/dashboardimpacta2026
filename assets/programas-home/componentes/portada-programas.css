@@ -16,6 +16,31 @@ a{color:#0B6B66;text-underline-offset:3px}a:hover{color:#1F2124}
 .pp__btn{display:inline-flex;align-items:center;gap:12px;align-self:flex-start;min-height:56px;padding:0 28px;border-radius:999px;background:#1F2124;color:#F3EFE6;font:600 16px Poppins,Arial,sans-serif;text-decoration:none;white-space:nowrap;transition:background .2s}
 .pp__btn:hover{background:#0B6B66;color:#fff}
 .pp__btn:focus-visible{outline:none;box-shadow:0 0 0 3px #EFE9DC,0 0 0 6px #0B6B66}
+/* Portada principal · Mesa de archivo, adaptada al universo validado de 2026. */
+.pp-cover{position:relative;isolation:isolate;min-height:min(760px,calc(100vh - 72px));overflow:hidden;padding:clamp(54px,7cqi,108px) clamp(18px,5cqi,72px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(420px,.95fr);align-items:center}
+.pp-cover::before{content:"";position:absolute;inset:0;background:url(../assets/papeles/papel-cuadriculado.webp) right top/52% auto no-repeat;opacity:.58;z-index:-3}
+.pp-cover__kraft{position:absolute;left:-3%;top:12%;width:57%;height:67%;background:url(../assets/papeles/papel-kraft.webp) center/100% 100%;transform:rotate(-2deg);z-index:-2;filter:drop-shadow(0 2px 2px rgba(50,35,20,.12))}
+.pp-cover__copy{position:relative;z-index:3;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.pp-cover__title{margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:.08em;font:900 clamp(48px,6.5cqi,98px)/.85 Outfit,'Arial Black',sans-serif;letter-spacing:-.05em;text-transform:none}
+.pp-cover__title>span{display:inline-block;padding:.06em .14em .1em;background:#FBF9F4;box-shadow:0 5px 12px rgba(38,30,20,.14);transform:rotate(-1.5deg)}
+.pp-cover__title>em{font-style:normal;padding:.02em .22em .08em;margin-left:.55em;background:linear-gradient(transparent 66%,#FFC62F 66% 86%,transparent 86%);transform:rotate(1deg)}
+.pp-cover__title>span:last-child{transform:rotate(.6deg)}
+.pp-cover__title b{font:inherit;position:relative;white-space:nowrap}
+.pp-cover__title b::after{content:"";position:absolute;inset:-.06em -.16em -.1em;border:.045em solid #1F2124;border-radius:50%;transform:rotate(-6deg)}
+.pp-cover__intro{width:min(100%,390px);margin-top:4px;padding:18px 20px;background:#FBF9F4;box-shadow:0 12px 24px rgba(45,35,20,.14);transform:rotate(-.5deg)}
+.pp-cover__intro p{margin:0 0 16px;font-size:clamp(14px,1.2cqi,17px);line-height:1.5}
+.pp-cover__intro .pp__btn{min-height:48px;padding:0 22px;font-size:14px}
+.pp-cover__archive{position:relative;height:560px;z-index:1}
+.pp-cover__folder{position:absolute;width:min(620px,44vw);filter:drop-shadow(0 24px 28px rgba(40,30,20,.18))}
+.pp-cover__folder--purple{left:-8%;top:22%;transform:rotate(-5deg)}
+.pp-cover__folder--orange{right:-18%;top:2%;transform:rotate(8deg)}
+.pp-cover__folder--teal{left:18%;top:40%;transform:rotate(3deg) scale(.72)}
+.pp-cover__note{position:absolute;z-index:4;display:flex;flex-direction:column;width:210px;padding:15px 18px;background:#FBF9F4;box-shadow:0 10px 20px rgba(40,30,20,.14);transform:rotate(-2deg)}
+.pp-cover__note b{font:900 clamp(34px,4cqi,58px)/.85 Outfit,Arial,sans-serif;letter-spacing:-.05em}
+.pp-cover__note span{font:600 11px/1.25 Poppins,Arial,sans-serif}
+.pp-cover__note--main{right:26%;top:7%;background:#40C0C0;transform:rotate(-4deg)}
+.pp-cover__note--secondary{right:3%;bottom:8%;transform:rotate(3deg)}
+.pp-cover__stamp{position:absolute;z-index:4;left:42%;bottom:4%;width:118px;mix-blend-mode:multiply;transform:rotate(-12deg)}
 /* ReCap destacado */
 .pp__recap{position:relative;justify-self:end;width:min(100%,560px)}
 .pp__recap .exp__nombre{font-size:clamp(30px,13cqi,74px)}
@@ -49,6 +74,7 @@ a{color:#0B6B66;text-underline-offset:3px}a:hover{color:#1F2124}
   .pp__intro{grid-template-columns:1fr}
   .pp__recap{justify-self:center;width:min(100%,520px)}
   .pp__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pp-cover{grid-template-columns:1fr;min-height:940px;align-items:start}.pp-cover__copy{margin-top:28px}.pp-cover__archive{position:absolute;right:-18%;bottom:-4%;width:72%;height:560px}.pp-cover__note--main{right:7%;top:48%}.pp-cover__note--secondary{right:4%;bottom:3%}.pp-cover__stamp{left:42%;bottom:4%}
   .pp__grid li:nth-child(n){transform:none}.pp__grid li:nth-child(even){transform:translateY(24px) rotate(1deg)}
 }
 @container (max-width:600px){
@@ -56,6 +82,7 @@ a{color:#0B6B66;text-underline-offset:3px}a:hover{color:#1F2124}
   .pp__grid{grid-template-columns:1fr;row-gap:28px}
   .pp__grid li:nth-child(n){transform:none}
   .pp__recap-tapa{display:none}
+  .pp-cover{min-height:860px;padding-top:44px}.pp-cover__kraft{width:95%;height:48%;top:5%}.pp-cover__title{font-size:clamp(42px,14cqi,66px)}.pp-cover__intro{width:92%}.pp-cover__archive{width:115%;right:-48%;height:430px}.pp-cover__folder{width:92vw}.pp-cover__note--main{top:54%;right:auto;left:6%;width:174px}.pp-cover__note--secondary{display:none}.pp-cover__stamp{left:9%;bottom:5%;width:96px}
 }
 @container (max-width:760px){.pp-open{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.pp__recap-tapa{transition:none;transform:perspective(900px) rotateX(-40deg)}.pp__grid li:nth-child(n){transform:none}}

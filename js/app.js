@@ -81,7 +81,16 @@ function viewHome() {
   const enriched = PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, href:p.programa ? '#/directorio?anio=2026&programa=' + encodeURIComponent(p.programa) : p.href }; });
   const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
-  <section class="pp__intro" aria-labelledby="hero-title"><div class="pp__txt"><span class="pp__kicker">Ean Impacta · Archivo de programas</span><h1 class="pp__title" id="hero-title" tabindex="-1">Un archivo, <em>muchos</em> programas</h1><p class="pp__lead">Cada expediente reúne un programa del ecosistema Ean Impacta. El directorio integra <strong>${total2026} emprendimientos únicos con participación en 2026</strong>.</p><a class="pp__btn" href="#/panorama">Ver ReCap 2026 <span aria-hidden="true">→</span></a></div><div class="pp__recap">${programFolder(RECAP, 'exp--recap')}</div></section>
+  <section class="pp-cover" aria-labelledby="hero-title">
+    <div class="pp-cover__kraft" aria-hidden="true"></div>
+    <div class="pp-cover__copy"><span class="pp__kicker">Ean Impacta · Informe anual</span><h1 class="pp-cover__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
+      <div class="pp-cover__intro"><p>El archivo vivo de las iniciativas acompañadas en 2026: los programas que las impulsan, sus soluciones y las capacidades que están construyendo.</p><a class="pp__btn" href="#/panorama">Abrir el informe <span aria-hidden="true">→</span></a></div>
+    </div>
+    <div class="pp-cover__archive" aria-hidden="true"><img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt=""><img class="pp-cover__folder pp-cover__folder--orange" src="${PROGRAM_ASSET}carpetas/carpeta-naranja.webp" alt=""><img class="pp-cover__folder pp-cover__folder--teal" src="${PROGRAM_ASSET}carpetas/carpeta-turquesa.webp" alt=""></div>
+    <div class="pp-cover__note pp-cover__note--main"><b>${total2026}</b><span>emprendimientos únicos con participación en 2026</span></div>
+    <div class="pp-cover__note pp-cover__note--secondary"><b>239</b><span>participaciones en programas con datos consolidados</span></div>
+    <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
+  </section>
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${enriched.length} programas</span></div><ul class="pp__grid">${enriched.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
