@@ -50,14 +50,13 @@ function setQuery(q, replace = true) {
 // ---------- Vistas ----------
 const PROGRAM_ASSET = 'assets/programas-home/assets/';
 const PROGRAMS = [
-  { id:'construye-crece', nombre:'Ean Impacta – Construye y Crece', marca:'Construye <em>y Crece</em>', carpeta:'verde', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[2020,2021,2022,2023,2024,2025], href:'#/directorio' },
-  { id:'science2venture', nombre:'Science2Venture', carpeta:'morada', tono:'claro', color:'#8F499C', colorOn:'#FFFFFF', anios:[], href:'https://impacta.emprendimientosostenible.com.co/science2venture/' },
-  { id:'swisscontact', nombre:'Swisscontact', carpeta:'petroleo', tono:'oscuro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[], href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
-  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'naranja', tono:'claro', color:'#F78D2D', colorOn:'#1F2124', anios:[] },
-  { id:'foundershub', nombre:'FoundersHub', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[], href:'https://impacta.emprendimientosostenible.com.co/foundershub/' },
-  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tinta', tono:'oscuro', color:'#FFC62F', colorOn:'#1F2124', anios:[], href:'https://tangara-ir.com/comunidad/' }
+  { id:'science2venture', nombre:'Science2Venture', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[], href:'https://impacta.emprendimientosostenible.com.co/science2venture/' },
+  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[], href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
+  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[] },
+  { id:'foundershub', nombre:'FoundersHub', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[], href:'https://impacta.emprendimientosostenible.com.co/foundershub/' },
+  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tangara', tono:'oscuro', color:'#C8197C', colorOn:'#FFFFFF', anios:[], href:'https://tangara-ir.com/comunidad/' }
 ];
-const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
+const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
 const yearStamp = (year, tone) => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-${tone === 'oscuro' ? 'claro' : 'oscuro'}.png" alt="Participación ${year}" width="96" height="96">`;
 function programFolder(p, extra = '') {

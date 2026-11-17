@@ -22,8 +22,8 @@
 .exp.is-sin-foto .exp__marca{margin-top:6cqi}
 .exp.is-sin-foto .exp__hoja::before{content:"";position:absolute;left:-2cqi;bottom:4cqi;width:40cqi;height:9cqi;background:url(../assets/papeles/tira-kraft.webp) center/100% 100%;transform:rotate(-4deg);z-index:-1}
 .exp.is-sin-foto.is-sin-logo .exp__nombre[style*='--fit']{font-size:clamp(20px,min(var(--fit),12.4cqi),68px)}
-.exp.is-sin-foto .exp__marca::after{content:"";position:absolute;left:4.4cqi;right:20%;bottom:.6cqi;height:2.2cqi;background:url(../assets/texturas/resaltador-amarillo.webp) center/100% 100%;mix-blend-mode:multiply;opacity:.0}
-.exp.is-sin-foto.is-sin-logo .exp__marca::after{opacity:.9}
+.exp.is-sin-foto .exp__marca::after{content:"";position:absolute;left:4.4cqi;right:20%;bottom:.6cqi;height:1.4cqi;background:var(--c);mix-blend-mode:multiply;opacity:0;border-radius:2px;transform:rotate(-.8deg)}
+.exp.is-sin-foto.is-sin-logo .exp__marca::after{opacity:.75}
 /* Datos */
 .exp__desc{margin:0;max-width:60cqi;font:400 clamp(12px,3.4cqi,15px)/1.45 Poppins,Arial,sans-serif;color:#2B2C30;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .exp__cifra{display:flex;align-items:baseline;gap:2cqi;margin-top:auto}
@@ -36,20 +36,18 @@
 .exp__sello{width:clamp(52px,17cqi,96px);height:auto;margin-left:-4.2cqi;mix-blend-mode:multiply;opacity:.9}
 .exp__sello:first-child{margin-left:0}
 .exp__sello:nth-child(odd){transform:rotate(-9deg)}.exp__sello:nth-child(even){transform:rotate(7deg) translateY(-1.4cqi)}
-.pp__grid .exp__sellos{max-width:54%}
-.pp__grid .exp__sello{width:38px;margin-left:-13px}
-.pp__grid .exp__sello:first-child{margin-left:0}
 .exp[data-tono="oscuro"] .exp__sello{mix-blend-mode:normal;opacity:.94}
 .exp__cta{display:inline-flex;align-items:center;gap:1.6cqi;min-height:44px;padding:0 4cqi;border-radius:999px;background:#1F2124;color:#F3EFE6;font:600 clamp(12px,3.4cqi,15px) Poppins,Arial,sans-serif;white-space:nowrap;transition:background .2s,color .2s}
-.exp[data-tono="oscuro"] .exp__cta{background:#F3EFE6;color:#1F2124}
+.exp[data-tono="oscuro"] .exp__cta{background:#FBF9F4;color:#1F2124;box-shadow:0 0 0 1.5px #1F2124}
+.exp[data-tono="oscuro"]:hover .exp__cta,.exp[data-tono="oscuro"]:focus-visible .exp__cta{background:#1F2124;color:#FBF9F4}
 /* Estados */
 .exp:hover{transform:translateY(-10px) rotate(-.6deg)}
 .exp:hover .exp__hoja{transform:translateY(-3.4%)}
-.exp:hover .exp__cta,.exp:focus-visible .exp__cta{background:var(--c);color:var(--c-on,#1F2124)}
-.exp:focus-visible{box-shadow:0 0 0 3px #EFE9DC,0 0 0 6px #0B6B66}
+.exp:hover .exp__cta,.exp:focus-visible .exp__cta{background:var(--c);color:var(--c-on,#1F2124);box-shadow:0 0 0 1.5px #1F2124}
+.exp:focus-visible{box-shadow:0 0 0 3px #EFE9DC,0 0 0 6px #1F2124}
 .exp:active{transform:translateY(-4px) scale(.99)}
 .exp[aria-current="true"],.exp.is-seleccionado{transform:translateY(-14px);filter:drop-shadow(0 0 0 #0000)}
-.exp[aria-current="true"]::after,.exp.is-seleccionado::after{content:"";position:absolute;inset:-10px;border:3px solid #0B6B66;border-radius:6px;pointer-events:none}
+.exp[aria-current="true"]::after,.exp.is-seleccionado::after{content:"";position:absolute;inset:-10px;border:3px solid var(--c);box-shadow:0 0 0 2px #1F2124;border-radius:6px;pointer-events:none}
 /* Plantilla: muestra los huecos de datos para Codex */
 .modo-plantilla .exp [data-slot]:empty,.modo-plantilla .exp__slot{display:flex;align-items:center;justify-content:center;min-height:9cqi;border:1.5px dashed rgba(31,33,36,.5);font:600 11px/1.2 'JetBrains Mono',ui-monospace,monospace;color:#1F2124;background:rgba(255,255,255,.35)}
 .modo-plantilla .exp [data-slot]:empty::before{content:attr(data-slot)}
