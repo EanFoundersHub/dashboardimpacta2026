@@ -53,7 +53,7 @@ function setQuery(q, replace = true) {
 const PROGRAM_ASSET = 'assets/programas-home/assets/';
 const PROGRAMS = [
   { id:'science2venture', nombre:'Science2Venture', carpeta:'science2venture', tono:'oscuro', color:'#1E5AA8', colorOn:'#FFFFFF', anios:[2026], programa:'Science2Venture' },
-  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[], descripcion:'Diagnóstico y fortalecimiento empresarial desarrollado junto a Swisscontact.', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
+  { id:'swisscontact', nombre:'Swisscontact', carpeta:'swisscontact', tono:'oscuro', color:'#E2001A', colorOn:'#FFFFFF', anios:[2026], programa:'Swisscontact', href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
   { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'impacta-inhouse', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[], descripcion:'Acompañamiento diseñado por Ean Impacta para fortalecer iniciativas y organizaciones desde sus propios retos.' },
   { id:'foundershub', nombre:'FoundersHub', carpeta:'foundershub', tono:'claro', color:'#F6B24E', colorOn:'#1F2124', anios:[2026], programa:'FoundersHub' },
   { id:'conecta', nombre:'Conecta', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[2026], programa:'Conecta - Bridge for Billions' },
@@ -68,18 +68,25 @@ const dossierYearStamps = years => {
 };
 function programFolder(p, extra = '') {
   const long = p.nombre.length > 22 ? 'exp--xlargo' : p.nombre.length > 12 ? 'exp--largo' : '';
-  const metrics = p.cifras ? Object.entries(p.cifras).filter(([,v]) => Number.isFinite(v)).slice(0, 3) : [];
-  const metricLabels = { iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' };
-  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span>${p.descripcion ? `<p class="exp__desc">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<span class="exp__metrics">${metrics.map(([k,v]) => `<span><b>${v}</b><small>${esc(metricLabels[k] || k)}</small></span>`).join('')}</span>` : ''}</span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
-  const cls = `exp ${long} is-sin-logo is-sin-foto ${(p.descripcion || metrics.length) ? 'has-datos' : ''} ${extra}`;
+  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
+  const cls = `exp ${long} is-sin-logo is-sin-foto exp--program ${extra}`;
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
-  if (!p.href) return `<article class="${cls}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)}">${inner}</article>`;
-  const external = p.href.startsWith('http') ? ' target="_blank" rel="noopener"' : '';
-  return `<a class="${cls}" href="${esc(p.href)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · ${esc(p.cta || 'Abrir expediente')}"${external}>${inner}</a>`;
+  return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir expediente">${inner}</button>`;
 }
+const PROGRAM_METRIC_LABELS = { iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
+const PROGRAM_METRIC_FILTERS = { conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
+function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, directorio:(p.programa || d) ? '#/directorio?anio=2026&programa=' + encodeURIComponent(p.programa || 'Swisscontact') : null }; }); }
+function openProgram(id, source) {
+  const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, 4);
+  const href = k => p.directorio + (PROGRAM_METRIC_FILTERS[k] ? '&programMetric=' + PROGRAM_METRIC_FILTERS[k] : ''); const modal = $('#program-modal');
+  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Expediente de programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.descripcion ? `<p>${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(([k,v]) => `<a href="${href(k)}"><b>${v}</b><span>${esc(PROGRAM_METRIC_LABELS[k] || k)}</span><small>Ver iniciativas →</small></a>`).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver directorio del programa →</a>` : ''}${p.href?.startsWith('http') ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Ir al sitio del programa</a>` : ''}</div></div>`;
+  modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus(), 30);
+}
+function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
 function viewHome() {
-  const enriched = PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:d?.cifras, href:p.programa ? '#/directorio?anio=2026&programa=' + encodeURIComponent(p.programa) : p.href }; });
+  const enriched = enrichedPrograms();
   const total2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
+  const participation2026 = Object.values(DATA.programs2026).filter(x => x?.anio === 2026).reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
   <section class="pp-cover" aria-labelledby="hero-title">
     <div class="pp-cover__kraft" aria-hidden="true"></div>
@@ -88,10 +95,10 @@ function viewHome() {
     </div>
     <div class="pp-cover__archive" aria-hidden="true"><img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt=""><img class="pp-cover__folder pp-cover__folder--orange" src="${PROGRAM_ASSET}carpetas/carpeta-naranja.webp" alt=""><img class="pp-cover__folder pp-cover__folder--teal" src="${PROGRAM_ASSET}carpetas/carpeta-turquesa.webp" alt=""></div>
     <div class="pp-cover__note pp-cover__note--main"><b>${total2026}</b><span>emprendimientos únicos con participación en 2026</span></div>
-    <div class="pp-cover__note pp-cover__note--secondary"><b>239</b><span>participaciones en programas con datos consolidados</span></div>
+    <div class="pp-cover__note pp-cover__note--secondary"><b>${participation2026}</b><span>participaciones en programas con datos consolidados</span></div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
-  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${enriched.length} programas</span></div><ul class="pp__grid">${enriched.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section></div>`;
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${enriched.length} programas</span></div><ul class="pp__grid">${enriched.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -100,11 +107,11 @@ function viewPanorama() {
   const U = DATA.insights.panorama.universos;
   const p = DATA.programs2026;
   const unique2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
-  const participation2026 = (p.science2venture?.cifras.iniciativas || 0) + (p.conecta?.cifras.iniciativas || 0) + (p.foundershub?.cifras.iniciativas || 0);
-  const programs = [p.science2venture, p.foundershub, p.conecta].filter(Boolean);
+  const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact].filter(Boolean);
+  const participation2026 = programs.reduce((n,x) => n + (x.cifras?.iniciativas || 0), 0);
   return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">ReCap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
-  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub y Conecta durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
+  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta y Swisscontact durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
   <div class="ir-universe ir-reveal" style="--i:0" data-kind="unicos"><div class="ir-universe__name"><span class="ir-label">Corte 2026</span><b>Universo del año</b></div>
   <div class="ir-universe__figures">${metric(unique2026, 'emprendimientos únicos con participación en 2026', 'ir-metric--l ir-metric--on-dark')}${metric(participation2026, 'participaciones registradas en los tres programas con datos consolidados', 'ir-metric--l ir-metric--on-dark')}${metric(programs.length, 'programas 2026 con directorio incorporado', 'ir-metric--l ir-metric--on-dark')}</div></div>
   ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
@@ -183,7 +190,17 @@ function closeDrawer(push = true) {
 
 function filterList(q) {
   const term = (q.get('q') || '').trim().toLowerCase();
-  return DATA.startups.filter(s => FACETS.every(F => { const sel = q.getAll(F.key); if (!sel.length) return true; const v = F.get(s); return F.multi ? sel.every(x => v.includes(x)) : sel.some(x => v.includes(x)); })
+  const metricKey = q.get('programMetric');
+  const metricMatches = s => !metricKey || ({
+    'science-prototype': s.science2venture2026?.prototipoReportado === true,
+    'science-financing': s.science2venture2026?.financiacionAsignada === true,
+    'founders-income': s.foundersHub2026?.generaIngresos === true,
+    'founders-tech': ['tech','digitales','digital','innovación'].includes((s.foundersHub2026?.categoria || '').toLowerCase()),
+    'swiss-accompanied': s.swisscontact2026?.acompanamientoEfectivo === true,
+    'swiss-diagnostic': s.swisscontact2026?.diagnosticoEstado === 'completo',
+    'swiss-plan': s.swisscontact2026?.planAccionEstado === 'disponible'
+  })[metricKey] === true;
+  return DATA.startups.filter(s => metricMatches(s) && FACETS.every(F => { const sel = q.getAll(F.key); if (!sel.length) return true; const v = F.get(s); return F.multi ? sel.every(x => v.includes(x)) : sel.some(x => v.includes(x)); })
     && (!term || (s.nombre + ' ' + (s.descripcion || '') + ' ' + (s.sector || '') + ' ' + (s.ubicacion || '')).toLowerCase().includes(term)));
 }
 function facetOptions(F) { const m = new Map(); DATA.startups.forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
@@ -199,7 +216,7 @@ const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || 
 
 function viewDirectory(q) {
   const res = filterList(q), view = q.get('vista') === 'compacta' ? 'compact' : 'grid', limit = Math.max(PAGE, +q.get('n') || PAGE);
-  const chips = FACETS.flatMap(F => q.getAll(F.key).map(v => ({ k: F.key, v }))); if (q.get('q')) chips.push({ k: 'q', v: q.get('q') });
+  const chips = FACETS.flatMap(F => q.getAll(F.key).map(v => ({ k: F.key, v }))); if (q.get('q')) chips.push({ k: 'q', v: q.get('q') }); if (q.get('programMetric')) chips.push({ k:'programMetric', v:q.get('programMetric'), label:'Cifra seleccionada' });
   const nActive = chips.length;
   return `<section class="ir-section" aria-labelledby="dir-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag">Directorio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Emprendimientos</h1>
@@ -215,7 +232,7 @@ function viewDirectory(q) {
       <button class="ir-btn ir-btn--primary ir-filters-btn" type="button" data-action="open-filters" aria-controls="filters" aria-expanded="false">${ICON('filtro')} Filtros${nActive ? ' · ' + nActive : ''}</button></div>
       <div class="ir-toolbar"><span class="ir-count" aria-live="polite">${res.length} emprendimientos</span>
         <div class="ir-view-toggle" role="group" aria-label="Vista"><button type="button" aria-pressed="${view === 'grid'}" data-view="grid" aria-label="Cuadrícula">${ICON('grid')}</button><button type="button" aria-pressed="${view === 'compact'}" data-view="compacta" aria-label="Lista compacta">${ICON('lista')}</button></div></div>
-      ${chips.length ? `<div class="ir-active" data-component="ActiveFilters" aria-label="Filtros activos">${chips.map(c => `<button type="button" class="ir-chip" data-remove="${c.k}" data-value="${esc(c.v)}" aria-label="Quitar ${esc(c.v)}">${esc(c.k === 'q' ? '«' + c.v + '»' : c.v)}<i>×</i></button>`).join('')}<button type="button" class="ir-btn ir-btn--small" style="border:0;text-decoration:underline" data-action="clear">Limpiar filtros</button></div>` : ''}
+      ${chips.length ? `<div class="ir-active" data-component="ActiveFilters" aria-label="Filtros activos">${chips.map(c => `<button type="button" class="ir-chip" data-remove="${c.k}" data-value="${esc(c.v)}" aria-label="Quitar ${esc(c.label || c.v)}">${esc(c.label || (c.k === 'q' ? '«' + c.v + '»' : c.v))}<i>×</i></button>`).join('')}<button type="button" class="ir-btn ir-btn--small" style="border:0;text-decoration:underline" data-action="clear">Limpiar filtros</button></div>` : ''}
       ${res.length ? `<div class="ir-grid" data-view="${view}" data-component="StartupGrid">${res.slice(0, limit).map(card).join('')}</div>${res.length > limit ? `<div class="ir-more"><button class="ir-btn" type="button" data-action="more">Ver más · ${res.length - limit} restantes</button></div>` : ''}`
       : `<div class="ir-empty"><img src="assets/folders/carpeta-morada.webp" alt="" style="transform:rotate(-5deg)"><div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font:800 28px/1.1 var(--font-display)">Ningún expediente coincide con esta combinación.</h2><p style="margin:0">Quita un filtro o prueba otra búsqueda.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="ir-btn ir-btn--primary" type="button" data-action="undo">Quitar el último filtro</button><button class="ir-btn" type="button" data-action="clear">Limpiar todo</button></div></div></div>`}
     </div>
@@ -255,7 +272,7 @@ function viewDossier(id) {
 }
 
 function viewMethod() {
-  const D = [['Universo principal 2026', '229 emprendimientos únicos vinculados a Science2Venture, FoundersHub o Conecta durante 2026. Las 239 participaciones no se suman como empresas distintas porque nueve iniciativas aparecen en más de un programa.'],
+  const D = [['Universo principal 2026', '257 emprendimientos únicos vinculados a Science2Venture, FoundersHub, Conecta o Swisscontact durante 2026. Las 267 participaciones no se suman como empresas distintas porque existen iniciativas vinculadas a más de un programa.'],
     ['Contexto histórico', 'Los indicadores de Construye, Crece y la medición de impacto se conservan como contexto de la trayectoria de Ean Impacta. Están separados visualmente del universo exclusivo de 2026.'],
     ['Universo del directorio histórico', 'Registros del Directorio Consolidado de Ean Impacta. El 79,8 % se encuentra activo. Una empresa puede aparecer en varias fases.'],
     ['Participaciones', 'Cuentan inscripciones por fase: 117 en Construye y 63 relacionadas con Crece. Una empresa que pasó por ambas fases suma dos participaciones.'],
@@ -305,6 +322,9 @@ function bindView(r, q) {
 }
 
 document.addEventListener('click', e => {
+  const programOpen = e.target.closest('[data-program-open]'); if (programOpen) { openProgram(programOpen.dataset.programOpen, programOpen); return; }
+  if (e.target.closest('[data-program-close]') || e.target.id === 'program-modal') { closeProgram(); return; }
+  if (e.target.closest('#program-modal a')) document.body.style.overflow = '';
   const a = e.target.closest('[data-action]'); if (!a) return; const act = a.dataset.action;
   if (act === 'programs') { e.preventDefault(); $('#programas')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   if (act === 'menu') { const n = $('#mobile-nav'); const o = n.dataset.open !== 'true'; n.dataset.open = o; a.setAttribute('aria-expanded', o); a.textContent = o ? 'Cerrar' : 'Índice'; }
@@ -316,7 +336,7 @@ document.addEventListener('click', e => {
   if (act === 'more') { const nq = parseHash().q; nq.set('n', (+nq.get('n') || PAGE) + PAGE); history.replaceState(null, '', '#/directorio?' + nq); const y = scrollY; render(false); window.scrollTo(0, y); }
 });
 function closeMenu() { const n = $('#mobile-nav'); if (n.dataset.open === 'true') { n.dataset.open = 'false'; const b = $('[data-action="menu"]'); b.setAttribute('aria-expanded', 'false'); b.textContent = 'Índice'; } }
-document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if ($('#insight-drawer').dataset.open === 'true') closeDrawer(); else if ($('#filters')?.dataset.open === 'true') { $('#filters').dataset.open = 'false'; } else closeMenu(); });
+document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if ($('#program-modal') && !$('#program-modal').hidden) closeProgram(); else if ($('#insight-drawer').dataset.open === 'true') closeDrawer(); else if ($('#filters')?.dataset.open === 'true') { $('#filters').dataset.open = 'false'; } else closeMenu(); });
 $('#insight-drawer').addEventListener('keydown', e => { if (e.key !== 'Tab') return; const f = $$('a[href],button,input', e.currentTarget).filter(x => !x.hidden && x.offsetParent); if (!f.length) return; const first = f[0], last = f[f.length - 1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } });
 window.addEventListener('hashchange', () => render(true));

@@ -79,12 +79,43 @@
     "creados": {
       "Science2Venture": 0,
       "Conecta": 0,
-      "FoundersHub": 157
+      "FoundersHub": 157,
+      "Swisscontact": 26
     },
     "actualizados": {
       "Science2Venture": 28,
       "Conecta": 41,
-      "FoundersHub": 13
+      "FoundersHub": 13,
+      "Swisscontact": 2
     }
+  },
+  "swisscontact": {
+    "nombre": "Programa de Alistamiento para Inversión de Colombia + Competitiva",
+    "nombreCorto": "Swisscontact",
+    "descripcion": "Acompañamiento para fortalecer la gestión comercial y financiera, cerrar brechas de financiabilidad y preparar a empresas de ingredientes naturales, agricultura sostenible y economía circular para relacionarse con fuentes de capital.",
+    "anio": 2026,
+    "fechaCorte": "2026-11-11",
+    "cifras": {
+      "iniciativas": 28,
+      "acompanamientoEfectivo": 27,
+      "diagnosticosCompletos": 15,
+      "planesAccionDisponibles": 12
+    },
+    "sectores": [
+      {
+        "sector": "Agricultura Sostenible",
+        "cantidad": 6
+      },
+      {
+        "sector": "Economía Circular",
+        "cantidad": 12
+      },
+      {
+        "sector": "Ingredientes Naturales",
+        "cantidad": 10
+      }
+    ],
+    "fuente": "Texto pegado.txt",
+    "notaPublicacion": "No se publican contactos, identificadores fiscales ni montos financieros."
   }
 }
