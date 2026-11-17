@@ -51,28 +51,22 @@ function setQuery(q, replace = true) {
 function viewHome() {
   const P = DATA.insights.panorama;
   return `<section class="ir-hero ir-paper-bg" data-component="EditorialHero" aria-labelledby="hero-title">
-  <div class="ir-container ir-hero__grid">
-    <div class="ir-hero__text">
-      <p class="ir-label ir-hero__kicker">Informe de resultados e impacto · 2020–2025</p>
-      <h1 class="ir-hero__title" id="hero-title" tabindex="-1">Ean Impacta <em>Startup</em> Report 2026</h1>
-      <p class="ir-hero__lead">El archivo vivo de los emprendimientos que acompañamos: lo que construyeron, lo que lograron y hacia dónde van.</p>
-      <div class="ir-hero__actions">
-        <a class="ir-btn ir-btn--primary" href="#/panorama">Abrir el informe ${ICON('flecha')}</a>
-        <a class="ir-btn" href="#/insights">Ver Insights</a>
-        <a class="ir-btn" href="#/directorio">Directorio</a>
-      </div>
-    </div>
-    <div class="ir-route" data-component="RouteCover" data-state="closed" aria-hidden="true">
-      <img class="ir-route__folder ir-route__folder--back-a" src="assets/folders/carpeta-amarilla.webp" alt="">
-      <img class="ir-route__folder ir-route__folder--back-b" src="assets/folders/carpeta-verde.webp" alt="">
-      <img class="ir-route__folder ir-route__folder--front" src="assets/folders/carpeta-turquesa.webp" alt="">
-      <div class="ir-route__label"><span class="ir-label">Expediente</span><b>STARTUP<br>REPORT <span style="color:var(--color-accent-title)">2026</span></b></div>
-      <img class="ir-route__stamp" src="assets/stamps/sello-archivo-2026.webp" alt="">
-    </div>
+  <div class="ir-hero__kraft" aria-hidden="true"></div>
+  <div class="ir-hero__grid-paper" aria-hidden="true"></div>
+  <div class="ir-hero__folders" aria-hidden="true">
+    <img class="ir-hero__folder ir-hero__folder--purple" src="assets/folders/carpeta-morada.webp" alt="">
+    <img class="ir-hero__folder ir-hero__folder--orange" src="assets/folders/carpeta-naranja.webp" alt="">
   </div>
-  <div class="ir-container"><div class="ir-hero__band">
-    ${metric(177, 'emprendimientos únicos en Construye y Crece')}${metric(117, 'participaciones en Construye')}${metric(63, 'participaciones relacionadas con Crece')}${metric('76,3 %', 'del portafolio Construye–Crece con liderazgo femenino')}
-  </div></div>
+  <div class="ir-container ir-hero__stage">
+    <div class="ir-hero__text">
+      <h1 class="ir-hero__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
+      <div class="ir-hero__intro"><p>El archivo vivo de los emprendimientos que acompañamos: lo que construyeron, lo que lograron y hacia dónde van.</p><a class="ir-btn ir-btn--primary" href="#/panorama">Abrir el informe ${ICON('flecha')}</a></div>
+    </div>
+    <div class="ir-hero__stat ir-hero__stat--ventures"><b>177</b><span>emprendimientos únicos ·<br>Construye y Crece</span></div>
+    <div class="ir-hero__stat ir-hero__stat--women"><b>135</b><span>emprendimientos con mujeres<br>en el liderazgo</span></div>
+    <p class="ir-hero__coverage">97 emprendimientos medidos · cobertura 54,8 %</p>
+    <img class="ir-hero__stamp" src="assets/stamps/sello-archivo-2026.webp" alt="">
+  </div>
 </section>
 <section class="ir-section"><div class="ir-container"><div class="ir-section__head"><span class="ir-label">Alcance del programa</span>
 <h2 class="ir-section__title" style="font-size:var(--fs-h2)">Construye incuba. Crece acelera.</h2>
@@ -80,6 +74,7 @@ function viewHome() {
 <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="ir-btn ir-btn--primary" href="#/insights">Recorrer los Insights ${ICON('flecha')}</a><a class="ir-btn" href="#/metodologia">Cómo se midió</a></div></div></section>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
+const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
 
 function viewPanorama() {
   const U = DATA.insights.panorama.universos;
@@ -209,14 +204,14 @@ function viewDossier(id) {
     m.propiedadIntelectual && ['Propiedad intelectual', `<div class="ir-card__tags">${m.propiedadIntelectual.map(t => `<span class="ir-badge">${esc(t)}</span>`).join('')}</div>`],
     m.internacional && ['Internacionalización', `<p style="margin:0">Alcanzó mercados en ${esc(m.internacional.regiones.join(', '))}.</p>`],
     m.ods && ['Objetivos de Desarrollo Sostenible', `<div class="ir-card__tags">${m.ods.map(sdgBadge).join('')}</div>`],
-    s.equipo?.length && ['Equipo', `<div class="ir-team">${s.equipo.map(p => `<div class="ir-member" data-component="FounderCard"><div class="ir-member__photo ir-photo-crop">${p.foto ? `<img src="${esc(p.foto)}" alt="${esc(p.nombre)}">` : ''}</div><b>${esc(p.nombre)}</b>${p.rol ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(p.rol)}</span>` : ''}</div>`).join('')}</div>`],
+    s.equipo?.length && ['Equipo', `<div class="ir-team">${s.equipo.map(p => `<div class="ir-member" data-component="FounderCard">${tornPhoto(p.foto, p.nombre, '4x5')}<b>${esc(p.nombre)}</b>${p.rol ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(p.rol)}</span>` : ''}</div>`).join('')}</div>`],
     (s.reconocimientos || m.premios) && ['Premios y reconocimientos', `<div class="ir-recognition" data-component="RecognitionCard"><p style="margin:0;max-width:52ch">${esc(s.reconocimientos || m.premios)}</p></div>`]
   ].filter(Boolean);
   const related = DATA.startups.filter(x => x.id !== s.id && x.vertical && x.vertical === s.vertical).slice(0, 3);
   return `<article class="ir-dossier ir-paper-bg" data-component="StartupDossier" aria-labelledby="dos-title"><div class="ir-container">
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/directorio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al directorio</a></div>
   <div class="ir-dossier__grid">
-    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div><div class="ir-dossier__photo--team ir-photo-crop" data-slot="foto-equipo">${s.fotoEquipo || s.foto ? `<img src="${esc(s.fotoEquipo || s.foto)}" alt="${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${esc(s.nombre)}">` : ''}</div></div>
+    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div>${tornPhoto(s.fotoEquipo || s.foto, `${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${s.nombre}`)}</div>
       <img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="position:absolute;right:4%;bottom:12%;width:22%"></div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
       <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Expediente${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
@@ -267,6 +262,7 @@ function render(focus = true) {
   const prevKey = state.route; if (prevKey) state.scrollByRoute[prevKey] = scrollY;
   const main = $('#main');
   const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : r === 'directorio' ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : r === 'historias' ? viewStories() : r === 'metodologia' ? viewMethod() : viewHome();
+  document.body.dataset.route = r || 'inicio';
   main.innerHTML = `<div class="ir-view">${html}</div>`;
   if (r === 'directorio') state.lastDirQuery = q.toString();
   $$('[data-nav]').forEach(a => a.toggleAttribute('aria-current', false)); const cur = $(`[data-nav="${r === 'e' ? 'directorio' : r}"]`); cur && cur.setAttribute('aria-current', 'page');
@@ -314,7 +310,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights] = await Promise.all([fetch('data/startups.json?v=media-sanitized-20261117').then(r => r.json()), fetch('data/insights.json').then(r => r.json())]);
+    const [startups, insights] = await Promise.all([fetch('data/startups.json?v=photo-audit-20261117').then(r => r.json()), fetch('data/insights.json').then(r => r.json())]);
     DATA = { startups, insights }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();

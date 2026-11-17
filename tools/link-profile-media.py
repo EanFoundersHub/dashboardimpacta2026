@@ -26,11 +26,40 @@ ALIASES = {
 # Composiciones de Canva o fichas con texto/datos de contacto incrustados. No
 # deben publicarse como fotografías; se espera un original limpio.
 BLOCKED_CAPTURE_IDS = {
+    "ambardesign",
+    "ancestraliagcosmeticanatural",
+    "apisgreen",
     "bisvita",
+    "bionaturalsolutionsbns",
+    "cannabissalud",
     "circula",
+    "circool",
+    "cityhuertas",
+    "clevermarket",
+    "communitylab",
     "deicompanyhannu",
     "demetria",
     "deterquinecopacs",
+    "ecolairesp",
+    "fiingenieria",
+    "fincasguilius",
+    "hwestrellaabonosorganicos",
+    "imail",
+    "lahuertahotel",
+    "molinillitopalitodeazucarypanela",
+    "musadeltropico",
+    "neosiqenergy",
+    "nunalabs",
+    "ocelote",
+    "onetotree",
+    "paguro",
+    "proyectocrudo",
+    "siembravertical",
+    "sumasacha",
+    "torna",
+    "twoglass",
+    "verdemontana",
+    "xiclo",
 }
 
 
@@ -92,9 +121,10 @@ def main() -> None:
         if startup["id"] in BLOCKED_CAPTURE_IDS:
             startup.pop("foto", None)
             startup.pop("fotoEquipo", None)
-            startup.pop("equipo", None)
+            for member in startup.get("equipo", []):
+                member.pop("foto", None)
             startup["fotoPendiente"] = True
-            startup["mediaObservacion"] = "La imagen disponible es una composición de Canva; se requiere fotografía original limpia."
+            startup["mediaObservacion"] = "El recurso extraído no contiene una fotografía limpia y utilizable; se requiere el original."
         elif is_pending:
             startup["fotoPendiente"] = True
         else:
