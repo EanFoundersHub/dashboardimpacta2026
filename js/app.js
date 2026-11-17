@@ -89,20 +89,30 @@ const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div cl
 
 function viewPanorama() {
   const U = DATA.insights.panorama.universos;
+  const p = DATA.programs2026;
+  const unique2026 = DATA.startups.filter(s => (s.anios || []).map(String).includes('2026')).length;
+  const participation2026 = (p.science2venture?.cifras.iniciativas || 0) + (p.conecta?.cifras.iniciativas || 0) + (p.foundershub?.cifras.iniciativas || 0);
+  const programs = [p.science2venture, p.foundershub, p.conecta].filter(Boolean);
   return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">Panorama Impacta</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">Cuatro universos, cuatro lecturas</h1>
-  <p class="ir-section__lead">Cada bloque se lee sobre su propio denominador. Las participaciones cuentan inscripciones por fase; los emprendimientos únicos cuentan empresas; la medición cubre a quienes respondieron.</p></div>
-  ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">0${i + 1} · Universo</span><b>${esc(u.titulo)}</b></div>
+  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">ReCap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
+  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub y Conecta durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
+  <div class="ir-universe ir-reveal" style="--i:0" data-kind="unicos"><div class="ir-universe__name"><span class="ir-label">Corte 2026</span><b>Universo del año</b></div>
+  <div class="ir-universe__figures">${metric(unique2026, 'emprendimientos únicos con participación en 2026', 'ir-metric--l ir-metric--on-dark')}${metric(participation2026, 'participaciones registradas en los tres programas con datos consolidados', 'ir-metric--l ir-metric--on-dark')}${metric(programs.length, 'programas 2026 con directorio incorporado', 'ir-metric--l ir-metric--on-dark')}</div></div>
+  ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
+  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, ({ iniciativas:'iniciativas', conPrototipo:'con prototipo reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' })[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
+  <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Contexto histórico</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
+  <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
+  ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
   <div class="ir-universe__figures">${u.cifras.map(c => metric(c.valor, c.texto, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
-  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver los Insights ${ICON('flecha')}</a></div>
+  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver la medición 2026 ${ICON('flecha')}</a></div>
 </div></section>`;
 }
 
 function viewInsights(q) {
   const I = DATA.insights.insights;
   return `<section class="ir-section ir-paper-bg" aria-labelledby="ins-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag">Insights · medición 2026</span><h1 class="ir-section__title" id="ins-title" tabindex="-1">Lo que construyeron</h1>
-  <p class="ir-section__lead">${esc(DATA.insights.panorama.notaBase)} Abre una cifra para ver los emprendimientos que la componen.</p></div>
+  <div class="ir-section__head"><span class="ir-tag">Medición realizada en 2026</span><h1 class="ir-section__title" id="ins-title" tabindex="-1">Lo que construyeron</h1>
+  <p class="ir-section__lead">Resultados declarados en 2026 por emprendimientos acompañados en distintos años. ${esc(DATA.insights.panorama.notaBase)} Abre una cifra para ver los emprendimientos que la componen.</p></div>
   ${I.map(ch => `<div class="ir-chapter" data-component="InsightSection" id="cap-${ch.id}" style="${chVars(ch.color)}">
     <div class="ir-chapter__head"><span class="ir-tag ir-tag--chapter">${esc(ch.capitulo)}</span><h2 class="ir-chapter__title">${esc(ch.capitulo)}</h2>${ch.universo === 'directorio' ? '<p class="ir-label">Universo: portafolio Construye–Crece</p>' : ''}</div>
     <div class="ir-chapter__cards">${ch.cifras.map((c, j) => `<button type="button" class="ir-insight ir-reveal ${j === 0 ? 'ir-insight--feature' : ''}" style="--i:${j}" data-component="InsightCard" data-insight="${ch.id}:${c.id}" aria-expanded="false" aria-controls="insight-drawer" ${c.miembros ? '' : 'data-static="true"'}>
@@ -236,7 +246,9 @@ function viewDossier(id) {
 }
 
 function viewMethod() {
-  const D = [['Universo del directorio', 'Registros del Directorio Consolidado de Ean Impacta. El 79,8 % se encuentra activo. Una empresa puede aparecer en varias fases.'],
+  const D = [['Universo principal 2026', '229 emprendimientos únicos vinculados a Science2Venture, FoundersHub o Conecta durante 2026. Las 239 participaciones no se suman como empresas distintas porque nueve iniciativas aparecen en más de un programa.'],
+    ['Contexto histórico', 'Los indicadores de Construye, Crece y la medición de impacto se conservan como contexto de la trayectoria de Ean Impacta. Están separados visualmente del universo exclusivo de 2026.'],
+    ['Universo del directorio histórico', 'Registros del Directorio Consolidado de Ean Impacta. El 79,8 % se encuentra activo. Una empresa puede aparecer en varias fases.'],
     ['Participaciones', 'Cuentan inscripciones por fase: 117 en Construye y 63 relacionadas con Crece. Una empresa que pasó por ambas fases suma dos participaciones.'],
     ['Emprendimientos únicos', '177 empresas distintas conforman el universo principal de Construye y Crece. Sobre este universo se calcula el liderazgo femenino (135 · 76,3 %).'],
     ['Universo de la medición', 'La medición 2026 cubre 97 emprendimientos del portafolio principal (cobertura del 54,8 %). Los porcentajes de Insights se calculan sobre los 121 emprendimientos que respondieron.'],
