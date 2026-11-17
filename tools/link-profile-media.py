@@ -23,6 +23,16 @@ ALIASES = {
     "Craton": "academiaruralparalaamazoniacraton",
 }
 
+# Composiciones de Canva o fichas con texto/datos de contacto incrustados. No
+# deben publicarse como fotografías; se espera un original limpio.
+BLOCKED_CAPTURE_IDS = {
+    "bisvita",
+    "circula",
+    "deicompanyhannu",
+    "demetria",
+    "deterquinecopacs",
+}
+
 
 def norm(value: str) -> str:
     value = unicodedata.normalize("NFKD", value or "").encode("ascii", "ignore").decode().lower()
@@ -73,22 +83,29 @@ def main() -> None:
         logo_target = destination / "logo.webp"
         photo_target = destination / "foto.webp"
         webp(logo_source, logo_target, 480, 88)
-        webp(photo_source, photo_target, 1200, 84)
 
         startup["logo"] = f"assets/startups/{startup['id']}/logo.webp"
         photo_url = f"assets/startups/{startup['id']}/foto.webp"
         photo_name = photo_source.stem.lower()
         is_pending = photo_name.startswith("pendiente")
         is_generic = any(token in photo_name for token in ("foto_equipo", "contacto", "co_founder", "n_pagina"))
-        if is_pending:
+        if startup["id"] in BLOCKED_CAPTURE_IDS:
+            startup.pop("foto", None)
+            startup.pop("fotoEquipo", None)
+            startup.pop("equipo", None)
             startup["fotoPendiente"] = True
-        elif is_generic:
-            startup["fotoEquipo"] = photo_url
+            startup["mediaObservacion"] = "La imagen disponible es una composición de Canva; se requiere fotografía original limpia."
+        elif is_pending:
+            startup["fotoPendiente"] = True
         else:
-            startup["foto"] = photo_url
-            person = row.get("persona", "").strip()
-            if person:
-                startup["equipo"] = [{"nombre": person, "rol": row.get("rol", "").strip(), "foto": photo_url}]
+            webp(photo_source, photo_target, 1200, 84)
+            if is_generic:
+                startup["fotoEquipo"] = photo_url
+            else:
+                startup["foto"] = photo_url
+                person = row.get("persona", "").strip()
+                if person:
+                    startup["equipo"] = [{"nombre": person, "rol": row.get("rol", "").strip(), "foto": photo_url}]
 
         startup["mediaFuente"] = {
             "canva": "https://www.canva.com/design/DAG33uQ07js/dK79rC-Tx2ZhdnIm0yk9Bg/edit",
