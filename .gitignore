@@ -1,1 +1,3 @@
 evidence/photo-audit/contact-*.jpg
+__pycache__/
+*.pyc
