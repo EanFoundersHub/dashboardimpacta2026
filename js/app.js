@@ -48,30 +48,31 @@ function setQuery(q, replace = true) {
 }
 
 // ---------- Vistas ----------
+const PROGRAM_ASSET = 'assets/programas-home/assets/';
+const PROGRAMS = [
+  { id:'construye-crece', nombre:'Ean Impacta – Construye y Crece', marca:'Construye <em>y Crece</em>', carpeta:'verde', tono:'claro', color:'#3EAF49', colorOn:'#0E2E12', anios:[2020,2021,2022,2023,2024,2025], href:'#/directorio' },
+  { id:'science2venture', nombre:'Science2Venture', carpeta:'morada', tono:'claro', color:'#8F499C', colorOn:'#FFFFFF', anios:[], href:'https://impacta.emprendimientosostenible.com.co/science2venture/' },
+  { id:'swisscontact', nombre:'Swisscontact', carpeta:'petroleo', tono:'oscuro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[], href:'https://swisscontact-diagnosticos.afcaballero.workers.dev/auth/login?redirect=%2Fauth%2Fstart' },
+  { id:'impacta-inhouse', nombre:'Impacta InHouse', carpeta:'naranja', tono:'claro', color:'#F78D2D', colorOn:'#1F2124', anios:[] },
+  { id:'foundershub', nombre:'FoundersHub', carpeta:'amarilla', tono:'claro', color:'#FFC62F', colorOn:'#1F2124', anios:[], href:'https://impacta.emprendimientosostenible.com.co/foundershub/' },
+  { id:'tangara-ir', nombre:'Tángara Investment Readiness', carpeta:'tinta', tono:'oscuro', color:'#FFC62F', colorOn:'#1F2124', anios:[], href:'https://tangara-ir.com/comunidad/' }
+];
+const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
+const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
+const yearStamp = (year, tone) => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-${tone === 'oscuro' ? 'claro' : 'oscuro'}.png" alt="Participación ${year}" width="96" height="96">`;
+function programFolder(p, extra = '') {
+  const long = p.nombre.length > 22 ? 'exp--xlargo' : p.nombre.length > 12 ? 'exp--largo' : '';
+  const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
+  const cls = `exp ${long} is-sin-logo is-sin-foto ${extra}`;
+  const style = `--c:${p.color};--c-on:${p.colorOn}`;
+  if (!p.href) return `<article class="${cls}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)}">${inner}</article>`;
+  const external = p.href.startsWith('http') ? ' target="_blank" rel="noopener"' : '';
+  return `<a class="${cls}" href="${esc(p.href)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · ${esc(p.cta || 'Abrir expediente')}"${external}>${inner}</a>`;
+}
 function viewHome() {
-  const P = DATA.insights.panorama;
-  return `<section class="ir-hero ir-paper-bg" data-component="EditorialHero" aria-labelledby="hero-title">
-  <div class="ir-hero__kraft" aria-hidden="true"></div>
-  <div class="ir-hero__grid-paper" aria-hidden="true"></div>
-  <div class="ir-hero__folders" aria-hidden="true">
-    <img class="ir-hero__folder ir-hero__folder--purple" src="assets/folders/carpeta-morada.webp" alt="">
-    <img class="ir-hero__folder ir-hero__folder--orange" src="assets/folders/carpeta-naranja.webp" alt="">
-  </div>
-  <div class="ir-container ir-hero__stage">
-    <div class="ir-hero__text">
-      <h1 class="ir-hero__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
-      <div class="ir-hero__intro"><p>El archivo vivo de los emprendimientos que acompañamos: lo que construyeron, lo que lograron y hacia dónde van.</p><a class="ir-btn ir-btn--primary" href="#/panorama">Abrir el informe ${ICON('flecha')}</a></div>
-    </div>
-    <div class="ir-hero__stat ir-hero__stat--ventures"><b>177</b><span>emprendimientos únicos ·<br>Construye y Crece</span></div>
-    <div class="ir-hero__stat ir-hero__stat--women"><b>135</b><span>emprendimientos con mujeres<br>en el liderazgo</span></div>
-    <p class="ir-hero__coverage">97 emprendimientos medidos · cobertura 54,8 %</p>
-    <img class="ir-hero__stamp" src="assets/stamps/sello-archivo-2026.webp" alt="">
-  </div>
-</section>
-<section class="ir-section"><div class="ir-container"><div class="ir-section__head"><span class="ir-label">Alcance del programa</span>
-<h2 class="ir-section__title" style="font-size:var(--fs-h2)">Construye incuba. Crece acelera.</h2>
-<p class="ir-section__lead">Ean Impacta acompaña emprendimientos de base sostenible desde 2020. Este informe reúne el directorio de quienes participaron y los resultados que ${P.universos[3].cifras[0].valor} de ellos declararon en la medición de 2026.</p></div>
-<div style="display:flex;flex-wrap:wrap;gap:12px"><a class="ir-btn ir-btn--primary" href="#/insights">Recorrer los Insights ${ICON('flecha')}</a><a class="ir-btn" href="#/metodologia">Cómo se midió</a></div></div></section>`;
+  return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
+  <section class="pp__intro" aria-labelledby="hero-title"><div class="pp__txt"><span class="pp__kicker">Ean Impacta · Archivo de programas</span><h1 class="pp__title" id="hero-title" tabindex="-1">Un archivo, <em>muchos</em> programas</h1><p class="pp__lead">Cada expediente reúne un programa del ecosistema Ean Impacta. Empieza por el resumen del año o abre el programa que buscas.</p><a class="pp__btn" href="#/panorama">Ver ReCap 2026 <span aria-hidden="true">→</span></a></div><div class="pp__recap">${programFolder(RECAP, 'exp--recap')}</div></section>
+  <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Expedientes de programas</h2><span>${PROGRAMS.length} programas</span></div><ul class="pp__grid">${PROGRAMS.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section></div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
 const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div class="foto-rasgada foto-rasgada--${ratio}" style="--foco:${focus}"><span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="${esc(src)}" alt="${esc(alt)}"><span class="foto-rasgada__grano" aria-hidden="true"></span></div>` : '';
@@ -292,6 +293,7 @@ function bindView(r, q) {
 
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-action]'); if (!a) return; const act = a.dataset.action;
+  if (act === 'programs') { e.preventDefault(); $('#programas')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   if (act === 'menu') { const n = $('#mobile-nav'); const o = n.dataset.open !== 'true'; n.dataset.open = o; a.setAttribute('aria-expanded', o); a.textContent = o ? 'Cerrar' : 'Índice'; }
   if (act === 'close-drawer') closeDrawer();
   if (act === 'open-filters') { $('#filters').dataset.open = 'true'; a.setAttribute('aria-expanded', 'true'); $('#filters input')?.focus(); }
