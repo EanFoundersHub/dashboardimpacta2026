@@ -140,15 +140,16 @@ function viewPanorama() {
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
   ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
   <div class="ir-universe__figures">${u.cifras.map(c => metric(c.valor, c.texto, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
-  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver la medición 2026 ${ICON('flecha')}</a></div>
+  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver resultados ${ICON('flecha')}</a></div>
 </div></section>`;
 }
 
 function viewInsights(q) {
   const I = DATA.insights.insights;
+  const resultsNote = DATA.insights.panorama.notaBase.replace(/Insights/gi, 'Resultados');
   return `<section class="ir-section ir-paper-bg" aria-labelledby="ins-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag">Medición realizada en 2026</span><h1 class="ir-section__title" id="ins-title" tabindex="-1">Lo que construyeron</h1>
-  <p class="ir-section__lead">Resultados declarados en 2026 por emprendimientos acompañados en distintos años. ${esc(DATA.insights.panorama.notaBase)} Abre una cifra para ver los emprendimientos que la componen.</p></div>
+  <div class="ir-section__head"><h1 class="ir-section__title" id="ins-title" tabindex="-1">Resultados</h1>
+  <p class="ir-section__lead">Resultados declarados por emprendimientos acompañados en distintos años. ${esc(resultsNote)} Abre una cifra para ver las iniciativas que la componen.</p></div>
   ${I.map(ch => `<div class="ir-chapter" data-component="InsightSection" id="cap-${ch.id}" style="${chVars(ch.color)}">
     <div class="ir-chapter__head"><span class="ir-tag ir-tag--chapter">${esc(ch.capitulo)}</span><h2 class="ir-chapter__title">${esc(ch.capitulo)}</h2>${ch.universo === 'directorio' ? '<p class="ir-label">Universo: portafolio Construye–Crece</p>' : ''}</div>
     <div class="ir-chapter__cards">${ch.cifras.map((c, j) => `<button type="button" class="ir-insight ir-reveal ${j === 0 ? 'ir-insight--feature' : ''}" style="--i:${j}" data-component="InsightCard" data-insight="${ch.id}:${c.id}" aria-expanded="false" aria-controls="insight-drawer" ${c.miembros ? '' : 'data-static="true"'}>
@@ -185,12 +186,12 @@ function openDrawer(key, push = true) {
     <div style="display:flex;align-items:baseline;gap:14px"><span class="ir-drawer__figure">${c.valor}</span>${c.pct ? `<span style="font:800 22px var(--font-display);white-space:nowrap">${esc(c.pct)}</span>` : ''}</div>
     <button class="ir-drawer__close" type="button" data-action="close-drawer" aria-label="Cerrar">${ICON('cerrar')}</button></div>
   <div class="ir-drawer__body">
-    <p style="margin:0;font-size:14px;color:#2B2C30">${c.valor} emprendimientos ${esc(c.texto)}. ${esc(DATA.insights.panorama.notaBase)}</p>
+    <p style="margin:0;font-size:14px;color:#2B2C30">${c.valor} emprendimientos ${esc(c.texto)}. ${esc(DATA.insights.panorama.notaBase.replace(/Insights/gi, 'Resultados'))}</p>
     <label class="ir-search" style="min-height:48px">${ICON('buscar')}<span class="ir-sr">Buscar en este conjunto</span><input type="search" placeholder="Buscar en este conjunto" data-drawer-search></label>
     ${types.length ? `<div class="ir-active" role="group" aria-label="Tipo">${types.map(t => `<button type="button" class="ir-badge ir-badge--cert" style="min-height:36px;border:0;cursor:pointer" aria-pressed="false" data-drawer-type="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
     <p class="ir-count" data-drawer-count>${items.length} emprendimientos</p>
     <div data-drawer-list>${items.map(s => { const d = insightDetail(s, c); const col = VERT_COLOR(s.vertical);
-      return `<a class="ir-drawer__item" href="#/e/${s.id}" data-name="${esc((s.nombre + ' ' + d + ' ' + (s.sector || '')).toLowerCase())}" data-types="${esc(d.toLowerCase())}"><span class="ir-card__logo" style="width:44px;height:44px;font-size:15px;${chVars(col)}">${esc(initials(s.nombre))}</span><span><b>${esc(s.nombre)}</b><span>${esc([d, s.sector, s.cohorte].filter(Boolean).join(' · '))}</span></span>${ICON('flecha').replace('<svg', '<svg width="20" height="20"')}</a>`; }).join('')}</div>
+      return `<a class="ir-drawer__item" href="#/e/${s.id}" data-name="${esc((s.nombre + ' ' + d + ' ' + (s.sector || '') + ' ' + (s.programas2026 || []).join(' ')).toLowerCase())}" data-types="${esc(d.toLowerCase())}"><span class="ir-card__logo" style="width:44px;height:44px;font-size:15px;${chVars(col)}">${esc(initials(s.nombre))}</span><span><b>${esc(s.nombre)}</b><span>${esc([d, (s.programas2026 || []).length ? 'Programas: ' + s.programas2026.join(' · ') : '', s.sector, s.cohorte].filter(Boolean).join(' · '))}</span></span>${ICON('flecha').replace('<svg', '<svg width="20" height="20"')}</a>`; }).join('')}</div>
   </div>`;
   $$('[data-insight]').forEach(b => b.setAttribute('aria-expanded', b.dataset.insight === key ? 'true' : 'false'));
   dr.dataset.open = 'true'; $('.ir-overlay').dataset.open = 'true'; document.body.style.overflow = 'hidden';
@@ -221,7 +222,7 @@ function filterList(q) {
     'swiss-plan': s.swisscontact2026?.planAccionEstado === 'disponible'
   })[metricKey] === true;
   return DATA.startups.filter(s => metricMatches(s) && FACETS.every(F => { const sel = q.getAll(F.key); if (!sel.length) return true; const v = F.get(s); return F.multi ? sel.every(x => v.includes(x)) : sel.some(x => v.includes(x)); })
-    && (!term || (s.nombre + ' ' + (s.descripcion || '') + ' ' + (s.sector || '') + ' ' + (s.ubicacion || '')).toLowerCase().includes(term)));
+    && (!term || (s.nombre + ' ' + (s.descripcion || '') + ' ' + (s.sector || '') + ' ' + (s.ubicacion || '') + ' ' + (s.programas2026 || []).join(' ')).toLowerCase().includes(term)));
 }
 function facetOptions(F) { const m = new Map(); DATA.startups.forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
   let arr = [...m.entries()]; arr.sort(F.key === 'cohorte' || F.key === 'ods' ? (a, b) => a[0].localeCompare(b[0], 'es', { numeric: true }) : (a, b) => b[1] - a[1]); return F.top ? arr.slice(0, F.top) : arr; }
@@ -231,6 +232,7 @@ const card = s => { const col = VERT_COLOR(s.vertical); const m = s.medicion || 
   return `<a class="ir-card" href="#/e/${s.id}" style="${chVars(col)}" data-component="StartupCard"><span class="ir-card__bar"></span><span class="ir-card__body">
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
+  ${(s.programas2026 || []).length ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Programas:</b> ${esc(s.programas2026.join(' · '))}</span>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
   ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
 
@@ -264,7 +266,7 @@ function viewDirectory(q) {
 function viewDossier(id) {
   const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Iniciativa no encontrada</h1><p><a href="#/portafolio">Volver al portafolio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
-  const facts = [['Programa 2026', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+  const facts = [['Programas', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
     m.productos && ['Productos o servicios', `<p style="margin:0">${esc(m.productos)}</p>`],
     m.productoNuevo && ['Producto o servicio nuevo', `<p style="margin:0">${esc(m.productoNuevo)}</p>`],
