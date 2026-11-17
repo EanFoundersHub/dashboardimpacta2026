@@ -59,6 +59,10 @@ const PROGRAMS = [
 const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
 const yearStamp = (year, tone) => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-${tone === 'oscuro' ? 'claro' : 'oscuro'}.png" alt="Participación ${year}" width="96" height="96">`;
+const dossierYearStamps = years => {
+  const valid = [...new Set((years || []).map(Number).filter(y => y >= 2020 && y <= 2026))];
+  return valid.length ? `<div class="ir-dossier__year-stamps" aria-label="Años de acompañamiento">${valid.map(y => `<img src="${PROGRAM_ASSET}sellos/png/sello-${y}-oscuro.png" alt="Acompañamiento ${y}">`).join('')}</div>` : '';
+};
 function programFolder(p, extra = '') {
   const long = p.nombre.length > 22 ? 'exp--xlargo' : p.nombre.length > 12 ? 'exp--largo' : '';
   const inner = `<img class="exp__carpeta" src="${PROGRAM_ASSET}carpetas/carpeta-${p.carpeta}.webp" alt=""><span class="exp__hoja"><span class="exp__marca"><h3 class="exp__nombre" style="${programFit(p.nombre)}">${p.marca || esc(p.nombre)}</h3><img class="exp__cinta" src="${PROGRAM_ASSET}papeles/cinta-masking.webp" alt=""></span></span><span class="exp__pie"><span class="exp__sellos">${p.anios.map(y => yearStamp(y, p.tono)).join('')}</span><span class="exp__cta">${esc(p.cta || 'Abrir expediente')} <span aria-hidden="true">→</span></span></span>`;
@@ -212,7 +216,7 @@ function viewDossier(id) {
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/directorio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al directorio</a></div>
   <div class="ir-dossier__grid">
     <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div>${tornPhoto(s.fotoEquipo || s.foto, `${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${s.nombre}`)}</div>
-      <img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="position:absolute;right:4%;bottom:12%;width:22%"></div>
+      ${dossierYearStamps(s.anios)}</div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
       <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Expediente${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
       <h1 class="ir-dossier__title" id="dos-title" tabindex="-1">${esc(s.nombre)}</h1>
