@@ -1,0 +1,229 @@
+{
+  "version": 1,
+  "historyId": "fb0a1bc2-73e6-4d51-974f-71b35c764549",
+  "currentRevision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "18bcca1593d1b29cd7442b3dc91d18ada440affb9b7acd577c1da57446f3d24f",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\18\\18bcca1593d1b29cd7442b3dc91d18ada440affb9b7acd577c1da57446f3d24f"
+    },
+    "CLAUDE.md": {
+      "hash": "18bcca1593d1b29cd7442b3dc91d18ada440affb9b7acd577c1da57446f3d24f",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\18\\18bcca1593d1b29cd7442b3dc91d18ada440affb9b7acd577c1da57446f3d24f"
+    },
+    "assets/outfit.woff2": {
+      "hash": "6c18d579fd87c3776be068b762cbc83fde3acb543d49eabd3ade842eb987e887",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\6c\\6c18d579fd87c3776be068b762cbc83fde3acb543d49eabd3ade842eb987e887"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\53\\53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "499e456a3dc8cf81625a6dac244fc21def3d067f02a936ca7b69c709788895d5",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\49\\499e456a3dc8cf81625a6dac244fc21def3d067f02a936ca7b69c709788895d5"
+    },
+    "meta.json": {
+      "hash": "cecb1d4627f891e105bc4e0df818924c248021899d1057c1659e0f6d87a00046",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\ce\\cecb1d4627f891e105bc4e0df818924c248021899d1057c1659e0f6d87a00046"
+    },
+    "package.json": {
+      "hash": "88656e68de2a4364b5ac257506d4f0695034c152c025f0060b3af48a84e379f6",
+      "content": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\88\\88656e68de2a4364b5ac257506d4f0695034c152c025f0060b3af48a84e379f6"
+    }
+  },
+  "revisions": {
+    "30434a87-3307-4a4d-8a4a-c34b19e0bc51": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794220106186,
+      "endedAt": 1794220106193,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\4c\\4cd3bdcfa5f1973c589bfe2bd2e85429eca37d6c064e3671935bf338a7a0183b",
+          "after": "C:\\Users\\afcaballero\\.cache\\hyperframes\\history\\fb0a1bc2-73e6-4d51-974f-71b35c764549\\blobs\\49\\499e456a3dc8cf81625a6dac244fc21def3d067f02a936ca7b69c709788895d5"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+      "id": "02efc448-72a8-4c34-8b6f-edf3b6da399c"
+    },
+    "revisions": {
+      "30434a87-3307-4a4d-8a4a-c34b19e0bc51": [
+        {
+          "id": "02efc448-72a8-4c34-8b6f-edf3b6da399c",
+          "scope": "project",
+          "report": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\checks\\02efc448-72a8-4c34-8b6f-edf3b6da399c.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1794220118410,
+          "contentHash": "fb8d0836eec697b6f3654ae9a4b6be4876c81910a26751ba1f7422e73094c92b",
+          "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+          "inputFingerprint": "94d9f43394bdd0be693ecfa1a6608d7592a8392958980174d46ebd7cdea1ff60",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "c59fabd0-6978-433d-8c96-94b7fe5e85b6",
+        "scope": "project",
+        "report": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\checks\\c59fabd0-6978-433d-8c96-94b7fe5e85b6.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1794219970928,
+        "contentHash": "2b04fb873ecc90657d940c4edd8c3e7013486abf3b7cfb0a64f655b4a86cfd76",
+        "revision": null,
+        "inputFingerprint": "f0f5f4c7f41b43c71a3bdf46e59d6a1c551fdc87e81534e37554b6377e432381",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+      "id": "f2b80a4e-82a7-4f6b-adbf-18a14255be9d-3"
+    },
+    "revisions": {
+      "30434a87-3307-4a4d-8a4a-c34b19e0bc51": [
+        {
+          "scope": "full",
+          "id": "f2b80a4e-82a7-4f6b-adbf-18a14255be9d-0",
+          "image": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\snapshots\\6bc78a06-f949-4e14-ba71-21370b6dcf49\\frame-00-at-0s.png",
+          "time": 0,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1794221338567,
+          "contentHash": "e6c37bf6fb2c61f85f59bc468be41e6b4d15e4cc26c0186b91c776d5779af0e1",
+          "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+          "inputFingerprint": "94d9f43394bdd0be693ecfa1a6608d7592a8392958980174d46ebd7cdea1ff60",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f2b80a4e-82a7-4f6b-adbf-18a14255be9d-1",
+          "image": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\snapshots\\6bc78a06-f949-4e14-ba71-21370b6dcf49\\frame-01-at-4.5s.png",
+          "time": 4.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1794221338568,
+          "contentHash": "9c7ad8412b28420133826e27af5eb041b95caefd52464c7bc890a138fe83608e",
+          "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+          "inputFingerprint": "94d9f43394bdd0be693ecfa1a6608d7592a8392958980174d46ebd7cdea1ff60",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f2b80a4e-82a7-4f6b-adbf-18a14255be9d-2",
+          "image": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\snapshots\\6bc78a06-f949-4e14-ba71-21370b6dcf49\\frame-02-at-9.5s.png",
+          "time": 9.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1794221338568,
+          "contentHash": "428291745c73bfe02622eb662ebafa05b8fe8f49113d3b50f0ae3df7e8666dfa",
+          "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+          "inputFingerprint": "94d9f43394bdd0be693ecfa1a6608d7592a8392958980174d46ebd7cdea1ff60",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f2b80a4e-82a7-4f6b-adbf-18a14255be9d-3",
+          "image": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\.hyperframes\\artifacts\\snapshots\\6bc78a06-f949-4e14-ba71-21370b6dcf49\\frame-03-at-11.75s.png",
+          "time": 11.75,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1794221338569,
+          "contentHash": "9e6bb3e1a36708fc9cf29c6a4d378b220cf476943be2f5169f9daab8ad1cc5b9",
+          "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51",
+          "inputFingerprint": "94d9f43394bdd0be693ecfa1a6608d7592a8392958980174d46ebd7cdea1ff60",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "b5e0ee71-c16f-4b38-9efd-6a03498919a2",
+      "completedAt": 1794220264233,
+      "output": "C:\\Users\\afcaballero\\OneDrive - universidadean.edu.co\\Documentos\\ChatGPT\\Dashboard 2026 Impacta\\impacta-2026-archivo-exposicion\\video\\archivo-impacta\\renders\\archivo-impacta_2026-11-09_05-28-49.mp4",
+      "status": "completed",
+      "revision": "30434a87-3307-4a4d-8a4a-c34b19e0bc51"
+    },
+    "retainedRevisions": [
+      "30434a87-3307-4a4d-8a4a-c34b19e0bc51"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

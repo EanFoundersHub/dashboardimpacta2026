@@ -1,0 +1,11 @@
+{
+  "source": "IMPACTA_2026_SISTEMA_CARPETAS_MULTICOLOR/src/CarpetaImpacta.dc.html",
+  "coordinateSystem": "Todos los rectángulos están expresados en píxeles sobre el lienzo original de cada variante.",
+  "variants": {
+    "turquesa": {"w":1080,"h":1176,"sheet_rect":[54,198,999,1112],"tapa_rect":[10,424,1033,588],"hinge":{"x":0.5,"y":0.96},"rotation":-2,"label":"Turquesa"},
+    "verde": {"w":1039,"h":1294,"sheet_rect":[60,236,981,1216],"tapa_rect":[3,399,1044,556],"hinge":{"x":0.5,"y":0.96},"rotation":2.4,"label":"Verde"},
+    "amarilla": {"w":990,"h":1237,"sheet_rect":[135,194,901,1123],"tapa_rect":[44,432,937,699],"hinge":{"x":0.5,"y":0.96},"rotation":-3.4,"label":"Amarilla"},
+    "morada": {"w":1080,"h":1176,"sheet_rect":[80,198,1025,1112],"tapa_rect":[37,424,1033,588],"hinge":{"x":0.5,"y":0.96},"rotation":1.5,"label":"Morada"},
+    "naranja": {"w":1065,"h":1160,"sheet_rect":[89,187,998,1126],"tapa_rect":[34,415,1024,604],"hinge":{"x":0.5,"y":0.96},"rotation":-1.5,"label":"Naranja"}
+  }
+}
