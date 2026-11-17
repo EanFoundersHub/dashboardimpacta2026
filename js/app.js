@@ -216,7 +216,7 @@ function viewDossier(id) {
   return `<article class="ir-dossier ir-paper-bg" data-component="StartupDossier" aria-labelledby="dos-title"><div class="ir-container">
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/directorio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al directorio</a></div>
   <div class="ir-dossier__grid">
-    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div><div class="ir-dossier__photo--team" data-slot="foto-equipo">${s.fotoEquipo || s.foto ? `<img src="${esc(s.fotoEquipo || s.foto)}" alt="Equipo de ${esc(s.nombre)}">` : ''}</div></div>
+    <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div><div class="ir-dossier__photo--team" data-slot="foto-equipo">${s.fotoEquipo || s.foto ? `<img src="${esc(s.fotoEquipo || s.foto)}" alt="${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${esc(s.nombre)}">` : ''}</div></div>
       <img class="ir-stamp" src="assets/stamps/sello-archivo-2026.webp" alt="" style="position:absolute;right:4%;bottom:12%;width:22%"></div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
       <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Expediente${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
