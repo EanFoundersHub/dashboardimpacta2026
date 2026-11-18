@@ -1,0 +1,38 @@
+/* Ficha de iniciativa · fallback editorial (sin foto ni logo) y estados de media.
+   Cargar después de archivo-vivo.css. Lo activa js/motion.js. */
+@font-face{font-family:'Permanent Marker';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/permanent-marker-latin.woff2) format('woff2')}
+
+/* --- Sin foto ni logo --- */
+.initiative-fallback{position:relative;container-type:inline-size;display:flex;flex-direction:column;align-items:flex-start;gap:14px;width:100%;box-sizing:border-box;padding:10% 5% 12%;transform:rotate(-2deg)}
+.initiative-fallback__eyebrow{font:600 11px/1 Poppins,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#4D5158}
+.initiative-fallback__name{position:relative;z-index:2;display:block;width:100%;margin:0;font-family:'Permanent Marker','Outfit',cursive;font-weight:400;font-size:var(--fs,15cqi);line-height:1.02;letter-spacing:.005em;color:#1F2124;overflow-wrap:break-word;hyphens:auto;text-wrap:balance}
+.initiative-fallback__word{display:inline-block;white-space:nowrap}
+.initiative-fallback__ch{display:inline-block}
+.initiative-fallback__highlight{position:absolute;z-index:1;left:-3%;width:106%;height:46%;bottom:22%;background:url(../assets/trazos/resaltador-amarillo.webp) center/100% 100% no-repeat;mix-blend-mode:multiply;opacity:.92;pointer-events:none;transform:rotate(-1deg)}
+.initiative-fallback__underline{position:absolute;z-index:3;left:1%;bottom:-6%;width:78%;height:22%;background:url(../assets/trazos/subrayado-rotulador.webp) left center/100% 100% no-repeat;mix-blend-mode:multiply;pointer-events:none}
+.initiative-fallback__tick{position:absolute;z-index:3;right:6%;top:6%;width:38px;height:30px;border-top:3px solid #1F2124;border-right:3px solid #1F2124;border-radius:0 60% 0 0;opacity:.75;transform:rotate(18deg)}
+
+/* Escritura: solo con .is-writing (la añade JS si no hay reduced-motion). Sin la clase, el estado final queda visible. */
+@keyframes ifb-ink{0%{opacity:0;transform:translateY(.18em) rotate(-6deg) scale(.9);filter:blur(1.5px)}60%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+@keyframes ifb-sweep{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes ifb-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.initiative-fallback.is-writing .initiative-fallback__eyebrow{animation:ifb-fade 260ms ease-out both}
+.initiative-fallback.is-writing .initiative-fallback__ch{animation:ifb-ink 260ms cubic-bezier(.33,1,.68,1) both;animation-delay:calc(var(--i) * var(--step,30ms) + 80ms)}
+.initiative-fallback.is-writing .initiative-fallback__highlight{animation:ifb-sweep var(--hl-dur,520ms) cubic-bezier(.65,0,.35,1) both;animation-delay:var(--hl-delay,500ms)}
+.initiative-fallback.is-writing .initiative-fallback__underline{animation:ifb-sweep 340ms cubic-bezier(.65,0,.35,1) both;animation-delay:var(--ul-delay,800ms)}
+.initiative-fallback.is-writing .initiative-fallback__tick{animation:ifb-fade 200ms ease-out both;animation-delay:var(--ul-delay,800ms)}
+@media (prefers-reduced-motion:reduce){.initiative-fallback *,.initiative-fallback{animation:none!important;transition:none!important}}
+
+/* --- Solo logo: el logo es la pieza principal --- */
+.initiative-media--logo-only .ir-dossier__logo.av-logo-label{align-self:center;width:min(100%,360px);max-width:none;height:auto;aspect-ratio:4/3;margin:8% auto;padding:9%}
+.initiative-media--logo-only .ir-dossier__logo.av-logo-label img{width:100%;height:100%;object-fit:contain}
+
+/* --- Foto + logo: la foto manda, el logo es una etiqueta pequeña --- */
+.initiative-media--both .ir-dossier__logo.av-logo-label{order:2;align-self:flex-end;height:72px;max-width:44%;margin-top:-34px;position:relative;z-index:3}
+.initiative-media--both .foto-rasgada{order:1}
+
+/* Foto recortada automáticamente (sin márgenes blancos de origen) */
+.foto-rasgada__img.is-trimmed{object-fit:cover}
+
+/* Tarjeta sin logo: iniciales del nombre, nunca «LOGO» */
+.av-logo-initials{font:800 20px Outfit,sans-serif;color:inherit}
