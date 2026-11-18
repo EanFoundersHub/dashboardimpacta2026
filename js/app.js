@@ -309,7 +309,7 @@ function viewDossier(id) {
       ${s.descripcion ? `<p class="ir-dossier__desc">${esc(s.descripcion)}</p>` : ''}
       ${facts.length ? `<div class="ir-facts">${facts.map(([k, v]) => `<div><span class="ir-label">${k}</span><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
       ${blocks.map(([t, h]) => `<section class="ir-block"><h2>${t}</h2>${h}</section>`).join('')}
-      ${related.length ? `<section class="ir-block"><h2>Emprendimientos relacionados</h2><div class="ir-grid">${related.map(card).join('')}</div></section>` : ''}
+      ${related.length ? `<section class="ir-block"><h2>Emprendimientos relacionados</h2><div class="ir-grid">${related.map(startup => card(startup)).join('')}</div></section>` : ''}
     </div>
   </div></div></article>`;
 }
