@@ -166,6 +166,7 @@
   const choreograph = root => {
     dossier(root);
     setTimeout(() => strokes(root), 60);
+    brandFolders(root);
     root.querySelectorAll('img').forEach(fixImg);
     if (RM.matches) return;
     let i = 0;
