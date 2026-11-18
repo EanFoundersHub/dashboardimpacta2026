@@ -35,6 +35,10 @@ a{color:#0B6B66;text-underline-offset:3px}a:hover{color:#1F2124}
 .pp-cover__folder--purple{left:-8%;top:22%;transform:rotate(-5deg)}
 .pp-cover__folder--orange{right:-18%;top:2%;transform:rotate(8deg)}
 .pp-cover__folder--teal{left:18%;top:40%;transform:rotate(3deg) scale(.72)}
+.pp-cover__paper{display:block;width:100%;height:auto}
+.pp-cover__mark{position:absolute;display:block;height:auto;pointer-events:none;mix-blend-mode:multiply}
+.pp-cover__folder--orange .pp-cover__mark{left:13%;top:24%;width:66%}
+.pp-cover__folder--teal .pp-cover__mark{left:34%;top:30%;width:31%;transform:rotate(-10deg)}
 .pp-cover__note{position:absolute;z-index:4;width:250px;height:100px;padding:16px 18px;overflow:hidden;background:#FBF9F4;box-shadow:0 10px 20px rgba(40,30,20,.14);transform:rotate(-2deg)}
 .pp-cover__note img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
 .pp-cover__note--main{right:23%;top:7%;width:340px;height:96px;background:#FBF9F4;transform:rotate(-4deg)}

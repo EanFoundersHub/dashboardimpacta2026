@@ -110,7 +110,17 @@ function viewHome(q = new URLSearchParams()) {
     <div class="pp-cover__copy"><span class="pp__kicker">Ean Impacta · Informe anual</span><h1 class="pp-cover__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
       <div class="pp-cover__intro"><p>El archivo vivo de las iniciativas acompañadas en 2026: los programas que las impulsan, sus soluciones y las capacidades que están construyendo.</p><a class="pp__btn" href="#/panorama">Abrir el informe <span aria-hidden="true">→</span></a></div>
     </div>
-    <div class="pp-cover__archive" aria-hidden="true"><img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt=""><img class="pp-cover__folder pp-cover__folder--orange" src="${PROGRAM_ASSET}carpetas/carpeta-naranja.webp" alt=""><img class="pp-cover__folder pp-cover__folder--teal" src="${PROGRAM_ASSET}carpetas/carpeta-turquesa.webp" alt=""></div>
+    <div class="pp-cover__archive" aria-hidden="true">
+      <img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt="">
+      <div class="pp-cover__folder pp-cover__folder--orange">
+        <img class="pp-cover__paper" src="${PROGRAM_ASSET}carpetas/carpeta-naranja.webp" alt="">
+        <img class="pp-cover__mark" src="assets/brand/ean-impacta-negro.png" alt="">
+      </div>
+      <div class="pp-cover__folder pp-cover__folder--teal">
+        <img class="pp-cover__paper" src="${PROGRAM_ASSET}carpetas/carpeta-turquesa.webp" alt="">
+        <img class="pp-cover__mark" src="assets/brand/sello-impacta.png" alt="">
+      </div>
+    </div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>

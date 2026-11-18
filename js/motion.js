@@ -44,13 +44,6 @@
 
   // Coreografía de entrada
   const STAGGER_SEL = '.pp-focus-section, .exp--program, .ir-section__head, .ir-universe, .ir-chapter__head, .ir-insight, .ir-metric, .ir-card, .ir-toolbar, .ir-dossier__sheet, .ir-dossier__folder';
-  // Logo Impacta impreso en la hoja de cada carpeta de la portada
-  const brandFolders = root => root.querySelectorAll('img.pp-cover__folder:not([data-av-brand-sheet])').forEach(img => {
-    img.dataset.avBrandSheet = '1';
-    const w = document.createElement('span'); w.className = img.className + ' av-sheet'; w.setAttribute('aria-hidden', 'true');
-    img.className = 'av-sheet__img'; img.replaceWith(w); w.appendChild(img);
-    const logo = document.createElement('img'); logo.className = 'av-sheet__logo'; logo.src = w.classList.contains('pp-cover__folder--teal') ? 'assets/programas-home/assets/brand/sello-impacta.png' : 'assets/brand/ean-impacta-negro.png'; logo.alt = ''; w.appendChild(logo);
-  });
   // Ficha de iniciativa: media (foto/logo/fallback), contraste del logo, entrada y flotación
   const lumOf = img => new Promise(res => {
     const go = () => { try { const W = 48, H = Math.max(1, Math.round(48 * img.naturalHeight / img.naturalWidth)); const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.drawImage(img, 0, 0, W, H);
@@ -166,7 +159,6 @@
   const choreograph = root => {
     dossier(root);
     setTimeout(() => strokes(root), 60);
-    brandFolders(root);
     root.querySelectorAll('img').forEach(fixImg);
     if (RM.matches) return;
     let i = 0;
