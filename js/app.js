@@ -27,6 +27,8 @@ const city = s => {
 const FACETS = [
   { key: 'anio', label: 'Año de acompañamiento', get: s => (s.anios || []).map(String) },
   { key: 'programa', label: 'Programa', get: s => s.programas2026 || [] },
+  { key: 'afiliacion', label: 'Afiliación Eanista', get: s => s.formacionEan?.afiliacion ? [s.formacionEan.afiliacion] : [] },
+  { key: 'carrera', label: 'Carrera o programa académico', get: s => s.formacionEan?.programa ? [s.formacionEan.programa] : [] },
   { key: 'cohorte', label: 'Cohorte', get: s => (s.anios || []).map(String).includes('2026') ? ['Cohorte 9 (2026)'] : (s.cohorte ? [s.cohorte] : []) },
   { key: 'fase', label: 'Fase', get: s => s.fases || [] },
   { key: 'sector', label: 'Sector económico', get: s => s.sector ? [s.sector] : [], top: 14 },
@@ -250,6 +252,53 @@ const card = (s, selectedPrograms = []) => { const col = VERT_COLOR(s.vertical);
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
   ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
 
+const solutionGroups = [
+  'residuos reciclaje reutilizacion valorizacion compostaje circular',
+  'energia energetica solar electricidad renovable fotovoltaica',
+  'educacion aprendizaje capacitacion formacion ensenanza',
+  'agua saneamiento alcantarillado tratamiento potabilizacion',
+  'agricultura agro cultiv cultivo agronomico agropecuario',
+  'movilidad transporte vehiculo viajes logistica',
+  'salud bienestar cuidado diagnostico clinico',
+  'software digital automatizacion datos inteligencia artificial',
+];
+const solutionWords = value => new Set((String(value || '').normalize('NFD')
+  .replace(/\p{M}/gu, '').toLowerCase().match(/[a-z0-9]+/g) || [])
+  .filter(word => word.length > 2 && !'que una uno los las del por para con como quiero busco necesito buscamos soluciones tipo emprendimientos empresas iniciativas'.split(' ').includes(word))
+  .map(word => word.length > 4 ? word.replace(/(?:es|s)$/, '') : word));
+function recommendSolutions(query, startups) {
+  const terms = solutionWords(query);
+  const groups = solutionGroups.map(solutionWords);
+  return startups.map(startup => {
+    const title = solutionWords([startup.nombre, startup.sector, startup.vertical, ...(startup.fases || [])].join(' '));
+    const body = solutionWords([startup.descripcion, startup.medicion?.productos, startup.medicion?.productoNuevo].join(' '));
+    let score = 0;
+    for (const term of terms) {
+      if (title.has(term)) score += 5;
+      if (body.has(term)) score += 3;
+    }
+    const directMatches = [...terms].filter(term => title.has(term) || body.has(term)).length;
+    if (directMatches === terms.size && directMatches > 1) score += 6;
+    for (const group of groups) {
+      if ([...terms].some(term => group.has(term)) && [...group].some(term => title.has(term) || body.has(term))) score += 2;
+    }
+    return { startup, score };
+  }).filter(result => result.score > 0).sort((a, b) => b.score - a.score || a.startup.nombre.localeCompare(b.startup.nombre, 'es'));
+}
+function portfolioExplorer() {
+  return `<section class="ir-block" aria-labelledby="explore-title">
+    <h2 id="explore-title">Explorar portafolio</h2>
+    <form data-explore style="display:grid;gap:12px">
+      <label for="solution-query">¿Qué tipo de solución estás buscando?</label>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <label class="ir-search" style="flex:1 1 250px">${ICON('buscar')}<input id="solution-query" name="solucion" type="search" maxlength="220" required placeholder="Ejemplo: aprovechar residuos de alimentos"></label>
+        <button class="ir-btn ir-btn--primary" type="submit">Ver recomendaciones</button>
+      </div>
+    </form>
+    <p data-explore-status role="status"></p>
+    <div class="ir-grid" data-explore-results></div>
+  </section>`;
+}
 function viewDirectory(q) {
   const res = filterList(q), view = q.get('vista') === 'compacta' ? 'compact' : 'grid', limit = Math.max(PAGE, +q.get('n') || PAGE);
   const selectedProgram = q.get('programa');
@@ -263,6 +312,7 @@ function viewDirectory(q) {
   return `<section class="ir-section" aria-labelledby="dir-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag">Portafolio</span><h1 class="ir-section__title" id="dir-title" tabindex="-1">Todas las iniciativas</h1>
   <p class="ir-section__lead">Consulta el portafolio completo por año, nombre, sector, ciudad o programa.</p>${consolidationCount ? `<p class="ir-program-status"><b>${programAvailable} iniciativas disponibles en el portafolio.</b> Las ${consolidationCount} iniciativas restantes se encuentran en consolidación para incorporarse al portafolio.</p>` : ''}</div>
+  ${portfolioExplorer()}
   <nav class="ir-year-filter" aria-label="Filtrar portafolio por año"><button type="button" data-year="" aria-pressed="${!q.getAll('anio').length}">Todos los años</button>${years.map(([y,n]) => `<button type="button" data-year="${esc(y)}" aria-pressed="${q.getAll('anio').includes(y)}">${esc(y)} <span>${n}</span></button>`).join('')}</nav>
   <div class="ir-dir">
     <aside class="ir-filters" id="filters" data-open="false" data-component="FilterBar" aria-label="Filtros">
@@ -287,6 +337,7 @@ function viewDossier(id) {
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
   const facts = [['Programas', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
+    s.formacionEan && ['Afiliación y formación académica', `<p>${esc([s.formacionEan.afiliacion, s.formacionEan.programa, s.formacionEan.vinculo].filter(Boolean).join(' · '))}</p>`],
     s.enlacesCanva?.length && ['Sitio web y redes sociales', `<div class="ir-card__tags">${s.enlacesCanva.filter(link => /^https?:\/\//i.test(link.url)).map(link => `<a class="ir-btn ir-btn--small" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.nombre)} ${ICON('flecha')}</a>`).join('')}</div>`],
     m.productos && ['Productos o servicios', `<p style="margin:0">${esc(m.productos)}</p>`],
     m.productoNuevo && ['Producto o servicio nuevo', `<p style="margin:0">${esc(m.productoNuevo)}</p>`],
@@ -344,6 +395,15 @@ function observeReveals() { const els = $$('.ir-reveal'); if (reduced() || !('In
 function bindView(r, q) {
   if (r === 'insights') $$('[data-insight]').forEach(b => b.addEventListener('click', () => openDrawer(b.dataset.insight)));
   if (r !== 'portafolio' && r !== 'directorio' && r !== '') return;
+  $('[data-explore]')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const results = recommendSolutions(new FormData(event.currentTarget).get('solucion'), filterList(q));
+    const shown = results.slice(0, 12);
+    $('[data-explore-results]').innerHTML = shown.map(({startup}) => card(startup, q.getAll('programa'))).join('');
+    $('[data-explore-status]').textContent = shown.length
+      ? `Mostrando ${shown.length} de ${results.length} iniciativas relacionadas con tu búsqueda.`
+      : 'Prueba con otra necesidad o una palabra clave más concreta.';
+  });
   const upd = fn => { const nq = parseHash().q; fn(nq); nq.delete('n'); history.replaceState(null, '', '#/portafolio' + (nq.toString() ? '?' + nq : '')); state.lastQ = nq; render(false); };
   $$('[data-year]').forEach(b => b.addEventListener('click', () => upd(nq => { nq.delete('anio'); if (b.dataset.year) nq.append('anio', b.dataset.year); })));
   let t; const inp = $('[data-search]'); inp?.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { const pos = inp.selectionStart; upd(nq => inp.value.trim() ? nq.set('q', inp.value) : nq.delete('q')); const ni = $('[data-search]'); ni.focus(); ni.setSelectionRange(pos, pos); }, 220); });
@@ -379,7 +439,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=canva-media-1').then(r => r.json()), fetch('data/insights.json?v=20261118').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=explorar-portafolio-1').then(r => r.json()), fetch('data/insights.json?v=20261118').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();
