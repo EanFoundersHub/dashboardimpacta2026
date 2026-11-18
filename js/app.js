@@ -340,9 +340,14 @@ function viewDirectory(q) {
 function viewDossier(id) {
   const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Iniciativa no encontrada</h1><p><a href="#/portafolio">Volver al portafolio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
-  const facts = [['Programas', reportedPrograms(s).join(' · ')], ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+  const programs = reportedPrograms(s);
+  const academic = s.formacionEan;
+  const facts = [
+    [programs.length === 1 ? 'Programa de Impacta' : 'Programas de Impacta', programs.join(' · ')],
+    ['Vínculo con la Universidad Ean', [academic?.afiliacion, academic?.vinculo].filter(Boolean).join(' · ')],
+    ['Carrera o programa académico', academic?.programa],
+    ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
-    s.formacionEan && ['Afiliación y formación académica', `<p>${esc([s.formacionEan.afiliacion, s.formacionEan.programa, s.formacionEan.vinculo].filter(Boolean).join(' · '))}</p>`],
     s.enlacesCanva?.length && ['Sitio web y redes sociales', `<div class="ir-card__tags">${s.enlacesCanva.filter(link => /^https?:\/\//i.test(link.url)).map(link => `<a class="ir-btn ir-btn--small" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.nombre)} ${ICON('flecha')}</a>`).join('')}</div>`],
     m.productos && ['Productos o servicios', `<p style="margin:0">${esc(m.productos)}</p>`],
     m.productoNuevo && ['Producto o servicio nuevo', `<p style="margin:0">${esc(m.productoNuevo)}</p>`],
