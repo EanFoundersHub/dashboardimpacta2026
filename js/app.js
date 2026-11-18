@@ -303,12 +303,13 @@ function viewDossier(id) {
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/portafolio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al portafolio</a></div>
   <div class="ir-dossier__grid">
     <div class="ir-dossier__folder"><img src="assets/folders/carpeta-${col}.webp" alt=""><div class="ir-dossier__sheet"><div class="ir-dossier__logo" style="${chVars(col)}">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</div>${tornPhoto(s.fotoEquipo || s.foto, `${s.fotoEquipo ? 'Equipo de ' : 'Foto de '}${s.nombre}`)}</div>
-      ${dossierYearStamps(s.anios)}</div>
+    </div>
     <div style="display:flex;flex-direction:column;gap:var(--space-5)">
       <span class="ir-tag ir-tag--chapter" style="${chVars(col)}">Iniciativa${s.vertical ? ' · ' + esc(s.vertical) : ''}</span>
       <h1 class="ir-dossier__title" id="dos-title" tabindex="-1">${esc(s.nombre)}</h1>
       ${s.descripcion ? `<p class="ir-dossier__desc">${esc(s.descripcion)}</p>` : ''}
       ${facts.length ? `<div class="ir-facts">${facts.map(([k, v]) => `<div><span class="ir-label">${k}</span><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
+      ${dossierYearStamps(s.anios)}
       ${blocks.map(([t, h]) => `<section class="ir-block"><h2>${t}</h2>${h}</section>`).join('')}
       ${related.length ? `<section class="ir-block"><h2>Emprendimientos relacionados</h2><div class="ir-grid">${related.map(startup => card(startup)).join('')}</div></section>` : ''}
     </div>

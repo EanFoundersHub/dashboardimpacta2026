@@ -198,8 +198,8 @@ body[data-route="inicio"] .ir-header__link[aria-current="page"],body[data-route=
 .ir-dossier__folder > img{transform:rotate(-2deg)}
 .ir-dossier__sheet{position:absolute;left:12%;right:12%;top:22%;display:flex;flex-direction:column;gap:var(--space-4);transform:rotate(-2deg)}
 .ir-dossier__logo{width:96px;height:96px;display:grid;place-items:center;background:var(--chapter,var(--color-primary));color:var(--chapter-ink,var(--color-ink));font:var(--fw-black) 34px var(--font-display);box-shadow:var(--shadow-contact)}
-.ir-dossier__year-stamps{position:absolute;right:3%;bottom:8%;z-index:5;display:flex;align-items:flex-end;justify-content:flex-end;width:58%;pointer-events:none}
-.ir-dossier__year-stamps img{width:clamp(72px,18%,112px);height:auto;margin-left:-8%;mix-blend-mode:multiply;filter:drop-shadow(0 2px 2px rgba(38,31,22,.16))}
+.ir-dossier__year-stamps{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:6px 8px}
+.ir-dossier__year-stamps img{width:clamp(58px,8vw,84px);height:auto;mix-blend-mode:multiply;filter:drop-shadow(0 2px 2px rgba(38,31,22,.16))}
 .ir-dossier__year-stamps img:nth-child(odd){transform:rotate(-9deg)}
 .ir-dossier__year-stamps img:nth-child(even){transform:rotate(7deg) translateY(-8%)}
 .ir-dossier__photo{aspect-ratio:4/3;background:#CFC9BD center/cover;clip-path:var(--torn-clip)}
