@@ -49,7 +49,7 @@
     img.dataset.avBrandSheet = '1';
     const w = document.createElement('span'); w.className = img.className + ' av-sheet'; w.setAttribute('aria-hidden', 'true');
     img.className = 'av-sheet__img'; img.replaceWith(w); w.appendChild(img);
-    const logo = document.createElement('img'); logo.className = 'av-sheet__logo'; logo.src = w.classList.contains('pp-cover__folder--teal') ? 'assets/brand/sello-impacta.png' : 'assets/brand/ean-impacta-negro.png'; logo.alt = ''; w.appendChild(logo);
+    const logo = document.createElement('img'); logo.className = 'av-sheet__logo'; logo.src = w.classList.contains('pp-cover__folder--teal') ? 'assets/programas-home/assets/brand/sello-impacta.png' : 'assets/brand/ean-impacta-negro.png'; logo.alt = ''; w.appendChild(logo);
   });
   // Ficha de iniciativa: media (foto/logo/fallback), contraste del logo, entrada y flotación
   const lumOf = img => new Promise(res => {

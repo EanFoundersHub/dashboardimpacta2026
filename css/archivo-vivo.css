@@ -134,7 +134,7 @@ img.av-missing{display:none!important}
 }
 
 /* ---------- Logo Impacta en las hojas de la portada ---------- */
-.av-sheet{display:block}
+.av-sheet{display:block;position:relative}
 .av-sheet__img{display:block;width:100%;height:auto}
 .av-sheet__logo{position:absolute;left:14%;top:25%;width:68%;height:auto;transform:rotate(-1.5deg);mix-blend-mode:multiply;opacity:.92;pointer-events:none}
 .pp-cover__folder--purple .av-sheet__logo{display:none}
