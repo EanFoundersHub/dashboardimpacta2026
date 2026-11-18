@@ -233,8 +233,12 @@ function filterList(q) {
 }
 function facetOptions(F) { const m = new Map(); DATA.startups.forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
   let arr = [...m.entries()]; arr.sort(F.key === 'cohorte' || F.key === 'ods' ? (a, b) => a[0].localeCompare(b[0], 'es', { numeric: true }) : (a, b) => b[1] - a[1]); return F.top ? arr.slice(0, F.top) : arr; }
+const reportedPrograms = s => [...new Set([
+  ...(s.programas2026 || []),
+  ...((s.fases || []).some(fase => /^(construye|crece)$/i.test(fase.trim())) ? ['Construye y Crece'] : []),
+])];
 const programMembership = (s, selected = []) => {
-  const programs = s.programas2026 || [];
+  const programs = reportedPrograms(s);
   if (!programs.length) return '';
   const focused = selected.filter(program => programs.includes(program));
   const others = programs.filter(program => !focused.includes(program));
@@ -248,6 +252,7 @@ const card = (s, selectedPrograms = []) => { const col = VERT_COLOR(s.vertical);
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
   ${programMembership(s, selectedPrograms)}
+  ${s.formacionEan?.programa ? `<span class="ir-card__programs"><span><b>Programa académico:</b> ${esc(s.formacionEan.programa)}</span></span>` : ''}
   ${Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Financiación Science2Venture:</b> ${cop(s.science2venture2026.montoFinanciacionCop)}</span>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
   ${tags ? `<span class="ir-card__tags">${tags}</span>` : ''}<span class="ir-card__cta">Ver iniciativa</span></span></a>`; };
@@ -335,7 +340,7 @@ function viewDirectory(q) {
 function viewDossier(id) {
   const s = BYID.get(id); if (!s) return `<section class="ir-section"><div class="ir-container"><h1 class="ir-section__title" tabindex="-1">Iniciativa no encontrada</h1><p><a href="#/portafolio">Volver al portafolio</a></p></div></section>`;
   const m = s.medicion || {}, col = VERT_COLOR(s.vertical);
-  const facts = [['Programas', (s.programas2026 || []).join(' · ')], ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+  const facts = [['Programas', reportedPrograms(s).join(' · ')], ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
     s.formacionEan && ['Afiliación y formación académica', `<p>${esc([s.formacionEan.afiliacion, s.formacionEan.programa, s.formacionEan.vinculo].filter(Boolean).join(' · '))}</p>`],
     s.enlacesCanva?.length && ['Sitio web y redes sociales', `<div class="ir-card__tags">${s.enlacesCanva.filter(link => /^https?:\/\//i.test(link.url)).map(link => `<a class="ir-btn ir-btn--small" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.nombre)} ${ICON('flecha')}</a>`).join('')}</div>`],
@@ -439,7 +444,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=explorar-portafolio-1').then(r => r.json()), fetch('data/insights.json?v=20261118').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=explorar-programas-2').then(r => r.json()), fetch('data/insights.json?v=20261118').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => BYID.set(s.id, s)); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();
