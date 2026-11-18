@@ -11,7 +11,7 @@
   const onScroll = () => { const h = document.documentElement; const p = h.scrollHeight - innerHeight; bar.style.setProperty('--p', p > 0 ? (scrollY / p).toFixed(4) : 0); };
   addEventListener('scroll', onScroll, { passive: true });
 
-  // Recursos ausentes: carpeta CSS, logo «LOGO», resto oculto
+  // Recursos ausentes: carpeta CSS, iniciales en tarjetas, resto oculto
   const fixImg = img => {
     if (img.dataset.avChecked) return; img.dataset.avChecked = '1';
     const fail = () => {
@@ -20,7 +20,7 @@
         const f = document.createElement('span'); f.className = 'av-folder' + (img.classList.contains('pp-cover__folder') ? ' av-folder--cover' : ''); f.setAttribute('aria-hidden', 'true');
         img.after(f);
       } else if (img.closest('.ir-card__logo, .ir-dossier__logo')) {
-        const ph = document.createElement('span'); ph.className = 'av-logo-ph'; ph.textContent = 'LOGO'; img.after(ph);
+        const card = img.closest('.ir-card'); if (card) { const nm = (card.querySelector('.ir-card__name')?.textContent || '').trim(); const ph = document.createElement('span'); ph.className = 'av-logo-initials'; ph.textContent = nm.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); img.after(ph); }
       }
       img.classList.add('av-missing');
     };
@@ -51,7 +51,7 @@
     img.className = 'av-sheet__img'; img.replaceWith(w); w.appendChild(img);
     const logo = document.createElement('img'); logo.className = 'av-sheet__logo'; logo.src = w.classList.contains('pp-cover__folder--teal') ? 'assets/brand/sello-impacta.png' : 'assets/brand/ean-impacta-negro.png'; logo.alt = ''; w.appendChild(logo);
   });
-  // Programa de iniciativa: espacio de foto, contraste del logo, entrada y flotación
+  // Ficha de iniciativa: media (foto/logo/fallback), contraste del logo, entrada y flotación
   const lumOf = img => new Promise(res => {
     const go = () => { try { const W = 48, H = Math.max(1, Math.round(48 * img.naturalHeight / img.naturalWidth)); const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.drawImage(img, 0, 0, W, H);
       const d = x.getImageData(0, 0, W, H).data; let L = 0, n = 0, corners = 0;
@@ -66,19 +66,14 @@
     const settle = im => !im ? Promise.resolve(false) : new Promise(res => { const ok = () => res(im.naturalWidth > 0 && !im.classList.contains('av-missing')); if (im.complete) return ok(); im.addEventListener('load', ok, { once: true }); im.addEventListener('error', () => res(false), { once: true }); setTimeout(ok, 2500); });
     const box0 = sheet.querySelector('.ir-dossier__logo'), li0 = box0?.querySelector('img'), fr0 = sheet.querySelector('.foto-rasgada'), pi0 = fr0?.querySelector('.foto-rasgada__img');
     const [hasLogo, hasPhoto] = await Promise.all([settle(li0), settle(pi0)]);
-    if (!hasLogo && li0) li0.remove();
+    if (!hasLogo && box0) box0.remove();
     if (!hasPhoto && fr0) fr0.remove();
+    const name = (root.querySelector('#dos-title')?.textContent || '').trim();
+    sheet.classList.add(hasPhoto && hasLogo ? 'initiative-media--both' : hasPhoto ? 'initiative-media--photo-only' : hasLogo ? 'initiative-media--logo-only' : 'initiative-media--none');
+    if (hasPhoto) trimPhoto(pi0);
     if (!hasLogo && !hasPhoto) {
-      const name = (root.querySelector('#dos-title')?.textContent || '').trim();
-      box0 && (box0.style.display = 'none');
-      const m = document.createElement('div'); m.className = 'av-dos-mano'; m.setAttribute('aria-hidden', 'true');
-      const words = name.split(/\s+/); const size = name.length > 22 ? 'is-xl' : name.length > 12 ? 'is-l' : '';
-      m.style.cssText = ''; m.innerHTML = '<span class="av-dos-mano__k">Programa</span><span class="av-dos-mano__n ' + size + '">' + words.map(w => '<span>' + w.replace(/[<>&]/g, '') + '</span>').join(' ') + '</span><img class="av-dos-mano__hl" src="assets/trazos/resaltador-amarillo.webp" alt=""><img class="av-dos-mano__ul" src="assets/trazos/subrayado-rotulador.webp" alt="">';
-      sheet.appendChild(m); m.querySelectorAll('.av-dos-mano__n span').forEach((sp, i) => sp.style.setProperty('--i', i));
-    } else if (!hasPhoto) {
-      const ph = document.createElement('div'); ph.className = 'foto-rasgada foto-rasgada--4x3 av-foto-vacia'; ph.setAttribute('role', 'img'); ph.setAttribute('aria-label', 'Espacio para fotografía del equipo');
-      ph.innerHTML = '<span class="foto-rasgada__papel" aria-hidden="true"></span><img class="foto-rasgada__img" src="assets/photo-rasgada/collage-sin-foto-4x3.webp" alt=""><span class="foto-rasgada__grano" aria-hidden="true"></span><span class="av-foto-vacia__label">Fotografía del equipo</span>';
-      sheet.appendChild(ph);
+      box0 && box0.remove();
+      sheet.appendChild(initiativeFallback(name, f.closest('.pp-dialog, [data-kind="programa"]') ? 'Programa' : 'Iniciativa'));
     }
     const tape = document.createElement('img'); tape.className = 'av-dos-tape'; tape.src = PROGRAM_ASSET_AV + 'papeles/cinta-masking.webp'; tape.alt = ''; tape.setAttribute('aria-hidden', 'true');
     sheet.querySelector('.foto-rasgada:not(.av-none)')?.appendChild(tape);
@@ -89,6 +84,61 @@
     if (!RM.matches) { f.classList.add('av-dos-in'); setTimeout(() => { f.classList.remove('av-dos-in'); f.classList.add('av-dos-float'); }, 1900); }
   });
   const PROGRAM_ASSET_AV = 'assets/programas-home/assets/';
+  // Fallback editorial: nombre manuscrito con escritura letra por letra (700–1.200 ms, una sola vez)
+  const initiativeFallback = (name, kind) => {
+    const el = document.createElement('div'); el.className = 'initiative-fallback'; el.setAttribute('aria-hidden', 'true');
+    const eb = document.createElement('span'); eb.className = 'initiative-fallback__eyebrow'; eb.textContent = kind;
+    const n = document.createElement('p'); n.className = 'initiative-fallback__name';
+    let i = 0; name.split(/\s+/).filter(Boolean).forEach((w, wi) => {
+      if (wi) n.appendChild(document.createTextNode(' '));
+      const ws = document.createElement('span'); ws.className = 'initiative-fallback__word';
+      for (const ch of w) { const c = document.createElement('span'); c.className = 'initiative-fallback__ch'; c.textContent = ch; c.style.setProperty('--i', i++); ws.appendChild(c); }
+      n.appendChild(ws);
+    });
+    const hl = document.createElement('span'); hl.className = 'initiative-fallback__highlight';
+    const ul = document.createElement('span'); ul.className = 'initiative-fallback__underline';
+    const tk = document.createElement('span'); tk.className = 'initiative-fallback__tick';
+    n.append(hl, ul); el.append(eb, n, tk);
+    // tiempos: total ≤ 1.150 ms
+    const step = Math.max(12, Math.min(42, Math.round(560 / Math.max(1, i))));
+    const writeEnd = 80 + step * Math.max(0, i - 1) + 260;
+    el.style.setProperty('--step', step + 'ms'); el.style.setProperty('--hl-delay', Math.round(writeEnd * .55) + 'ms');
+    el.style.setProperty('--hl-dur', Math.max(300, Math.min(520, 1150 - Math.round(writeEnd * .55) - 120)) + 'ms');
+    el.style.setProperty('--ul-delay', Math.min(810, writeEnd) + 'ms');
+    requestAnimationFrame(() => { fitName(el, n); if (!RM.matches) writeOnce(el); });
+    return el;
+  };
+  // Ajuste: tamaño según longitud y reducción hasta que no desborde (ancho de palabra y alto)
+  const fitName = (el, n) => {
+    const len = n.textContent.length, longest = Math.max(...n.textContent.split(' ').map(w => w.length), 1);
+    let fs = Math.min(17, 150 / Math.max(longest, 4), len > 30 ? 10.5 : len > 18 ? 12.5 : 17);
+    const W = el.clientWidth; if (!W) return;
+    const maxH = Math.max(120, (el.parentElement?.clientHeight || W) * .78);
+    for (let k = 0; k < 24; k++) {
+      n.style.setProperty('--fs', fs + 'cqi');
+      const over = [...n.querySelectorAll('.initiative-fallback__word')].some(w => w.offsetWidth > n.clientWidth + 1) || n.offsetHeight > maxH;
+      if (!over || fs <= 5) break; fs *= .9;
+    }
+  };
+  const writeIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { writeIO.unobserve(e.target); e.target.classList.add('is-writing'); } }), { threshold: .35 }) : null;
+  const writeOnce = el => writeIO ? writeIO.observe(el) : el.classList.add('is-writing');
+  // Foto: recorta márgenes blancos de origen (exportaciones de Canva) sin tocar el archivo
+  const trimPhoto = img => {
+    if (!img || img.dataset.trim) return; img.dataset.trim = '1';
+    try {
+      const w = img.naturalWidth, h = img.naturalHeight; if (!w || !h) return;
+      const S = Math.min(1, 320 / Math.max(w, h)), cw = Math.max(1, Math.round(w * S)), ch = Math.max(1, Math.round(h * S));
+      const c = document.createElement('canvas'); c.width = cw; c.height = ch; const x = c.getContext('2d'); x.drawImage(img, 0, 0, cw, ch);
+      const d = x.getImageData(0, 0, cw, ch).data, white = i => d[i + 3] < 20 || (d[i] > 238 && d[i + 1] > 238 && d[i + 2] > 238);
+      const rowW = y => { let k = 0; for (let xx = 0; xx < cw; xx++) if (white((y * cw + xx) * 4)) k++; return k / cw > .97; };
+      const colW = xx => { let k = 0; for (let y = 0; y < ch; y++) if (white((y * cw + xx) * 4)) k++; return k / ch > .97; };
+      let t = 0, b = ch - 1, l = 0, r = cw - 1; while (t < b && rowW(t)) t++; while (b > t && rowW(b)) b--; while (l < r && colW(l)) l++; while (r > l && colW(r)) r--;
+      const m = Math.max(t, ch - 1 - b, l, cw - 1 - r); if (m < 2 || (r - l) < cw * .4 || (b - t) < ch * .4) return;
+      const out = document.createElement('canvas'); out.width = Math.round((r - l + 1) / S); out.height = Math.round((b - t + 1) / S);
+      out.getContext('2d').drawImage(img, l / S, t / S, out.width, out.height, 0, 0, out.width, out.height);
+      out.toBlob(bl => { if (bl) { img.src = URL.createObjectURL(bl); img.classList.add('is-trimmed'); } }, 'image/jpeg', .92);
+    } catch (e) { /* imagen de otro origen: se muestra tal cual */ }
+  };
   // Trazos y resaltados en titulares de todo el documento
   const MARKS = ['hl', 'ul', 'hl2', 'ult'];
   const strokes = root => {
