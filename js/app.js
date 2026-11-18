@@ -26,7 +26,7 @@ const city = s => {
 };
 const FACETS = [
   { key: 'anio', label: 'Año de acompañamiento', get: s => (s.anios || []).map(String) },
-  { key: 'programa', label: 'Programa', get: s => s.programas2026 || [] },
+  { key: 'programa', label: 'Programa', get: s => reportedPrograms(s) },
   { key: 'afiliacion', label: 'Afiliación Eanista', get: s => s.formacionEan?.afiliacion ? [s.formacionEan.afiliacion] : [] },
   { key: 'carrera', label: 'Carrera o programa académico', get: s => s.formacionEan?.programa ? [s.formacionEan.programa] : [] },
   { key: 'cohorte', label: 'Cohorte', get: s => (s.anios || []).map(String).includes('2026') ? ['Cohorte 9 (2026)'] : (s.cohorte ? [s.cohorte] : []) },
@@ -228,14 +228,14 @@ function filterList(q) {
     'swiss-diagnostic': s.swisscontact2026?.diagnosticoEstado === 'completo',
     'swiss-plan': s.swisscontact2026?.planAccionEstado === 'disponible'
   })[metricKey] === true;
-  return DATA.startups.filter(s => metricMatches(s) && FACETS.every(F => { const sel = q.getAll(F.key); if (!sel.length) return true; const v = F.get(s); return F.multi ? sel.every(x => v.includes(x)) : sel.some(x => v.includes(x)); })
+  return DATA.startups.filter(s => !s.excluidoPortafolio && metricMatches(s) && FACETS.every(F => { const sel = q.getAll(F.key); if (!sel.length) return true; const v = F.get(s); return F.multi ? sel.every(x => v.includes(x)) : sel.some(x => v.includes(x)); })
     && (!term || (s.nombre + ' ' + (s.descripcion || '') + ' ' + (s.sector || '') + ' ' + (s.ubicacion || '') + ' ' + (s.programas2026 || []).join(' ')).toLowerCase().includes(term)));
 }
-function facetOptions(F) { const m = new Map(); DATA.startups.forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
+function facetOptions(F) { const m = new Map(); DATA.startups.filter(s => !s.excluidoPortafolio).forEach(s => F.get(s).forEach(v => m.set(v, (m.get(v) || 0) + 1)));
   let arr = [...m.entries()]; arr.sort(F.key === 'cohorte' || F.key === 'ods' ? (a, b) => a[0].localeCompare(b[0], 'es', { numeric: true }) : (a, b) => b[1] - a[1]); return F.top ? arr.slice(0, F.top) : arr; }
 const reportedPrograms = s => [...new Set([
   ...(s.programas2026 || []),
-  ...(s.fases || []).map(fase => fase.trim()).filter(fase => /^(Construye|Crece)$/i.test(fase)).map(fase => /^construye$/i.test(fase) ? 'Construye' : 'Crece'),
+  ...(s.fases || []).map(fase => fase.trim()).filter(fase => /^(Construye|Crece|Descubre)$/i.test(fase)).map(fase => fase[0].toUpperCase() + fase.slice(1).toLowerCase()),
 ])];
 const programMembership = (s, selected = []) => {
   const programs = reportedPrograms(s);
@@ -360,7 +360,7 @@ function viewDossier(id) {
     s.equipo?.length && ['Equipo', `<div class="ir-team">${s.equipo.map(p => `<div class="ir-member" data-component="FounderCard">${tornPhoto(p.foto, p.nombre, '4x5')}<b>${esc(p.nombre)}</b>${p.rol ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(p.rol)}</span>` : ''}</div>`).join('')}</div>`],
     (s.reconocimientos || m.premios) && ['Premios y reconocimientos', `<div class="ir-recognition" data-component="RecognitionCard"><p style="margin:0;max-width:52ch">${esc(s.reconocimientos || m.premios)}</p></div>`]
   ].filter(Boolean);
-  const related = DATA.startups.filter(x => x.id !== s.id && x.vertical && x.vertical === s.vertical).slice(0, 3);
+  const related = DATA.startups.filter(x => !x.excluidoPortafolio && x.id !== s.id && x.vertical && x.vertical === s.vertical).slice(0, 3);
   return `<article class="ir-dossier ir-paper-bg" data-component="StartupDossier" aria-labelledby="dos-title"><div class="ir-container">
   <div class="ir-dossier__back"><a class="ir-btn ir-btn--small" href="#/portafolio${state.lastDirQuery ? '?' + state.lastDirQuery : ''}" data-action="back">${ICON('atras')} Volver al portafolio</a></div>
   <div class="ir-dossier__grid">
@@ -450,7 +450,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=programas-separados-1').then(r => r.json()), fetch('data/insights.json?v=programas-separados-1').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=clasificacion-descubre-1').then(r => r.json()), fetch('data/insights.json?v=clasificacion-descubre-1').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => [s.id, ...(s.aliasIds || [])].forEach(id => BYID.set(id, s))); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();
