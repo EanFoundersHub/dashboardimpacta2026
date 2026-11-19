@@ -82,6 +82,9 @@ a{color:#0B6B66;text-underline-offset:3px}a:hover{color:#1F2124}
 .pp-program__metrics a:hover,.pp-program__metrics a:focus-visible{transform:translateY(-5px);background:var(--c);color:var(--c-on)}
 .pp-program__metrics b{font:900 clamp(42px,6vw,70px)/.85 Outfit,Arial,sans-serif;letter-spacing:-.05em}
 .pp-program__metrics span{font:600 14px/1.25 Poppins,Arial,sans-serif}.pp-program__metrics small{margin-top:auto;font-weight:700}
+.pp-program__metrics a{min-width:0;overflow-wrap:anywhere}
+.pp-program__metrics .pp-program__amount{font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-.04em}
+.pp-program__metrics .pp-program__unit{display:block;font-weight:700;letter-spacing:normal;margin:3px 0 8px}
 .pp-program__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.pp-program__actions .ir-btn{min-height:56px}
 .pp-portfolio{position:relative;background:#EFE9DC}
 @media (max-height:720px){
