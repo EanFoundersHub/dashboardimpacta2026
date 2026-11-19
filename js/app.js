@@ -83,7 +83,6 @@ const PROGRAMS = [
   { id:'vision-circular', programa:'Visión Circular', logo:'assets/brand/vision-circular.png', nombre:'Visión Circular', enfoque:'incubacion-especializada', carpeta:'turquesa', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], descripcion:'Iniciativa de incubación especializada con enfoque circular.' },
   { id:'cavipetrol', logo:'assets/brand/cavipetrol.png', nombre:'Cavipetrol', enfoque:'venture-building', carpeta:'petroleo', tono:'oscuro', color:'#0B4A46', colorOn:'#FFFFFF', anios:[2026], descripcion:'El proyecto acompaña el diseño y la evaluación de nuevas unidades de negocio para ampliar los servicios que Cavipetrol ofrece a sus asociados. En sesiones de trabajo, los equipos analizan la demanda, construyen modelos de negocio y financieros, y comparan alternativas de operación según sus riesgos y las capacidades del fondo. El proyecto prevé acompañar la puesta en marcha por etapas, con pilotos para probar las ofertas antes de ampliarlas. En 2026, el equipo evaluó cinco oportunidades y formuló una propuesta que prioriza tres para una implementación gradual.' }
 ];
-const RECAP = { id:'recap-2026', nombre:'ReCap 2026', marca:'ReCap <em>2026</em>', carpeta:'recap-2026', tono:'claro', color:'#40C0C0', colorOn:'#0C3B3B', anios:[2026], href:'#/panorama', cta:'Ver ReCap 2026' };
 const programFit = name => { const longest = Math.max(...name.split(/[\s–-]+/).map(x => x.length)); return `--fit:${Math.min(12, 60 / (longest * .62)).toFixed(2)}cqi`; };
 const yearStamp = year => `<img class="exp__sello" src="${PROGRAM_ASSET}sellos/png/sello-${year}-oscuro.png" alt="Participación ${year}" width="96" height="96">`;
 const dossierYearStamps = years => {
@@ -97,7 +96,7 @@ function programFolder(p, extra = '') {
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
   return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir programa">${inner}</button>`;
 }
-const PROGRAM_METRIC_LABELS = { postulados:'postulados', enAcompanamiento:'en acompañamiento', trl46:'con TRL validado de 4 a 6', prediagnosticados:'registros con prediagnóstico', estudiantesAcompanados:'estudiantes acompañados', metaEmpresas:'empresas · meta del programa', iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
+const PROGRAM_METRIC_LABELS = { postulados:'postulados', enAcompanamiento:'en acompañamiento', trl46:'con TRL validado de 4 a 6', estudiantesAcompanados:'estudiantes acompañados', metaEmpresas:'empresas · meta del programa', iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional reportado', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
 const PROGRAM_METRIC_FILTERS = { trl46:'science-trl-4-6', conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
 function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:p.id === 'tangara-ir' ? {metaEmpresas:44} : d?.cifras, directorio:p.programa ? (p.id === 'tangara-ir' ? '#/portafolio?programa=' : '#/portafolio?anio=2026&programa=') + encodeURIComponent(p.programa) : null }; }); }
 function scienceTrlSummary(base) {
@@ -118,7 +117,7 @@ function openProgram(id, source) {
   const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, id === 'science2venture' ? 5 : 4);
   const metricValue = (k,v) => k === 'ventasDeclaradasCop' ? new Intl.NumberFormat('es-CO', {maximumFractionDigits:2}).format(v / 1e12) + 'B COP' : new Intl.NumberFormat('es-CO').format(v);
   const href = k => p.directorio + (PROGRAM_METRIC_FILTERS[k] ? '&programMetric=' + PROGRAM_METRIC_FILTERS[k] : ''); const modal = $('#program-modal');
-  const infoOnly = new Set(['postulados', 'prediagnosticados', 'estudiantesAcompanados']);
+  const infoOnly = new Set(['postulados', 'estudiantesAcompanados']);
   const metricCard = ([key, value]) => {
     const content = `<b${key === 'ventasDeclaradasCop' ? ' class="pp-program__amount"' : ''}>${metricValue(key,value)}</b><span>${esc(PROGRAM_METRIC_LABELS[key] || key)}</span>`;
     return p.directorio && !infoOnly.has(key)
@@ -131,11 +130,10 @@ function openProgram(id, source) {
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
 function viewHome(q = new URLSearchParams()) {
   const enriched = enrichedPrograms();
-  return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">ReCap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
+  return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">Recap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
   <section class="pp-cover" aria-labelledby="hero-title">
     <div class="pp-cover__kraft" aria-hidden="true"></div>
     <div class="pp-cover__copy"><span class="pp__kicker">Ean Impacta · Informe anual</span><h1 class="pp-cover__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
-      <div class="pp-cover__intro"><p>El archivo vivo de las iniciativas acompañadas en 2026: los programas que las impulsan, sus soluciones y las capacidades que están construyendo.</p><a class="pp__btn" href="#/panorama">Abrir el informe <span aria-hidden="true">→</span></a></div>
     </div>
     <div class="pp-cover__archive" aria-hidden="true">
       <img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt="">
@@ -165,14 +163,13 @@ function viewPanorama() {
   const p = DATA.programs2026;
   const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact, p['impacta-inhouse']].filter(Boolean);
   return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">ReCap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
-  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
+  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">Recap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
+  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Más abajo se presentan las cifras de la trayectoria anterior a 2026.</p></div>
   ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
-  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
-  ${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}
-  <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Contexto histórico</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
+  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div>${x === p.science2venture ? `<div style="grid-column:1 / -1">${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}</div>` : ''}</div>`).join('')}
+  <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Trayectoria</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
-  ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
+  ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Portafolio · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
   <div class="ir-universe__figures">${u.cifras.map(c => metric(c.valor, c.texto, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
   <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver resultados ${ICON('flecha')}</a></div>
 </div></section>`;
@@ -482,7 +479,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=trl-definitivo-1').then(r => r.json()), fetch('data/insights.json?v=tangara-catalogo-1').then(r => r.json()), fetch('data/programs2026.json?v=inhouse-451-1').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=trl-definitivo-1').then(r => r.json()), fetch('data/insights.json?v=recap-2026-1').then(r => r.json()), fetch('data/programs2026.json?v=recap-2026-1').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => [s.id, ...(s.aliasIds || [])].forEach(id => BYID.set(id, s))); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();
