@@ -262,5 +262,12 @@
     ],
     "fuente": "PUM - Founders Hub convocatoria (1-33).xlsx",
     "nota": "33 respuestas consolidadas en 32 iniciativas únicas. No se publican datos personales."
+  },
+  "vision-circular": {
+    "nombre": "Visión Circular",
+    "descripcion": "Visión Circular es una ruta de incubación de la ANDI y la Universidad Ean, a través de Impacta, para cinco iniciativas del Banco de Proyectos de Innovación de la ANDI. Mediante diagnóstico, formación y mentorías, fortalece sus modelos de negocio, ayuda a validar sus propuestas de valor y a desarrollar o ajustar sus productos mínimos viables. La ruta también orienta a los equipos en la definición de indicadores de impacto y planes de crecimiento para sus soluciones de economía circular.",
+    "cifras": {
+      "iniciativas": 5
+    }
   }
 }
