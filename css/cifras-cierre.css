@@ -144,3 +144,8 @@
 @media (max-width:420px){
   .cc-group--science2venture .cc-group__cuts{grid-template-columns:minmax(0,1fr)}
 }
+
+/* Keep the TRL label and action inside the textured paper edge. */
+.cc-cut > a[href$="programMetric=science-trl-4-plus"]{
+  padding-inline:clamp(32px,14%,64px) clamp(22px,9%,42px);
+}
