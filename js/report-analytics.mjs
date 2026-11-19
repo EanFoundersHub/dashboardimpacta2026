@@ -1,5 +1,5 @@
 const endpoint = 'https://startup-report-analytics.afcaballero.workers.dev/events';
-const storageKey = 'impacta-report-analytics-2026';
+const storageKey = 'impacta-report-analytics-session-v2';
 const observedSelectors = '#cifras-cierre, #programas, #portafolio, #portafolio-completo, .cc-cut, [data-insight], [data-component="ImpactOverview"], [data-component="StartupDossier"]';
 let session, queue = [], pending, sending = false, namePending = false, lastRoute = '';
 const visible = new Map();
@@ -112,31 +112,22 @@ function start(preference, fresh) {
   setInterval(() => { if (!document.hidden) { sample(); void flush(); } }, 10000);
 }
 
-function offerPreference() {
+function startAfterWelcome(name) {
+  if (session || !window.crypto?.randomUUID || !window.IntersectionObserver) return;
+  if (typeof name !== 'string' || !name.trim()) return;
   const existing = readPreference();
-  if (!window.crypto?.randomUUID || !window.IntersectionObserver) return;
-  if (existing?.id) { start(existing, false); return; }
-  if (existing?.declined || !('IntersectionObserver' in window)) return;
-  const panel = document.createElement('aside');
-  panel.setAttribute('aria-label', 'Estadísticas de uso');
-  panel.className = 'ir-container';
-  panel.innerHTML = `<form style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding-block:16px">
-    <p style="flex:1 1 100%;margin:0">Ayúdanos a mejorar el informe. Si aceptas, guardaremos los clics, las iniciativas consultadas y el tiempo visible de esta visita en el SharePoint institucional.</p>
-    <input name="visitorName" aria-label="Nombre opcional" placeholder="Tu nombre (opcional)" maxlength="100" autocomplete="off" style="font-size:16px;min-height:44px;max-width:100%;padding-inline:10px">
-    <button class="ir-btn" type="submit" style="min-height:44px">Compartir estadísticas</button>
-    <button class="ir-btn" type="submit" value="decline" style="min-height:44px">Omitir</button>
-  </form>`;
-  panel.querySelector('form').addEventListener('submit', event => {
-    event.preventDefault();
-    const choice = event.submitter?.value === 'decline' ? { declined: true } : {
-      id: crypto.randomUUID(), name: new FormData(event.currentTarget).get('visitorName').trim()
-    };
-    try { sessionStorage.setItem(storageKey, JSON.stringify(choice)); } catch {}
-    panel.remove();
-    if (choice.id) start(choice, true);
-  });
-  document.querySelector('#main')?.before(panel);
+  if (existing?.id) {
+    start({ id: existing.id }, false);
+    return;
+  }
+  const preference = { id: crypto.randomUUID(), name: name.trim() };
+  try { sessionStorage.setItem(storageKey, JSON.stringify({ id: preference.id })); } catch {}
+  start(preference, true);
 }
 
-if ('requestIdleCallback' in window) requestIdleCallback(offerPreference, { timeout: 1500 });
-else setTimeout(offerPreference, 0);
+document.addEventListener('impacta:bienvenida', event => startAfterWelcome(event.detail?.nombre));
+try {
+  if (sessionStorage.getItem('impacta2026:bienvenida-vista') === '1') {
+    startAfterWelcome(sessionStorage.getItem('impacta2026:nombre'));
+  }
+} catch {}
