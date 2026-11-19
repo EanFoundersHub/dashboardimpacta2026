@@ -1,7 +1,7 @@
 {
   "science2venture": {
     "nombre": "Science2Venture",
-    "descripcion": "Science2Venture acompaña iniciativas de investigación aplicada y de base tecnológica con potencial de transferencia y creación de spin-offs. La Universidad Ean fortalece a los equipos para conectar sus desarrollos con el mercado, estructurar su modelo de negocio y valorizar el conocimiento generado.",
+    "descripcion": "Es un programa de acompañamiento a proyectos de investigación aplicada y desarrollos científico-tecnológicos que busca convertir el conocimiento generado en la Universidad Ean en soluciones con potencial de aplicación comercial. Su propósito es acercar la investigación al mercado, fortaleciendo las capacidades de los equipos investigadores para validar tecnologías, proteger la propiedad intelectual, estructurar modelos de negocio y promover la creación de empresas de base científica y tecnológica (spin-offs).",
     "anio": 2026,
     "cifras": {
       "iniciativas": 28,
@@ -145,7 +145,7 @@
   },
   "foundershub": {
     "nombre": "FoundersHub",
-    "descripcion": "FoundersHub reúne las iniciativas que recibieron diagnóstico y acompañamiento de mentoría durante 2026.",
+    "descripcion": "Es un espacio de orientación, diagnóstico y acompañamiento especializado que busca impulsar el desarrollo de emprendimientos de la comunidad eanista, conectando a sus fundadores con conocimiento, herramientas y expertos para resolver los principales desafíos de sus negocios. Su propósito es transformar ideas en iniciativas viables y fortalecer emprendimientos en operación, ayudándolos a consolidar sus modelos de negocio, validar oportunidades de mercado y desarrollar las capacidades necesarias para crecer y escalar.",
     "anio": 2026,
     "cifras": {
       "iniciativas": 170,
@@ -171,7 +171,7 @@
   "swisscontact": {
     "nombre": "Programa de Alistamiento para Inversión de Colombia + Competitiva",
     "nombreCorto": "Swisscontact",
-    "descripcion": "Acompañamiento para fortalecer la gestión comercial y financiera, cerrar brechas de financiabilidad y preparar a empresas de ingredientes naturales, agricultura sostenible y economía circular para relacionarse con fuentes de capital.",
+    "descripcion": "Es un programa de acompañamiento especializado que busca fortalecer a pequeñas y medianas empresas colombianas con modelos de negocio sostenibles y potencial de crecimiento, preparándolas para acceder a oportunidades de inversión. Su propósito es cerrar las brechas que limitan su conexión con el capital, fortaleciendo su estructura financiera, estrategia empresarial y capacidad para presentar oportunidades de inversión sólidas ante potenciales financiadores e inversionistas de impacto.\n\nColombia más competitiva",
     "anio": 2026,
     "fechaCorte": "2026-11-11",
     "cifras": {
@@ -234,7 +234,7 @@
   },
   "pum": {
     "nombre": "PUM",
-    "descripcion": "Mentorías internacionales para fortalecer retos comerciales, operativos y de crecimiento de iniciativas vinculadas a la comunidad Eanista.",
+    "descripcion": "Es un programa de fortalecimiento empresarial que busca conectar a empresas de la comunidad eanista con expertos internacionales para abordar desafíos estratégicos que limitan su crecimiento y competitividad. Su propósito es transferir conocimiento y experiencia especializada para mejorar la productividad, optimizar procesos, desarrollar nuevos productos y servicios, fortalecer capacidades organizacionales y abrir oportunidades de crecimiento sostenible en los mercados.",
     "anio": 2026,
     "cifras": {
       "iniciativas": 32,
