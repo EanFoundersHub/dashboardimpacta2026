@@ -4,8 +4,10 @@
     "descripcion": "Es un programa de acompañamiento a proyectos de investigación aplicada y desarrollos científico-tecnológicos que busca convertir el conocimiento generado en la Universidad Ean en soluciones con potencial de aplicación comercial. Su propósito es acercar la investigación al mercado, fortaleciendo las capacidades de los equipos investigadores para validar tecnologías, proteger la propiedad intelectual, estructurar modelos de negocio y promover la creación de empresas de base científica y tecnológica (spin-offs).",
     "anio": 2026,
     "cifras": {
-      "iniciativas": 28,
-      "conPrototipo": 18,
+      "postulados": 35,
+      "enAcompanamiento": 27,
+      "trl46": 8,
+      "conPrototipo": 17,
       "conFinanciacion": 12
     },
     "financiacion": {
@@ -148,9 +150,10 @@
     "descripcion": "Es un espacio de orientación, diagnóstico y acompañamiento especializado que busca impulsar el desarrollo de emprendimientos de la comunidad eanista, conectando a sus fundadores con conocimiento, herramientas y expertos para resolver los principales desafíos de sus negocios. Su propósito es transformar ideas en iniciativas viables y fortalecer emprendimientos en operación, ayudándolos a consolidar sus modelos de negocio, validar oportunidades de mercado y desarrollar las capacidades necesarias para crecer y escalar.",
     "anio": 2026,
     "cifras": {
-      "iniciativas": 170,
+      "iniciativas": 169,
       "generanIngresos": 84,
-      "baseTecnologicaODigital": 77
+      "baseTecnologicaODigital": 77,
+      "prediagnosticados": 266
     },
     "fuente": "Seguimiento_Asignación mentor (14) 1.xlsx"
   },
@@ -203,6 +206,7 @@
     "anio": 2026,
     "cifras": {
       "iniciativas": 450,
+      "estudiantesAcompanados": 831,
       "digitales": 128,
       "fisicos": 127,
       "hibridos": 36,

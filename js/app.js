@@ -29,6 +29,9 @@ const FACETS = [
   { key: 'programa', label: 'Programa', get: s => reportedPrograms(s) },
   { key: 'afiliacion', label: 'Afiliación Eanista', get: s => s.formacionEan?.afiliacion ? [s.formacionEan.afiliacion] : [] },
   { key: 'carrera', label: 'Carrera o programa académico', get: s => s.formacionEan?.programa ? [s.formacionEan.programa] : [] },
+  { key: 'trl', label: 'TRL validado', get: s => Number.isInteger(s.science2venture2026?.trlValidado) ? [String(s.science2venture2026.trlValidado)] : [] },
+  { key: 'etapaFounders', label: 'Etapa FoundersHub', get: s => s.foundersHub2026?.etapa ? [s.foundersHub2026.etapa] : [] },
+  { key: 'tipoFounders', label: 'Tipo de modelo FoundersHub', get: s => s.foundersHub2026?.categoria ? [s.foundersHub2026.categoria] : [] },
   { key: 'cohorte', label: 'Cohorte', get: s => (s.anios || []).map(String).includes('2026') ? ['Cohorte 9 (2026)'] : (s.cohorte ? [s.cohorte] : []) },
   { key: 'fase', label: 'Fase', get: s => s.fases || [] },
   { key: 'sector', label: 'Sector económico', get: s => s.sector ? [s.sector] : [], top: 14 },
@@ -93,14 +96,21 @@ function programFolder(p, extra = '') {
   const style = `--c:${p.color};--c-on:${p.colorOn}`;
   return `<button type="button" class="${cls}" data-program-open="${esc(p.id)}" data-tono="${p.tono}" style="${style}" aria-label="${esc(p.nombre)} · Abrir programa">${inner}</button>`;
 }
-const PROGRAM_METRIC_LABELS = { metaEmpresas:'empresas · meta del programa', iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
-const PROGRAM_METRIC_FILTERS = { conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
+const PROGRAM_METRIC_LABELS = { postulados:'postulados', enAcompanamiento:'en acompañamiento', trl46:'con TRL validado de 4 a 6', prediagnosticados:'registros con prediagnóstico', estudiantesAcompanados:'estudiantes acompañados', metaEmpresas:'empresas · meta del programa', iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
+const PROGRAM_METRIC_FILTERS = { trl46:'science-trl-4-6', conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
 function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:p.id === 'tangara-ir' ? {metaEmpresas:44} : d?.cifras, directorio:p.programa ? (p.id === 'tangara-ir' ? '#/portafolio?programa=' : '#/portafolio?anio=2026&programa=') + encodeURIComponent(p.programa) : null }; }); }
 function openProgram(id, source) {
-  const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, 4);
+  const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, id === 'science2venture' ? 5 : 4);
   const metricValue = (k,v) => k === 'ventasDeclaradasCop' ? new Intl.NumberFormat('es-CO', {maximumFractionDigits:2}).format(v / 1e12) + 'B COP' : new Intl.NumberFormat('es-CO').format(v);
   const href = k => p.directorio + (PROGRAM_METRIC_FILTERS[k] ? '&programMetric=' + PROGRAM_METRIC_FILTERS[k] : ''); const modal = $('#program-modal');
-  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.logoFondo ? `<div style="display:grid;place-items:center;box-sizing:border-box;width:min(100%,212px);padding:12px 16px;margin:0 auto 16px;border-radius:10px;background:linear-gradient(125deg,#291333,#642354)"><img src="${esc(p.logo)}" alt="${esc(p.nombre + ' · ' + p.subtitulo)}" width="180" style="display:block;max-width:100%;height:auto"></div>` : p.logo ? `<img src="${esc(p.logo)}" alt="${esc(p.nombre)}" width="180" style="display:block;max-width:100%;height:auto;margin:0 auto 16px">` : ''}${p.subtitulo && !p.logoFondo ? `<p><strong>${esc(p.subtitulo)}</strong></p>` : ''}${p.descripcion ? `<p style="white-space:pre-line">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(([k,v]) => `<a href="${href(k)}"><b${k === 'ventasDeclaradasCop' ? ' class="pp-program__amount"' : ''}>${metricValue(k,v)}</b><span>${esc(PROGRAM_METRIC_LABELS[k] || k)}</span><small>Ver iniciativas →</small></a>`).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
+  const infoOnly = new Set(['postulados', 'prediagnosticados', 'estudiantesAcompanados']);
+  const metricCard = ([key, value]) => {
+    const content = `<b${key === 'ventasDeclaradasCop' ? ' class="pp-program__amount"' : ''}>${metricValue(key,value)}</b><span>${esc(PROGRAM_METRIC_LABELS[key] || key)}</span>`;
+    return p.directorio && !infoOnly.has(key)
+      ? `<a href="${href(key)}">${content}<small>Ver iniciativas →</small></a>`
+      : `<div class="pp-program__metric-info">${content}</div>`;
+  };
+  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.logoFondo ? `<div style="display:grid;place-items:center;box-sizing:border-box;width:min(100%,212px);padding:12px 16px;margin:0 auto 16px;border-radius:10px;background:linear-gradient(125deg,#291333,#642354)"><img src="${esc(p.logo)}" alt="${esc(p.nombre + ' · ' + p.subtitulo)}" width="180" style="display:block;max-width:100%;height:auto"></div>` : p.logo ? `<img src="${esc(p.logo)}" alt="${esc(p.nombre)}" width="180" style="display:block;max-width:100%;height:auto;margin:0 auto 16px">` : ''}${p.subtitulo && !p.logoFondo ? `<p><strong>${esc(p.subtitulo)}</strong></p>` : ''}${p.descripcion ? `<p style="white-space:pre-line">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(metricCard).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
   modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus({ preventScroll:true }), 30);
 }
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
@@ -137,12 +147,12 @@ const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div cl
 function viewPanorama() {
   const U = DATA.insights.panorama.universos;
   const p = DATA.programs2026;
-  const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact].filter(Boolean);
+  const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact, p['impacta-inhouse']].filter(Boolean);
   return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">ReCap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
-  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta y Swisscontact durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
+  <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
   ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
-  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, ({ iniciativas:'iniciativas', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital' })[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
+  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
   <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Contexto histórico</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
   ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
@@ -221,6 +231,7 @@ function filterList(q) {
   const metricKey = q.get('programMetric');
   const metricMatches = s => !metricKey || ({
     'science-prototype': s.science2venture2026?.prototipoReportado === true,
+    'science-trl-4-6': [4, 5, 6].includes(s.science2venture2026?.trlValidado),
     'science-financing': s.science2venture2026?.financiacionAsignada === true,
     'founders-income': s.foundersHub2026?.generaIngresos === true,
     'founders-tech': ['tech','digitales','digital','innovación'].includes((s.foundersHub2026?.categoria || '').toLowerCase()),
@@ -346,7 +357,7 @@ function viewDossier(id) {
     [programs.length === 1 ? 'Programa de Impacta' : 'Programas de Impacta', programs.join(' · ')],
     ['Vínculo con la Universidad Ean', [academic?.afiliacion, academic?.vinculo].filter(Boolean).join(' · ')],
     ['Carrera o programa académico', academic?.programa],
-    ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+    ['Cohorte', s.cohorte], ['TRL validado', s.science2venture2026?.trlValidado], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
     s.tangaraCatalogo && ['Comunidad Tángara Investment Readiness', `<p>${esc([s.tangaraCatalogo.sector, s.tangaraCatalogo.subsector].filter(Boolean).join(' · '))}</p>${s.tangaraCatalogo.descripcion && s.tangaraCatalogo.descripcion !== s.descripcion ? `<p>${esc(s.tangaraCatalogo.descripcion)}</p>` : ''}`],
     s.trayectoria?.length && ['Trayectoria por programa y fase', `<ul>${s.trayectoria.map(row => `<li><b>${esc(row.nombreOriginal)}</b>${row.programas.length ? `<br>Programas: ${esc(row.programas.join(' · '))}` : ''}${row.fases.length ? `<br>Fases: ${esc(row.fases.join(' · '))}` : ''}${row.anios.length ? `<br>Años: ${esc(row.anios.join(' · '))}` : ''}${row.cohorte ? `<br>Cohorte: ${esc(row.cohorte)}` : ''}</li>`).join('')}</ul>`],
