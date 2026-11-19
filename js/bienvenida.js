@@ -23,7 +23,6 @@
       <div class="bv__field"><label for="bv-nombre">Nombre</label>
         <input class="bv__input" id="bv-nombre" name="nombre" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="go" maxlength="60" required></div>
       <div class="bv__consent">
-        <p class="bv__legal">Usaremos tu nombre y tu actividad en el informe, como las cifras y fichas que consultes y el tiempo que estén visibles, para conocer qué contenidos generan más interés. El registro se guarda en el SharePoint institucional.</p>
         <label class="bv__check"><input type="checkbox" id="bv-ok" name="autorizo" required><span aria-hidden="true"></span>Autorizo el tratamiento de mis datos personales.</label>
         <p class="bv__legal" id="bv-legal">De manera voluntaria, explícita, informada e inequívoca, autorizo a la Universidad Ean para tratar mis <a href="${CONFIG.autorizacion}" target="_blank" rel="noopener">datos personales</a>, de acuerdo con lo dispuesto en los artículos 5, 7 y concordantes del Decreto 1377 de 2013 y las demás disposiciones legales referentes al tema. Para mayor información acerca del manejo de tus datos personales, puedes revisar nuestro <a href="${CONFIG.avisoPrivacidad}" target="_blank" rel="noopener">aviso de privacidad</a> y nuestra <a href="${CONFIG.politicaPrivacidad}" target="_blank" rel="noopener">política de privacidad</a>.</p>
       </div>
