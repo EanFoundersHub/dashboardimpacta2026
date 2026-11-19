@@ -149,3 +149,20 @@
 .cc-cut > a[href$="programMetric=science-trl-4-plus"]{
   padding-inline:clamp(32px,14%,64px) clamp(22px,9%,42px);
 }
+
+/* Recap: sheets on the same kraft paper used in the closing figures. */
+.ir-recap{background:#d1b28b url(../assets/cinta/kraft-plano.webp) center top/820px 560px;color:#1f2124}
+.ir-recap .ir-section__head,.ir-recap .ir-universe{
+  background:#fbf9f4 url(../assets/programas-home/assets/texturas/papel-marfil-tile.webp) center/512px;
+  padding:clamp(18px,4vw,40px);margin-bottom:16px;border:0;border-radius:3px;
+  box-shadow:0 5px 12px #3a281f36
+}
+.ir-recap .ir-universe__figures{gap:clamp(16px,3vw,32px)}
+.ir-recap .ir-metric{min-width:0;max-width:100%}
+.ir-recap .ir-recap__detail{align-self:flex-start;min-height:44px;margin-top:6px;background:#1f2124;color:#fbf9f4}
+.ir-recap__trl{grid-column:1 / -1;min-width:0;border-top:1px solid #cfc6b5}
+.ir-trl-empty{border-style:dashed;background:transparent;color:inherit;opacity:.72;cursor:default}
+@media(max-width:600px){
+  .ir-recap .ir-universe__figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(130px,100%),1fr))}
+  .ir-recap .ir-section__title,.ir-recap .ir-universe__name b{overflow-wrap:anywhere}
+}

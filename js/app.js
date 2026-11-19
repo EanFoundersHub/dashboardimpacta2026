@@ -109,7 +109,7 @@ function scienceTrlSummary(base) {
     <div class="ir-card__tags">${link('programMetric=science-trl-4-6', `${trl.trl46} equipos en TRL 4–6`)}${link('programMetric=science-trl-4-plus', `${trl.trl4mas} equipos en TRL 4 o superior`)}</div>
     <div class="ir-card__tags" style="margin-top:12px" aria-label="Filtrar por nivel TRL">${trl.distribucion.map((count, index) => {
       const label = `TRL ${index + 1} · ${count} (${percent.format(100 * count / trl.total)} %)`;
-      return count ? link('trl=' + (index + 1), label) : `<span class="ir-badge">${label}</span>`;
+      return count ? link('trl=' + (index + 1), label) : `<span class="ir-btn ir-btn--small ir-trl-empty">${label}</span>`;
     }).join('')}</div>
   </section>`;
 }
@@ -161,17 +161,20 @@ const tornPhoto = (src, alt, ratio = '4x3', focus = '50% 18%') => src ? `<div cl
 function viewPanorama() {
   const U = DATA.insights.panorama.universos;
   const p = DATA.programs2026;
-  const programs = [p.science2venture, p.foundershub, p.conecta, p.swisscontact, p['impacta-inhouse']].filter(Boolean);
-  return `<section class="ir-section ir-overview" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
+  const folders = enrichedPrograms();
+  const programs = ['science2venture', 'foundershub', 'conecta', 'swisscontact', 'impacta-inhouse']
+    .map(id => ({ id, data: p[id], folder: folders.find(folder => folder.id === id) }))
+    .filter(program => program.data);
+  return `<section class="ir-section ir-recap" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
   <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">Recap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
   <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Más abajo se presentan las cifras de la trayectoria anterior a 2026.</p></div>
-  ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
-  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div>${x === p.science2venture ? `<div style="grid-column:1 / -1">${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}</div>` : ''}</div>`).join('')}
+  ${programs.map(({ id, data: x, folder }, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b>${folder?.directorio ? `<a class="ir-btn ir-btn--small ir-recap__detail" href="${esc(folder.directorio)}" aria-label="Ver detalle de ${esc(x.nombre)}">Ver detalle ${ICON('flecha')}</a>` : ''}</div>
+  <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l')).join('')}</div>${id === 'science2venture' ? `<div class="ir-recap__trl">${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}</div>` : ''}</div>`).join('')}
   <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Trayectoria</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
   ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Portafolio · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
-  <div class="ir-universe__figures">${u.cifras.map(c => metric(c.valor, c.texto, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
-  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn" style="border-color:#fff;color:#fff" href="#/insights">Ver resultados ${ICON('flecha')}</a></div>
+  <div class="ir-universe__figures">${u.cifras.map(c => metric(c.valor, c.texto, 'ir-metric--l')).join('')}</div></div>`).join('')}
+  <div style="display:flex;justify-content:flex-end;padding-top:var(--space-6)"><a class="ir-btn ir-recap__detail" href="#/insights">Ver resultados ${ICON('flecha')}</a></div>
 </div></section>`;
 }
 
