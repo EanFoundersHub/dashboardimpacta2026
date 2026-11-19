@@ -166,3 +166,5 @@
   .ir-recap .ir-universe__figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(130px,100%),1fr))}
   .ir-recap .ir-section__title,.ir-recap .ir-universe__name b{overflow-wrap:anywhere}
 }
+
+.pp-cover__copy .pp-cover__kicker{display:inline-block;align-self:flex-start;background:#fbf9f4;padding:.45em .7em;box-shadow:0 5px 12px #261e1424}

@@ -133,7 +133,7 @@ function viewHome(q = new URLSearchParams()) {
   return `<div class="pp" data-component="ProgramArchive"><header class="pp__head"><img src="${PROGRAM_ASSET}marca/ean-impacta-negro.png" alt="Ean Universidad | Impacta"><nav aria-label="Portada"><a href="#/panorama">Recap 2026</a><a href="#/" data-action="programs">Programas</a></nav></header>
   <section class="pp-cover" aria-labelledby="hero-title">
     <div class="pp-cover__kraft" aria-hidden="true"></div>
-    <div class="pp-cover__copy"><span class="pp__kicker">Ean Impacta · Informe anual</span><h1 class="pp-cover__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
+    <div class="pp-cover__copy"><span class="pp__kicker pp-cover__kicker">Ean Impacta · Informe anual</span><h1 class="pp-cover__title" id="hero-title" tabindex="-1"><span>Ean Impacta</span><em>Startup</em><span>Report <b>2026</b></span></h1>
     </div>
     <div class="pp-cover__archive" aria-hidden="true">
       <img class="pp-cover__folder pp-cover__folder--purple" src="${PROGRAM_ASSET}carpetas/carpeta-morada.webp" alt="">
@@ -152,7 +152,7 @@ function viewHome(q = new URLSearchParams()) {
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>
     <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b></div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<button type="button" data-focus-jump="${f.id}">${esc(f.nombre)}</button>`).join('')}</nav></div>
     <div class="pp-focus-sections">${PROGRAM_FOCUSES.map((f, i) => { const items = enriched.filter(p => p.enfoque === f.id); return `<section class="pp-focus-section" id="enfoque-${f.id}" aria-labelledby="enfoque-title-${f.id}"><div class="pp-focus-section__head"><span>${String(i + 1).padStart(2,'0')} · Enfoque</span><h3 id="enfoque-title-${f.id}">${esc(f.nombre)}</h3><p>${esc(f.subtitulo)}</p></div><ul class="pp__grid">${items.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section>`; }).join('')}</div>
-  </section></div><div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div>
+  </section></div>
   <div class="pp-portfolio" id="portafolio-completo">${viewDirectory(q)}</div>`;
 }
 const metric = (v, t, cls = '') => { const s = String(v); const m = s.match(/^([\d.,]+)\s?(%)?$/); return `<div class="ir-metric ${cls}" data-component="MetricFigure"><span class="ir-metric__value">${m ? esc(m[1]) + (m[2] ? '<small>%</small>' : '') : esc(s)}</span><span class="ir-metric__text">${esc(t)}</span></div>`; };
@@ -166,9 +166,9 @@ function viewPanorama() {
     .map(id => ({ id, data: p[id], folder: folders.find(folder => folder.id === id) }))
     .filter(program => program.data);
   return `<section class="ir-section ir-recap" data-component="ImpactOverview" aria-labelledby="pan-title"><div class="ir-container">
-  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">Recap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">2026 es el centro del archivo</h1>
+  <div class="ir-section__head"><span class="ir-tag" style="background:#fff;color:#0B4A46">Recap 2026</span><h1 class="ir-section__title" id="pan-title" tabindex="-1">Acompañamiento Impacta 2026</h1>
   <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Más abajo se presentan las cifras de la trayectoria anterior a 2026.</p></div>
-  ${programs.map(({ id, data: x, folder }, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b>${folder?.directorio ? `<a class="ir-btn ir-btn--small ir-recap__detail" href="${esc(folder.directorio)}" aria-label="Ver detalle de ${esc(x.nombre)}">Ver detalle ${ICON('flecha')}</a>` : ''}</div>
+  ${programs.map(({ id, data: x, folder }, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b>${folder ? `<button type="button" class="ir-btn ir-btn--small ir-recap__detail" data-program-open="${esc(folder.id)}" aria-label="Ver detalle de ${esc(x.nombre)}">Ver detalle ${ICON('flecha')}</button>` : ''}</div>
   <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l')).join('')}</div>${id === 'science2venture' ? `<div class="ir-recap__trl">${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}</div>` : ''}</div>`).join('')}
   <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Trayectoria</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
@@ -415,11 +415,12 @@ function render(focus = true) {
   const { parts, q } = parseHash(); const r = parts[0] || '';
   const prevKey = state.route; if (prevKey) state.scrollByRoute[prevKey] = scrollY;
   const main = $('#main');
+  closeProgram();
   document.body.querySelector(':scope > #program-modal')?.remove();
   const isPortfolio = r === 'portafolio' || r === 'directorio';
   const html = r === 'panorama' ? viewPanorama() : r === 'insights' ? viewInsights(q) : isPortfolio ? viewDirectory(q) : r === 'e' ? viewDossier(parts[1]) : viewHome(q);
   document.body.dataset.route = r || 'inicio';
-  main.innerHTML = `<div class="ir-view">${html}</div>`;
+  main.innerHTML = `<div class="ir-view">${html}</div>${!r || r === 'panorama' ? '<div class="pp-program" id="program-modal" role="dialog" aria-modal="true" aria-labelledby="program-modal-title" hidden></div>' : ''}`;
   const programModal = $('#program-modal'); if (programModal) document.body.appendChild(programModal);
   if (isPortfolio) state.lastDirQuery = q.toString();
   $$('[data-nav]').forEach(a => a.toggleAttribute('aria-current', false)); const cur = $(`[data-nav="${r === 'e' || isPortfolio ? 'portafolio' : r}"]`); cur && cur.setAttribute('aria-current', 'page');
