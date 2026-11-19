@@ -8,6 +8,15 @@
     claveSesion: 'impacta2026:bienvenida-vista',   // sessionStorage
     claveNombre: 'impacta2026:nombre',             // sessionStorage, solo con autorización
   };
+  function esNombreValido(nombre) {
+    const partes = nombre.normalize('NFC').trim().split(/\s+/);
+    const palabra = /^(?:\p{L}\p{M}*){2,}(?:[-'’](?:\p{L}\p{M}*){2,})*$/u;
+    const relleno = /^(?:([a-z])\1{2,}|asdf(?:ghjkl)?|qwerty|zxcvbnm|abc(?:def)?)$/i;
+    return partes.every(parte =>
+      palabra.test(parte) && !relleno.test(parte.normalize('NFD').replace(/\p{M}/gu, ''))
+    );
+  }
+
   let vista = false;
   try { vista = sessionStorage.getItem(CONFIG.claveSesion) === '1' && Boolean(sessionStorage.getItem(CONFIG.claveNombre)); } catch {}
   if (vista) return;
@@ -41,8 +50,8 @@
   d.addEventListener('submit', e => {
     e.preventDefault();
     const n = input().value.trim().replace(/\s+/g, ' ');
-    if (!n) {
-      input().setCustomValidity('Escribe tu nombre para continuar.');
+    if (!esNombreValido(n)) {
+      input().setCustomValidity('Escribe tu nombre sin puntos, números ni iniciales.');
       input().reportValidity();
       return;
     }
