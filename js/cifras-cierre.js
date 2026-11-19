@@ -50,7 +50,7 @@ export function cifrasCierre() {
     <div class="cc__groups">${CIERRE.map(g => `<section class="cc-group cc-group--${g.id}" style="--c:${g.color};--c-on:${g.colorOn}" aria-labelledby="cc-g-${g.id}">
       <h3 class="cc-group__tab" id="cc-g-${g.id}">${esc(g.nombre)}</h3>
       <ul class="cc-group__cuts">${g.cifras.map((c, i) => cifra(c, g, i)).join('')}</ul></section>`).join('')}</div>
-    <div class="cc__foot"><p class="cc__nota"><b>${esc(CIERRE_NOTA.valor)}</b> ${esc(CIERRE_NOTA.rotulo)}<span>${esc(CIERRE_NOTA.contexto)}</span></p><p class="cc__src">${esc(CIERRE_FUENTE)}</p></div>
+    <div class="cc__foot"><p class="cc__nota"><strong><b>${esc(CIERRE_NOTA.valor)}</b> ${esc(CIERRE_NOTA.rotulo)}</strong><span>${esc(CIERRE_NOTA.contexto)}</span></p></div>
   </div></section>`;
 }
 

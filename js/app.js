@@ -1,5 +1,5 @@
 // Ean Impacta Startup Report 2026 · app (HTML/CSS/JS sin dependencias)
-import { cifrasCierre } from './cifras-cierre.js?v=2';
+import { cifrasCierre } from './cifras-cierre.js?v=3';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

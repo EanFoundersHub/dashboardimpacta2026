@@ -66,12 +66,12 @@
 .cc-cut__note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
 
 /* Pie sobre la cinta: tira marfil con la nota institucional y la fuente */
-.cc__foot{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin:clamp(22px,2.4cqi,30px) auto 0;padding:14px 26px 14px;max-width:100%;box-sizing:border-box;transform:rotate(.4deg)}
+.cc__foot{position:relative;margin:clamp(22px,2.4cqi,30px) auto 0;padding:14px clamp(24px,9%,150px);max-width:100%;box-sizing:border-box;transform:rotate(.4deg)}
 .cc__foot::before{content:"";position:absolute;inset:0;z-index:-1;background:url(../assets/cinta/tira-marfil.webp) center/100% 100%;filter:drop-shadow(0 1px 1px rgba(40,28,14,.3)) drop-shadow(0 4px 6px rgba(40,28,14,.14))}
 .cc__nota{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font:500 14px/1.4 Poppins,Arial,sans-serif;color:#1F2124}
+.cc__nota strong{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-weight:600}
 .cc__nota b{font:800 22px/1 Outfit,Arial,sans-serif}
 .cc__nota span{font-size:12px;color:#3A3D42}
-.cc__src{margin:0;font:500 12px/1.4 Poppins,Arial,sans-serif;color:#3A3D42}
 
 /* Detalle de cifra (popover nativo) como hoja */
 .cc-pop{width:min(520px,calc(100vw - 32px));margin:auto;padding:30px 30px 24px;border:0;border-top:8px solid var(--c);background:#FBF9F4 url(../assets/programas-home/assets/texturas/papel-marfil-tile.webp) 0 0/512px;color:#1F2124;box-shadow:0 2px 3px rgba(30,22,12,.25),0 28px 60px rgba(30,22,12,.35);text-align:left;overflow:visible}
@@ -130,7 +130,7 @@
   .cc__strip{padding:44px 10px 26px}
   .cc__band{inset:0 -4%;transform:rotate(-.3deg)}
   .cc__tape{width:96px}
-  .cc__foot{padding:12px 16px}
+  .cc__foot{padding-block:12px}
 }
 
 /* Mobile reading and touch targets */
