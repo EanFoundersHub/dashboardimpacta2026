@@ -44,7 +44,7 @@
 .cc-cut:nth-child(2n) .cc-cut__tape{left:auto;right:-10px;top:-10px;transform:rotate(calc(var(--tr) + 32deg))}
 
 .cc-cut__num{position:relative;z-index:0;justify-self:start;font:900 clamp(50px,4.6cqi,70px)/.9 Outfit,Arial,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums}
-.cc-cut__label{font:600 clamp(14px,1.1cqi,16px)/1.3 Poppins,Arial,sans-serif;text-wrap:balance}
+.cc-cut__label{font:600 clamp(14px,1.1cqi,16px)/1.3 Poppins,Arial,sans-serif;text-wrap:balance;overflow-wrap:anywhere}
 .cc-group--impacta-inhouse .cc-cut__num{font-size:clamp(68px,7cqi,116px)}
 .cc-group--impacta-inhouse .cc-cut__label{font-size:clamp(15px,1.3cqi,19px)}
 
@@ -115,7 +115,7 @@
 @container (max-width:1080px){
   .cc__groups{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cc-group--science2venture{grid-column:1 / -1}
-  .cc-group--science2venture .cc-group__cuts{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .cc-group--science2venture .cc-group__cuts{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 /* Móvil: grupos apilados en el mismo orden, sin carrusel */
 @container (max-width:640px){

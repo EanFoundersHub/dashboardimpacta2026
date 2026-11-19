@@ -5,20 +5,20 @@ export const CIERRE_FUENTE = 'Fuente: presentación de cierre 2026 y corte opera
 export const CIERRE = [
   { id: 'foundershub', nombre: 'FoundersHub', color: '#F6B24E', colorOn: '#1F2124', cifras: [
     { valor: '170', rotulo: 'Startups en el pipeline', tipo: 'detalle', detalleId: 'cc-fh-pipeline', accion: 'Ver detalle',
-      detalle: { titulo: '170 startups en el pipeline', texto: 'La presentación de cierre registra 170 startups en el pipeline de FoundersHub. En el portafolio se consultan 169 fichas únicas: SURCOLME y Ousia corresponden al mismo emprendimiento y se presentan en una sola ficha.', href: PF('FoundersHub'), accion: 'Ver las 169 fichas' } },
-    { valor: '84', rotulo: 'Iniciativas con ingresos', tipo: 'enlace', href: PF('FoundersHub') + '&programMetric=founders-income', accion: 'Ver las 84 fichas' },
+      detalle: { titulo: '170 startups en el pipeline', texto: 'La presentación de cierre registra 170 startups en el pipeline de FoundersHub. En el portafolio se consultan 169 fichas únicas: SURCOLME y Ousia corresponden al mismo emprendimiento y se presentan en una sola ficha.', href: PF('FoundersHub'), accion: 'Ver detalle' } },
+    { valor: '84', rotulo: 'Iniciativas con ingresos', tipo: 'enlace', href: PF('FoundersHub') + '&programMetric=founders-income', accion: 'Ver detalle' },
     // Reservadas: se publican cuando existan las listas nominales aprobadas (añadir href y cambiar tipo a 'enlace').
     { valor: '45', rotulo: 'En crecimiento', tipo: 'reservada' },
     { valor: '12', rotulo: 'Con expansión o inversión', tipo: 'reservada' },
   ] },
   { id: 'impacta-inhouse', nombre: 'Impacta InHouse', color: '#3EAF49', colorOn: '#0E2E12', cifras: [
-    { valor: '451', rotulo: 'Iniciativas acompañadas', tipo: 'enlace', href: PF('Impacta InHouse'), accion: 'Ver fichas disponibles' },
+    { valor: '451', rotulo: 'Iniciativas acompañadas', tipo: 'enlace', href: PF('Impacta InHouse'), accion: 'Ver detalle' },
   ] },
   { id: 'science2venture', nombre: 'Science2Venture', color: '#1E5AA8', colorOn: '#FFFFFF', cifras: [
     { valor: '35', rotulo: 'Postulaciones científico-tecnológicas', tipo: 'info', nota: 'Alcance de la convocatoria' },
-    { valor: '27', rotulo: 'Equipos en acompañamiento', tipo: 'enlace', href: PF('Science2Venture'), accion: 'Ver las 27 fichas' },
-    { valor: '17', rotulo: 'Con MVP funcional reportado', tipo: 'enlace', href: PF('Science2Venture') + '&programMetric=science-prototype', accion: 'Ver las 17 fichas' },
-    { valor: '14', rotulo: 'Con TRL validado de 4 o superior', tipo: 'enlace', href: PF('Science2Venture') + '&programMetric=science-trl-4-plus', accion: 'Ver las 14 fichas' },
+    { valor: '27', rotulo: 'Equipos en acompañamiento', tipo: 'enlace', href: PF('Science2Venture'), accion: 'Ver detalle' },
+    { valor: '17', rotulo: 'Con MVP funcional reportado', tipo: 'enlace', href: PF('Science2Venture') + '&programMetric=science-prototype', accion: 'Ver detalle' },
+    { valor: '14', rotulo: 'Con TRL validado de 4 o superior', tipo: 'enlace', href: PF('Science2Venture') + '&programMetric=science-trl-4-plus', accion: 'Ver detalle' },
   ] },
 ];
 export const CIERRE_NOTA = { valor: '831', rotulo: 'estudiantes acompañados', contexto: 'Alcance institucional · Corte del 13 de noviembre de 2026' };
