@@ -99,6 +99,20 @@ function programFolder(p, extra = '') {
 const PROGRAM_METRIC_LABELS = { postulados:'postulados', enAcompanamiento:'en acompañamiento', trl46:'con TRL validado de 4 a 6', prediagnosticados:'registros con prediagnóstico', estudiantesAcompanados:'estudiantes acompañados', metaEmpresas:'empresas · meta del programa', iniciativas:'iniciativas', digitales:'digitales', fisicos:'físicos', hibridos:'híbridos', servicios:'servicios', ventasDeclaradasCop:'ventas 2025 declaradas', facultades:'facultades identificadas', retos:'retos empresariales', conPrototipo:'con MVP funcional', conFinanciacion:'con financiación asignada', generanIngresos:'generan ingresos', baseTecnologicaODigital:'de base tecnológica o digital', acompanamientoEfectivo:'con acompañamiento efectivo', diagnosticosCompletos:'con diagnóstico completo', planesAccionDisponibles:'con plan de acción disponible' };
 const PROGRAM_METRIC_FILTERS = { trl46:'science-trl-4-6', conPrototipo:'science-prototype', conFinanciacion:'science-financing', generanIngresos:'founders-income', baseTecnologicaODigital:'founders-tech', acompanamientoEfectivo:'swiss-accompanied', diagnosticosCompletos:'swiss-diagnostic', planesAccionDisponibles:'swiss-plan' };
 function enrichedPrograms() { return PROGRAMS.map(p => { const d = DATA.programs2026?.[p.id]; return { ...p, descripcion:d?.descripcion || p.descripcion, cifras:p.id === 'tangara-ir' ? {metaEmpresas:44} : d?.cifras, directorio:p.programa ? (p.id === 'tangara-ir' ? '#/portafolio?programa=' : '#/portafolio?anio=2026&programa=') + encodeURIComponent(p.programa) : null }; }); }
+function scienceTrlSummary(base) {
+  const trl = DATA.programs2026?.science2venture?.trl;
+  if (!trl) return '';
+  const link = (filter, label) => `<a class="ir-btn ir-btn--small" href="${base}&${filter}">${label}</a>`;
+  const percent = new Intl.NumberFormat('es-CO', {maximumFractionDigits:1});
+  return `<section class="ir-block" aria-label="Distribución de TRL validado">
+    <h3>Madurez tecnológica</h3><p><strong>${trl.validados} de ${trl.total}</strong> equipos con TRL validado (${trl.cobertura} %). ${trl.sinValidar} pendientes.</p>
+    <div class="ir-card__tags">${link('programMetric=science-trl-4-6', `${trl.trl46} equipos en TRL 4–6`)}${link('programMetric=science-trl-4-plus', `${trl.trl4mas} equipos en TRL 4 o superior`)}</div>
+    <div class="ir-card__tags" style="margin-top:12px" aria-label="Filtrar por nivel TRL">${trl.distribucion.map((count, index) => {
+      const label = `TRL ${index + 1} · ${count} (${percent.format(100 * count / trl.total)} %)`;
+      return count ? link('trl=' + (index + 1), label) : `<span class="ir-badge">${label}</span>`;
+    }).join('')}</div>
+  </section>`;
+}
 function openProgram(id, source) {
   const p = enrichedPrograms().find(x => x.id === id); if (!p) return; const metrics = Object.entries(p.cifras || {}).filter(([,v]) => Number.isFinite(v)).slice(0, id === 'science2venture' ? 5 : 4);
   const metricValue = (k,v) => k === 'ventasDeclaradasCop' ? new Intl.NumberFormat('es-CO', {maximumFractionDigits:2}).format(v / 1e12) + 'B COP' : new Intl.NumberFormat('es-CO').format(v);
@@ -110,7 +124,7 @@ function openProgram(id, source) {
       ? `<a href="${href(key)}">${content}<small>Ver iniciativas →</small></a>`
       : `<div class="pp-program__metric-info">${content}</div>`;
   };
-  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.logoFondo ? `<div style="display:grid;place-items:center;box-sizing:border-box;width:min(100%,212px);padding:12px 16px;margin:0 auto 16px;border-radius:10px;background:linear-gradient(125deg,#291333,#642354)"><img src="${esc(p.logo)}" alt="${esc(p.nombre + ' · ' + p.subtitulo)}" width="180" style="display:block;max-width:100%;height:auto"></div>` : p.logo ? `<img src="${esc(p.logo)}" alt="${esc(p.nombre)}" width="180" style="display:block;max-width:100%;height:auto;margin:0 auto 16px">` : ''}${p.subtitulo && !p.logoFondo ? `<p><strong>${esc(p.subtitulo)}</strong></p>` : ''}${p.descripcion ? `<p style="white-space:pre-line">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(metricCard).join('')}</div>` : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
+  modal.innerHTML = `<div class="pp-program__paper" role="document" style="--c:${p.color};--c-on:${p.colorOn}"><button type="button" class="pp-program__close" data-program-close aria-label="Cerrar">×</button><span class="pp__kicker">Programa · 2026</span><h2 id="program-modal-title" tabindex="-1">${esc(p.nombre)}</h2>${p.logoFondo ? `<div style="display:grid;place-items:center;box-sizing:border-box;width:min(100%,212px);padding:12px 16px;margin:0 auto 16px;border-radius:10px;background:linear-gradient(125deg,#291333,#642354)"><img src="${esc(p.logo)}" alt="${esc(p.nombre + ' · ' + p.subtitulo)}" width="180" style="display:block;max-width:100%;height:auto"></div>` : p.logo ? `<img src="${esc(p.logo)}" alt="${esc(p.nombre)}" width="180" style="display:block;max-width:100%;height:auto;margin:0 auto 16px">` : ''}${p.subtitulo && !p.logoFondo ? `<p><strong>${esc(p.subtitulo)}</strong></p>` : ''}${p.descripcion ? `<p style="white-space:pre-line">${esc(p.descripcion)}</p>` : ''}${metrics.length ? `<div class="pp-program__metrics">${metrics.map(metricCard).join('')}</div>` : ''}${id === 'science2venture' ? scienceTrlSummary(p.directorio) : ''}<div class="pp-program__actions">${p.directorio ? `<a class="pp__btn" href="${p.directorio}">Ver portafolio del programa →</a>` : ''}${p.href ? `<a class="ir-btn" href="${esc(p.href)}" target="_blank" rel="noopener">Abrir micrositio del programa</a>` : ''}</div></div>`;
   modal.hidden = false; document.body.style.overflow = 'hidden'; state.programReturn = source; setTimeout(() => $('#program-modal-title')?.focus({ preventScroll:true }), 30);
 }
 function closeProgram() { const modal = $('#program-modal'); if (!modal || modal.hidden) return; modal.hidden = true; modal.innerHTML = ''; document.body.style.overflow = ''; state.programReturn?.focus(); }
@@ -153,6 +167,7 @@ function viewPanorama() {
   <p class="ir-section__lead">Este corte reúne las iniciativas registradas en Science2Venture, FoundersHub, Conecta, Swisscontact e Impacta InHouse durante 2026. Las cifras históricas aparecen después como contexto, sin mezclarse con el universo del año.</p></div>
   ${programs.map((x, i) => `<div class="ir-universe ir-reveal" style="--i:${i + 1}" data-kind="programa-2026"><div class="ir-universe__name"><span class="ir-label">Programa 2026</span><b>${esc(x.nombre)}</b></div>
   <div class="ir-universe__figures">${Object.entries(x.cifras).map(([k,v]) => metric(v, PROGRAM_METRIC_LABELS[k] || k, 'ir-metric--l ir-metric--on-dark')).join('')}</div></div>`).join('')}
+  ${scienceTrlSummary('#/portafolio?anio=2026&programa=Science2Venture')}
   <div class="ir-section__head" style="padding-top:var(--space-9)"><span class="ir-tag" style="background:#fff;color:#0B4A46">Contexto histórico</span><h2 class="ir-section__title" style="font-size:var(--fs-h2)">La trayectoria que antecede a 2026</h2>
   <p class="ir-section__lead">Estas cifras reúnen el portafolio y la medición previamente consolidados. Cada bloque conserva su propio denominador y no representa exclusivamente las iniciativas de 2026.</p></div>
   ${U.map((u, i) => `<div class="ir-universe ir-reveal" style="--i:${i}" data-kind="${u.id}"><div class="ir-universe__name"><span class="ir-label">Histórico · 0${i + 1}</span><b>${esc(u.titulo)}</b></div>
@@ -232,6 +247,7 @@ function filterList(q) {
   const metricMatches = s => !metricKey || ({
     'science-prototype': s.science2venture2026?.prototipoReportado === true,
     'science-trl-4-6': [4, 5, 6].includes(s.science2venture2026?.trlValidado),
+    'science-trl-4-plus': Number.isInteger(s.science2venture2026?.trlValidado) && s.science2venture2026.trlValidado >= 4,
     'science-financing': s.science2venture2026?.financiacionAsignada === true,
     'founders-income': s.foundersHub2026?.generaIngresos === true,
     'founders-tech': ['tech','digitales','digital','innovación'].includes((s.foundersHub2026?.categoria || '').toLowerCase()),
@@ -263,6 +279,7 @@ const card = (s, selectedPrograms = []) => { const col = VERT_COLOR(s.vertical);
   <span class="ir-card__top"><span class="ir-card__logo" aria-hidden="true">${s.logo ? `<img src="${esc(s.logo)}" alt="">` : esc(initials(s.nombre))}</span>${meta ? `<span class="ir-label">${esc(meta)}</span>` : ''}</span>
   <h3 class="ir-card__name">${esc(s.nombre)}</h3>${s.descripcion ? `<p class="ir-card__desc">${esc(s.descripcion)}</p>` : ''}
   ${programMembership(s, selectedPrograms)}
+  ${Number.isInteger(s.science2venture2026?.trlValidado) ? `<span class="ir-badge">TRL validado ${s.science2venture2026.trlValidado}</span>` : ''}
   ${s.formacionEan?.programa ? `<span class="ir-card__programs"><span><b>Programa académico:</b> ${esc(s.formacionEan.programa)}</span></span>` : ''}
   ${Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px"><b>Financiación Science2Venture:</b> ${cop(s.science2venture2026.montoFinanciacionCop)}</span>` : ''}
   ${s.ubicacion ? `<span class="ir-card__meta">${ICON('pin')}${esc(s.ubicacion)}</span>` : ''}${s.sector ? `<span class="ir-label" style="text-transform:none;letter-spacing:0;font-size:13px">${esc(s.sector)}</span>` : ''}
@@ -357,8 +374,9 @@ function viewDossier(id) {
     [programs.length === 1 ? 'Programa de Impacta' : 'Programas de Impacta', programs.join(' · ')],
     ['Vínculo con la Universidad Ean', [academic?.afiliacion, academic?.vinculo].filter(Boolean).join(' · ')],
     ['Carrera o programa académico', academic?.programa],
-    ['Cohorte', s.cohorte], ['TRL validado', s.science2venture2026?.trlValidado], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
+    ['Cohorte', s.cohorte], ['Financiación Science2Venture', Number.isFinite(s.science2venture2026?.montoFinanciacionCop) ? cop(s.science2venture2026.montoFinanciacionCop) : null], ['Fase', (s.fases || []).join(' · ')], ['Ubicación', s.ubicacion], ['Sector', s.sector], ['Vertical', s.vertical], ['Año de participación', (s.anios || []).join(', ')]].filter(f => f[1]);
   const blocks = [
+    Number.isInteger(s.science2venture2026?.trlValidado) && ['Madurez tecnológica', `<div class="ir-facts"><div><span class="ir-label">TRL validado</span><b style="font-size:1.5em">${s.science2venture2026.trlValidado}</b></div><div><span class="ir-label">TRL declarado</span><b>${esc(s.science2venture2026.trlDeclared ?? 'Sin dato')}</b></div><div><span class="ir-label">Ruta de acompañamiento</span><b>Science2Venture</b></div></div>`],
     s.tangaraCatalogo && ['Comunidad Tángara Investment Readiness', `<p>${esc([s.tangaraCatalogo.sector, s.tangaraCatalogo.subsector].filter(Boolean).join(' · '))}</p>${s.tangaraCatalogo.descripcion && s.tangaraCatalogo.descripcion !== s.descripcion ? `<p>${esc(s.tangaraCatalogo.descripcion)}</p>` : ''}`],
     s.trayectoria?.length && ['Trayectoria por programa y fase', `<ul>${s.trayectoria.map(row => `<li><b>${esc(row.nombreOriginal)}</b>${row.programas.length ? `<br>Programas: ${esc(row.programas.join(' · '))}` : ''}${row.fases.length ? `<br>Fases: ${esc(row.fases.join(' · '))}` : ''}${row.anios.length ? `<br>Años: ${esc(row.anios.join(' · '))}` : ''}${row.cohorte ? `<br>Cohorte: ${esc(row.cohorte)}` : ''}</li>`).join('')}</ul>`],
     s.enlacesCanva?.length && ['Sitio web y redes sociales', `<div class="ir-card__tags">${s.enlacesCanva.filter(link => /^https?:\/\//i.test(link.url)).map(link => `<a class="ir-btn ir-btn--small" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.nombre)} ${ICON('flecha')}</a>`).join('')}</div>`],
@@ -462,7 +480,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=vision-circular-perfiles-1').then(r => r.json()), fetch('data/insights.json?v=tangara-catalogo-1').then(r => r.json()), fetch('data/programs2026.json?v=vision-circular-1').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=trl-definitivo-1').then(r => r.json()), fetch('data/insights.json?v=tangara-catalogo-1').then(r => r.json()), fetch('data/programs2026.json?v=vision-circular-1').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => [s.id, ...(s.aliasIds || [])].forEach(id => BYID.set(id, s))); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();

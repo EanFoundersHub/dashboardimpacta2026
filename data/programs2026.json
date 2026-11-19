@@ -130,10 +130,29 @@
       "ventas": "Datos reportados en la postulación o en el expediente de selección. No corresponden a una medición de ventas de noviembre.",
       "valores_nulos": "Dato sin confirmación en los expedientes consultados.",
       "financiacion": "Montos definidos en los expedientes de Mentor View. Incluye únicamente iniciativas con monto asignado en COP.",
-      "trl_validado_unit": "TRL validado por la UnIT según Selection Hub y Mentor View. Adaptium Labs (IMA) y Liminal tienen TRL declarado, pero no se encontró una validación de la UnIT.",
+      "trl_validado_unit": "Tabla maestra de TRL validado para las 27 iniciativas en acompañamiento de Science2Venture 2026.",
       "prototipo_reportado": "Opción de evidencia seleccionada en la postulación para un prototipo físico o digital con fotos o videos de funcionamiento. Un valor nulo indica que este estado no se confirmó.",
       "cliente_objetivo": "Síntesis del tipo de cliente y la propuesta de valor de la postulación.",
       "objetivo_en_science2venture": "Síntesis del reto principal o del objetivo indicado por el equipo en su postulación."
+    },
+    "trl": {
+      "total": 27,
+      "validados": 27,
+      "cobertura": 100,
+      "sinValidar": 0,
+      "trl46": 8,
+      "trl4mas": 14,
+      "distribucion": [
+        1,
+        5,
+        7,
+        3,
+        4,
+        1,
+        5,
+        0,
+        1
+      ]
     }
   },
   "conecta": {
