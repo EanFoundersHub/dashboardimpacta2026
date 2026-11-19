@@ -1,4 +1,5 @@
 // Ean Impacta Startup Report 2026 · app (HTML/CSS/JS sin dependencias)
+import { cifrasCierre } from './cifras-cierre.js?v=1';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -149,6 +150,7 @@ function viewHome(q = new URLSearchParams()) {
     </div>
     <img class="pp-cover__stamp" src="${PROGRAM_ASSET}sellos/png/sello-2026-oscuro.png" alt="Corte 2026">
   </section>
+  ${cifrasCierre()}
   <section class="pp__arch" id="programas" aria-labelledby="program-title"><div class="pp__arch-head"><h2 id="program-title">Programas</h2><span>${enriched.length} programas</span></div>
     <div class="pp-focus"><div class="pp-focus__head"><b>Buscar enfoque de iniciativas</b></div><nav class="pp-focus__bar" aria-label="Enfoques de iniciativas">${PROGRAM_FOCUSES.map(f => `<button type="button" data-focus-jump="${f.id}">${esc(f.nombre)}</button>`).join('')}</nav></div>
     <div class="pp-focus-sections">${PROGRAM_FOCUSES.map((f, i) => { const items = enriched.filter(p => p.enfoque === f.id); return `<section class="pp-focus-section" id="enfoque-${f.id}" aria-labelledby="enfoque-title-${f.id}"><div class="pp-focus-section__head"><span>${String(i + 1).padStart(2,'0')} · Enfoque</span><h3 id="enfoque-title-${f.id}">${esc(f.nombre)}</h3><p>${esc(f.subtitulo)}</p></div><ul class="pp__grid">${items.map(p => `<li>${programFolder(p)}</li>`).join('')}</ul></section>`; }).join('')}</div>

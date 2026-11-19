@@ -1,0 +1,146 @@
+/* Cifras de cierre 2026 · cinta kraft rasgada, sujeta con masking, y hojas reales para las cifras.
+   Cargar después de archivo-vivo.css. Recursos: assets/cinta/. */
+.cc{position:relative;overflow-x:clip;padding:clamp(28px,4cqi,56px) clamp(18px,5cqi,72px) clamp(16px,3cqi,40px)}
+.cc__head h2{position:relative;z-index:0}
+.cc__year{position:relative;display:inline-block;font-style:normal}
+.cc__year::before{content:"";position:absolute;z-index:-1;left:-6%;right:-8%;top:34%;bottom:-10%;background:url(../assets/trazos/resaltador-real-b.webp) center/100% 100% no-repeat;mix-blend-mode:multiply;transform:rotate(-1.2deg)}
+
+/* ---- Cinta kraft: papel rasgado arriba y abajo, fibras reales, sujeta con masking ---- */
+.cc__strip{position:relative;isolation:isolate;padding:clamp(44px,4.4cqi,64px) clamp(18px,2.6cqi,40px) clamp(30px,3cqi,44px);margin-top:10px}
+.cc__band{position:absolute;inset:0 -2.5%;z-index:-1;filter:drop-shadow(0 1px 1px rgba(50,35,20,.35)) drop-shadow(0 10px 18px rgba(50,35,20,.22));transform:rotate(-.6deg)}
+.cc__band::before{content:"";position:absolute;inset:0;background:#A57E4C url(../assets/cinta/kraft-plano.webp) 0 0/820px 560px repeat;
+  -webkit-mask:url(../assets/cinta/borde-rasgado-sup.png) top/1024px 28px repeat-x,url(../assets/cinta/borde-rasgado-inf.png) bottom/1024px 28px repeat-x,linear-gradient(#000,#000) center/100% calc(100% - 52px) no-repeat;
+  mask:url(../assets/cinta/borde-rasgado-sup.png) top/1024px 28px repeat-x,url(../assets/cinta/borde-rasgado-inf.png) bottom/1024px 28px repeat-x,linear-gradient(#000,#000) center/100% calc(100% - 52px) no-repeat}
+.cc__band::after{content:"";position:absolute;inset:0;background:url(../assets/programas-home/assets/texturas/grano-impresion.png) 0 0/256px;mix-blend-mode:multiply;opacity:.35;
+  -webkit-mask:inherit;mask:url(../assets/cinta/borde-rasgado-sup.png) top/1024px 28px repeat-x,url(../assets/cinta/borde-rasgado-inf.png) bottom/1024px 28px repeat-x,linear-gradient(#000,#000) center/100% calc(100% - 52px) no-repeat}
+.cc__tape{position:absolute;z-index:3;top:-6px;width:clamp(110px,10cqi,170px);aspect-ratio:420/130;background:url(../assets/cinta/cinta-masking.webp) center/100% 100%;opacity:.9;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18));pointer-events:none}
+.cc__tape--l{left:-1.5%;transform:rotate(-9deg)}
+.cc__tape--r{right:-1.5%;transform:rotate(7deg)}
+
+.cc__groups{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,1.75fr);gap:clamp(20px,2.2cqi,34px);align-items:start}
+
+/* ---- Grupo: pestaña de carpeta con el color exacto de la carpeta del programa ---- */
+.cc-group{display:flex;flex-direction:column;min-width:0}
+.cc-group__tab{position:relative;align-self:flex-start;margin:0 0 0 12px;padding:11px 20px 10px;background:var(--c);color:var(--c-on);font:800 clamp(17px,1.5cqi,21px)/1 Outfit,Arial,sans-serif;letter-spacing:-.01em;border-radius:12px 12px 0 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 -2px 6px rgba(0,0,0,.12)}
+.cc-group__tab::after{content:"";position:absolute;inset:0;border-radius:inherit;background:url(../assets/programas-home/assets/texturas/grano-impresion.png) 0 0/220px;mix-blend-mode:multiply;opacity:.35;pointer-events:none}
+.cc-group__cuts{list-style:none;margin:0;padding:22px 14px 16px;display:grid;gap:22px 16px;grid-auto-rows:1fr;border-top:6px solid var(--c);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,0) 14px),rgba(31,33,36,.05)}
+.cc-group--foundershub .cc-group__cuts{grid-template-columns:1fr}
+.cc-group--science2venture .cc-group__cuts{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cc-group--impacta-inhouse{align-self:stretch}
+.cc-group--impacta-inhouse .cc-group__cuts{grid-template-rows:1fr;height:100%;box-sizing:border-box}
+
+/* ---- Recorte: hoja real (imagen con bordes rasgados), cinta y sombra de contacto ---- */
+.cc-cut{position:relative;min-width:0;--rot:-.6deg}
+.cc-cut>a,.cc-cut>button,.cc-cut--info{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;gap:6px;height:100%;box-sizing:border-box;padding:24px 22px 20px 26px;text-align:left;color:#1F2124;text-decoration:none;font:inherit;border:0;background:none;transform:rotate(var(--rot));transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.cc-cut>button{width:100%;cursor:pointer}
+.cc-cut__paper{position:absolute;inset:0;z-index:-1;background-position:center;background-size:100% 100%;background-repeat:no-repeat;filter:drop-shadow(0 1px 1px rgba(40,28,14,.38)) drop-shadow(0 6px 10px rgba(40,28,14,.2));transition:filter .35s cubic-bezier(.2,.7,.2,1)}
+.cc-cut__paper--cuadriculado{background-image:url(../assets/cinta/papel-cuadriculado.webp)}
+.cc-cut__paper--bond{background-image:url(../assets/cinta/hoja-bond-perforada.webp);inset:-4px 0 0 -6px}
+.cc-cut__paper--rayado{background-image:url(../assets/cinta/papel-rayado.webp);inset:-2px -10px -6px -2px}
+.cc-cut__paper--tira{background-image:url(../assets/cinta/tira-marfil.webp);filter:drop-shadow(0 1px 1px rgba(40,28,14,.3))}
+/* pliegue sutil: luz y sombra diagonal sobre la hoja */
+.cc-cut__paper::after{content:"";position:absolute;inset:6% 4%;background:linear-gradient(115deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.35) 49%,rgba(0,0,0,.06) 51%,rgba(0,0,0,0) 60%);mix-blend-mode:soft-light;pointer-events:none}
+.cc-cut__tape{position:absolute;z-index:2;top:-14px;left:50%;width:min(46%,130px);aspect-ratio:420/130;background:url(../assets/cinta/cinta-masking.webp) center/100% 100%;opacity:.88;transform:translateX(-50%) rotate(var(--tr,-5deg));filter:drop-shadow(0 1px 1px rgba(0,0,0,.15));pointer-events:none}
+.cc-cut:nth-child(2n) .cc-cut__tape{left:auto;right:-10px;top:-10px;transform:rotate(calc(var(--tr) + 32deg))}
+
+.cc-cut__num{position:relative;z-index:0;justify-self:start;font:900 clamp(50px,4.6cqi,70px)/.9 Outfit,Arial,sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums}
+.cc-cut__label{font:600 clamp(14px,1.1cqi,16px)/1.3 Poppins,Arial,sans-serif;text-wrap:balance}
+.cc-group--impacta-inhouse .cc-cut__num{font-size:clamp(68px,7cqi,116px)}
+.cc-group--impacta-inhouse .cc-cut__label{font-size:clamp(15px,1.3cqi,19px)}
+
+/* Interactivo: subrayado de rotulador del color del programa + acción explícita */
+.cc-cut--link .cc-cut__num::after{content:"";position:absolute;z-index:-1;left:-4%;right:-8%;bottom:-.1em;height:.26em;background:var(--c);-webkit-mask:url(../assets/trazos/subrayado-rotulador.webp) center/100% 100% no-repeat;mask:url(../assets/trazos/subrayado-rotulador.webp) center/100% 100% no-repeat}
+.cc-cut__action{display:inline-flex;align-items:center;gap:8px;justify-self:start;max-width:100%;box-sizing:border-box;min-height:44px;margin-top:6px;padding:0 16px;border-radius:999px;background:#1F2124;color:#F3EFE6;font:600 13px/1.2 Poppins,Arial,sans-serif;text-align:left;transition:background .2s,gap .25s}
+.cc-cut__action svg{flex:none;transition:transform .25s}
+.cc-cut>a:hover,.cc-cut>button:hover{transform:rotate(0deg) translateY(-6px) scale(1.012)}
+.cc-cut>a:hover .cc-cut__paper,.cc-cut>button:hover .cc-cut__paper{filter:drop-shadow(0 2px 2px rgba(40,28,14,.3)) drop-shadow(0 18px 24px rgba(40,28,14,.26))}
+.cc-cut>a:hover .cc-cut__action,.cc-cut>button:hover .cc-cut__action{background:#0B6B66}
+.cc-cut>a:hover .cc-cut__action svg,.cc-cut>button:hover .cc-cut__action svg{transform:translateX(3px)}
+.cc-cut>a:active,.cc-cut>button:active{transform:rotate(0deg) translateY(-2px) scale(.995);transition-duration:.08s}
+.cc-cut>a:focus-visible,.cc-cut>button:focus-visible{outline:3px solid #0B6B66;outline-offset:4px}
+
+/* Informativo: tira marfil plana, sin cinta, sin elevación ni botón */
+.cc-cut--info{padding:22px 22px 18px}
+.cc-cut--info .cc-cut__num{color:#3A3D42}
+.cc-cut__note{justify-self:start;display:inline-flex;align-items:center;gap:6px;font:700 10px/1.2 Poppins,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4D5158}
+.cc-cut__note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+
+/* Pie sobre la cinta: tira marfil con la nota institucional y la fuente */
+.cc__foot{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin:clamp(22px,2.4cqi,30px) auto 0;padding:14px 26px 14px;max-width:100%;box-sizing:border-box;transform:rotate(.4deg)}
+.cc__foot::before{content:"";position:absolute;inset:0;z-index:-1;background:url(../assets/cinta/tira-marfil.webp) center/100% 100%;filter:drop-shadow(0 1px 1px rgba(40,28,14,.3)) drop-shadow(0 4px 6px rgba(40,28,14,.14))}
+.cc__nota{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font:500 14px/1.4 Poppins,Arial,sans-serif;color:#1F2124}
+.cc__nota b{font:800 22px/1 Outfit,Arial,sans-serif}
+.cc__nota span{font-size:12px;color:#3A3D42}
+.cc__src{margin:0;font:500 12px/1.4 Poppins,Arial,sans-serif;color:#3A3D42}
+
+/* Detalle de cifra (popover nativo) como hoja */
+.cc-pop{width:min(520px,calc(100vw - 32px));margin:auto;padding:30px 30px 24px;border:0;border-top:8px solid var(--c);background:#FBF9F4 url(../assets/programas-home/assets/texturas/papel-marfil-tile.webp) 0 0/512px;color:#1F2124;box-shadow:0 2px 3px rgba(30,22,12,.25),0 28px 60px rgba(30,22,12,.35);text-align:left;overflow:visible}
+.cc-pop::before{content:"";position:absolute;top:-26px;left:50%;width:150px;aspect-ratio:420/130;background:url(../assets/cinta/cinta-masking.webp) center/100% 100%;transform:translateX(-50%) rotate(-4deg);opacity:.9}
+.cc-pop::backdrop{background:rgba(31,33,36,.45)}
+.cc-pop:popover-open{animation:cc-pop-in 420ms cubic-bezier(.2,.7,.2,1) both}
+.cc-pop__kicker{font:600 11px Poppins,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#4D5158}
+.cc-pop h3{margin:10px 0 12px;font:900 clamp(28px,4vw,36px)/1 Outfit,Arial,sans-serif;letter-spacing:-.02em}
+.cc-pop p{margin:0 0 12px;font:400 15px/1.55 Poppins,Arial,sans-serif;text-wrap:pretty}
+.cc-pop .cc-pop__src{font-size:12px;color:#4D5158}
+.cc-pop__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px}
+.cc-pop__close{min-height:44px;padding:0 18px;border:1.5px solid #1F2124;border-radius:999px;background:transparent;font:600 14px Poppins,Arial,sans-serif;cursor:pointer}
+
+/* ---- Motion: una sola vez al entrar en pantalla (≈1,6 s en total) ----
+   1. La cinta kraft se desenrolla (0–700 ms).  2. Las masking de los extremos se presionan.
+   3. Pestañas suben.  4. Cada hoja cae, gira y se asienta con rebote corto; su sombra pasa de aérea a contacto.
+   5. La masking de la hoja se pega.  6. La cifra cuenta y el subrayado se traza.  */
+@keyframes cc-unroll{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 -2% 0 0)}}
+@keyframes cc-press{0%{opacity:0;scale:1.35;translate:0 -10px}70%{opacity:.9;scale:.97}100%{opacity:.9;scale:1;translate:0}}
+@keyframes cc-tab{from{opacity:0;translate:0 14px}}
+@keyframes cc-drop{0%{opacity:0;translate:0 -46px;rotate:calc(var(--rot) * -4);scale:1.06}55%{opacity:1;translate:0 4px;rotate:calc(var(--rot) * -.6);scale:1}78%{translate:0 -2px;rotate:calc(var(--rot) * .2)}100%{opacity:1;translate:0;rotate:0deg;scale:1}}
+@keyframes cc-shadow{0%{filter:drop-shadow(0 2px 2px rgba(40,28,14,.12)) drop-shadow(0 34px 34px rgba(40,28,14,.14))}100%{filter:drop-shadow(0 1px 1px rgba(40,28,14,.38)) drop-shadow(0 6px 10px rgba(40,28,14,.2))}}
+@keyframes cc-stick{0%{opacity:0;scale:1.25 .8;translate:0 -8px}100%{opacity:.88;scale:1;translate:0}}
+@keyframes cc-ul{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes cc-foot{from{opacity:0;translate:0 16px}}
+@keyframes cc-pop-in{from{opacity:0;translate:0 24px;rotate:-1.5deg}}
+@media (prefers-reduced-motion:no-preference){
+  .cc--anim .cc__band,.cc--anim .cc__tape,.cc--anim .cc-group__tab,.cc--anim .cc-cut,.cc--anim .cc__foot{opacity:0}
+  .cc--anim.is-in .cc__band{opacity:1;animation:cc-unroll 700ms cubic-bezier(.65,0,.35,1) both}
+  .cc--anim.is-in .cc__tape{animation:cc-press 320ms cubic-bezier(.3,1.4,.5,1) 560ms both}
+  .cc--anim.is-in .cc__tape--r{animation-delay:680ms}
+  .cc--anim.is-in .cc-group__tab{opacity:1;animation:cc-tab 380ms cubic-bezier(.2,.7,.2,1) 300ms both}
+  .cc--anim.is-in .cc-cut{opacity:1;animation:cc-drop 620ms cubic-bezier(.2,.7,.2,1) var(--d) both}
+  .cc--anim.is-in .cc-cut__paper{animation:cc-shadow 620ms ease-out var(--d) both}
+  .cc--anim.is-in .cc-cut__tape{animation:cc-stick 240ms cubic-bezier(.3,1.3,.5,1) calc(var(--d) + 420ms) both}
+  .cc--anim.is-in .cc-cut--link .cc-cut__num::after{animation:cc-ul 420ms cubic-bezier(.65,0,.35,1) calc(var(--d) + 700ms) both}
+  .cc--anim.is-in .cc__foot{opacity:1;animation:cc-foot 420ms cubic-bezier(.2,.7,.2,1) 1300ms both}
+}
+
+/* Tablet */
+@container (max-width:1080px){
+  .cc__groups{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cc-group--science2venture{grid-column:1 / -1}
+  .cc-group--science2venture .cc-group__cuts{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+/* Móvil: grupos apilados en el mismo orden, sin carrusel */
+@container (max-width:640px){
+  .cc__groups{grid-template-columns:1fr;gap:30px}
+  .cc-group--science2venture .cc-group__cuts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cc-group__cuts{grid-auto-rows:auto;padding:20px 8px 12px;gap:20px 10px}
+  .cc-cut>a,.cc-cut>button,.cc-cut--info{padding:20px 14px 14px 18px}
+  .cc-cut__num{font-size:46px}
+  .cc-group--science2venture .cc-cut__num{font-size:40px}
+  .cc-cut__label{font-size:14px}
+  .cc-cut__action{padding:8px 12px;gap:6px;font-size:12.5px}
+  .cc__strip{padding:44px 10px 26px}
+  .cc__band{inset:0 -4%;transform:rotate(-.3deg)}
+  .cc__tape{width:96px}
+  .cc__foot{padding:12px 16px}
+}
+
+/* Mobile reading and touch targets */
+.cc-pop{box-sizing:border-box;max-height:calc(100dvh - 48px);overflow:auto;overscroll-behavior:contain}
+@media (max-width:600px){
+  .cc-cut>a,.cc-cut>button,.cc-cut--info{transform:none}
+  .cc-cut__label,.cc-cut__action{overflow-wrap:anywhere}
+  .cc-pop{padding:20px}
+  .cc-pop__actions>a,.cc-pop__actions>button{width:100%;min-height:44px;justify-content:center}
+}
+@media (max-width:420px){
+  .cc-group--science2venture .cc-group__cuts{grid-template-columns:minmax(0,1fr)}
+}
