@@ -450,7 +450,7 @@ window.addEventListener('hashchange', () => render(true));
 (async () => {
   const main = $('#main'); main.innerHTML = `<div class="ir-container ir-section"><div class="ir-grid">${Array.from({ length: 6 }, () => `<div class="ir-card ir-card--skeleton"><span class="ir-card__bar ir-sk"></span><span class="ir-card__body"><span class="ir-sk" style="width:56px;height:56px"></span><span class="ir-sk" style="height:22px;width:70%"></span><span class="ir-sk" style="height:54px"></span></span></div>`).join('')}</div></div>`;
   try {
-    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=clasificacion-descubre-1').then(r => r.json()), fetch('data/insights.json?v=clasificacion-descubre-1').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
+    const [startups, insights, programs2026] = await Promise.all([fetch('data/startups.json?v=servimex-2021-1').then(r => r.json()), fetch('data/insights.json?v=clasificacion-descubre-1').then(r => r.json()), fetch('data/programs2026.json?v=20261118').then(r => r.json())]);
     DATA = { startups, insights, programs2026 }; startups.forEach(s => [s.id, ...(s.aliasIds || [])].forEach(id => BYID.set(id, s))); render(false);
   } catch (err) { main.innerHTML = `<div class="ir-container ir-section"><h1 class="ir-section__title" tabindex="-1">No pudimos cargar el informe</h1><p>Abre el sitio desde un servidor (ver README) y vuelve a intentarlo.</p><button class="ir-btn ir-btn--primary" onclick="location.reload()">Reintentar</button></div>`; }
 })();
