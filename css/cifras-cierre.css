@@ -37,7 +37,7 @@
 .cc-cut__paper--cuadriculado{background-image:url(../assets/cinta/papel-cuadriculado.webp)}
 .cc-cut__paper--bond{background-image:url(../assets/cinta/hoja-bond-perforada.webp);inset:-4px 0 0 -6px}
 .cc-cut__paper--rayado{background-image:url(../assets/cinta/papel-rayado.webp);inset:-2px -10px -6px -2px}
-.cc-cut__paper--tira{background-image:url(../assets/cinta/tira-marfil.webp);filter:drop-shadow(0 1px 1px rgba(40,28,14,.3))}
+.cc-cut__paper--tira{background-color:#FBF9F4;background-image:url(../assets/cinta/tira-marfil.webp);filter:drop-shadow(0 1px 1px rgba(40,28,14,.3))}
 /* pliegue sutil: luz y sombra diagonal sobre la hoja */
 .cc-cut__paper::after{content:"";position:absolute;inset:6% 4%;background:linear-gradient(115deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.35) 49%,rgba(0,0,0,.06) 51%,rgba(0,0,0,0) 60%);mix-blend-mode:soft-light;pointer-events:none}
 .cc-cut__tape{position:absolute;z-index:2;top:-14px;left:50%;width:min(46%,130px);aspect-ratio:420/130;background:url(../assets/cinta/cinta-masking.webp) center/100% 100%;opacity:.88;transform:translateX(-50%) rotate(var(--tr,-5deg));filter:drop-shadow(0 1px 1px rgba(0,0,0,.15));pointer-events:none}
@@ -65,9 +65,9 @@
 .cc-cut__note{justify-self:start;display:inline-flex;align-items:center;gap:6px;font:700 10px/1.2 Poppins,Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4D5158}
 .cc-cut__note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
 
-/* Pie sobre la cinta: tira marfil con la nota institucional y la fuente */
-.cc__foot{position:relative;margin:clamp(22px,2.4cqi,30px) auto 0;padding:14px clamp(24px,9%,150px);max-width:100%;box-sizing:border-box;transform:rotate(.4deg)}
-.cc__foot::before{content:"";position:absolute;inset:0;z-index:-1;background:url(../assets/cinta/tira-marfil.webp) center/100% 100%;filter:drop-shadow(0 1px 1px rgba(40,28,14,.3)) drop-shadow(0 4px 6px rgba(40,28,14,.14))}
+/* Pie sobre la cinta: tira marfil con la nota institucional */
+.cc__foot{position:relative;isolation:isolate;margin:clamp(22px,2.4cqi,30px) auto 0;padding:14px clamp(24px,9%,150px);max-width:100%;box-sizing:border-box;transform:rotate(.4deg)}
+.cc__foot::before{content:"";position:absolute;inset:0;z-index:-1;background:#FBF9F4 url(../assets/cinta/tira-marfil.webp) center/100% 100%;filter:drop-shadow(0 1px 1px rgba(40,28,14,.3)) drop-shadow(0 4px 6px rgba(40,28,14,.14))}
 .cc__nota{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font:500 14px/1.4 Poppins,Arial,sans-serif;color:#1F2124}
 .cc__nota strong{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-weight:600}
 .cc__nota b{font:800 22px/1 Outfit,Arial,sans-serif}
